@@ -1,0 +1,14 @@
+1,DB0FAP1,Dining Block Ground floor,28:94:0f:d6:d8:70,c4:0a:cb:5c:10:e0,AIR-LAP1142N-N-K9
+2,DB0FAP2,Dining Block Ground Floor,28:94:0f:d6:d6:d7,c4:0a:cb:2d:84:00,AIR-LAP1142N-N-K9
+4,DB0FAP4,Ground floor Incubation Room Unit 2,18:e7:28:d1:83:ed,2c:3e:cf:ca:ec:a0,AIR-CAP1602I-N-K9
+6,DB1FAP1,Dining Block First Floor,c4:64:13:11:43:a1,c4:0a:cb:2d:c4:80,AIR-LAP1142N-N-K9
+7,DB2FAP1,Dining Block Second Floor,c4:64:13:11:3f:b8,c4:0a:cb:2d:84:e0,AIR-LAP1142N-N-K9
+8,DB2FAP2,Inside D21,18:e7:28:af:71:3d,b0:00:b4:20:69:30,AIR-CAP1602I-N-K9
+9,DB2FAP3,Inside D21,18:e7:28:a8:30:31,2c:3e:cf:8f:4e:e0,AIR-CAP1602I-N-K9
+10,DB0FAP6,Ground floor Incubation Room,40:01:7a:38:d9:a2,50:0f:80:b6:f8:a0,AIR-AP2802I-D-K9
+11,DB2FAP5,Inside D22,18:e7:28:af:70:e5,b0:00:b4:20:63:a0,AIR-CAP1602I-N-K9
+12,DB2FAP6,Inside Robotics Lab,c4:64:13:2b:e0:0b,c4:0a:cb:2d:d4:d0,AIR-LAP1142N-N-K9
+13,DB2FAP7, Swarath LAB,28:94:0f:d6:d0:cb,c4:0a:cb:2c:fa:d0,AIR-LAP1142N-N-K9
+14,DB3FAP1,Dining Hall Third Floor,c4:64:13:00:55:45,c4:0a:cb:5c:03:20,AIR-LAP1142N-N-K9
+15,DB3FAP2,Dining block 3rd floor  (SC room),c4:64:13:11:3b:97,c4:0a:cb:25:96:50,AIR-LAP1142N-N-K9
+16,DB2FAP8,Dining Block Second Floor (VLSI LAB),fc:99:47:94:70:a1,34:a8:4e:c2:a5:d0,AIR-LAP1141N-A-K9
