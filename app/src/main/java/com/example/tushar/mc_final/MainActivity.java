@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -96,6 +97,42 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 mAuth.signOut();
+            }
+        });
+
+
+        final EditText searchFriend = (EditText)findViewById(R.id.searchName);
+        Button addFriend = (Button)findViewById(R.id.addFriend);
+        addFriend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String friendEmailID = String.valueOf(searchFriend.getText());
+
+                ArrayList<String> sentRequests = (ArrayList<String>) mcurrentUser.getmSent();
+                sentRequests.add(friendEmailID);
+
+                databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for(DataSnapshot postSnapshot: dataSnapshot.getChildren())
+                            if(postSnapshot.getKey().equals(mAuth.getCurrentUser().getUid())){
+                                mcurrentUser = postSnapshot.getValue(User.class);
+                            }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                        // ...
+                    }
+                });
+
+                if(mcurrentUser==null){
+                    mcurrentUser = new User(mAuth.getCurrentUser().getEmail(), mAuth.getCurrentUser().getDisplayName(), true, checkLocation(), new ArrayList<String>(), new ArrayList<String>(), new ArrayList<String>());
+                    usersRef.child(mAuth.getCurrentUser().getUid()).setValue(mcurrentUser);
+                }
+
+
             }
         });
 

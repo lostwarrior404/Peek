@@ -1,5 +1,6 @@
 package com.example.tushar.mc_final;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -12,16 +13,16 @@ public class User {
     private String mName;
     private boolean mPrivFlag; //To determine the privacy setting of the user
     private String mUserLocation;
-    private List<String> mFriends;
-    private List<String> mSent;
-    private List<String> mReceived;
+    private ArrayList<String> mFriends;
+    private ArrayList<String> mSent;
+    private ArrayList<String> mReceived;
 
     public User()
     {
 
     }
 
-    public User( String argEmail, String argName, boolean argPrivFlag, String argUserLocation, List<String> argFriends, List<String> argSent, List<String> argReceived)
+    public User( String argEmail, String argName, boolean argPrivFlag, String argUserLocation, ArrayList<String> argFriends, ArrayList<String> argSent, ArrayList<String> argReceived)
     {
         this.mEmail = argEmail;
         this.mName = argName;
@@ -52,7 +53,7 @@ public class User {
         return mFriends;
     }
 
-    public void setmFriends(List<String> mFriends) {
+    public void setmFriends(ArrayList<String> mFriends) {
         this.mFriends = mFriends;
     }
 
@@ -60,7 +61,7 @@ public class User {
         return mSent;
     }
 
-    public void setmSent(List<String> mSent) {
+    public void setmSent(ArrayList<String> mSent) {
         this.mSent = mSent;
     }
 
@@ -68,7 +69,7 @@ public class User {
         return mReceived;
     }
 
-    public void setmReceived(List<String> mReceived) {
+    public void setmReceived(ArrayList<String> mReceived) {
         this.mReceived = mReceived;
     }
     public String getmEmail() {
