@@ -10,7 +10,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="218dp"
+        android:layout_height="130dp"
         android:layout_gravity="center"
         android:orientation="horizontal"
         tools:context="com.example.tushar.mc_final.MainActivity">
@@ -32,12 +32,13 @@
             tools:layout_editor_absoluteY="434dp" />
 
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context="com.example.tushar.mc_final.MainActivity"
+        android:layout_height="121dp"
         android:layout_gravity="center"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        tools:context="com.example.tushar.mc_final.MainActivity">
 
         <EditText
             android:id="@+id/searchName"
@@ -46,7 +47,7 @@
             android:layout_weight="1"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="Name1" />
+            android:text="Send Request" />
 
         <Button
             android:id="@+id/addFriend"
@@ -54,7 +55,47 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Button" />
+    </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="145dp"
+        android:layout_gravity="center"
+        android:orientation="horizontal"
+        tools:context="com.example.tushar.mc_final.MainActivity">
+
+        <EditText
+            android:id="@+id/searchName2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="Accept Request" />
+
+        <Button
+            android:id="@+id/acceptRequests"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Button" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="288dp"
+        android:layout_gravity="center"
+        android:orientation="horizontal"
+        tools:context="com.example.tushar.mc_final.MainActivity">
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="122dp"
+            android:layout_weight="1"
+            android:text="TextView" />
     </LinearLayout>
 
 </LinearLayout>

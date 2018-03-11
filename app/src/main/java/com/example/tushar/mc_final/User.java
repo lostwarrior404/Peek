@@ -121,9 +121,32 @@ public class User {
     }
 
     public void addFriend(String argEmailID)
+
     {
+
+        if(this.mFriends==null){
+            this.mFriends=new ArrayList<String>();
+        }
         this.mFriends.add(argEmailID);
     }
+
+
+    public void deleteSent(String argEmailID)
+    {
+        this.mSent.remove(this.mSent.indexOf(argEmailID));
+    }
+
+    public void deleteReceived(String argEmailID)
+    {
+        this.mReceived.remove(this.mReceived.indexOf(argEmailID));
+    }
+
+    public void deleteFriends(String argEmailID)
+    {
+        this.mFriends.remove(this.mFriends.indexOf(argEmailID));
+    }
+
+
 
 
 }

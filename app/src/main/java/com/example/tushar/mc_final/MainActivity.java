@@ -85,8 +85,11 @@ public class MainActivity extends AppCompatActivity {
                             }
                             Intent intent1 = new Intent(MainActivity.this, MyService.class);
                             intent1.putExtra("current_user",firebaseAuth.getCurrentUser().getUid());
-//                            Log.d(mTAG,firebaseAuth.getCurrentUser().getUid());
+                            Log.d(mTAG,"jaggi"+firebaseAuth.getCurrentUser().getUid());
                             startService(intent1);
+
+
+
                         }
 
                         @Override
@@ -104,7 +107,26 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
+        usersRef.child(mAuth.getCurrentUser().getUid()).child("mReceived").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Iterable<DataSnapshot> children = dataSnapshot.getChildren();
+                String display ="";
+                TextView request_display = findViewById(R.id.textView3);
+                for (DataSnapshot child : children)
+                {
 
+
+                    display+=child.getValue(String.class)+"\n";
+                }
+                request_display.setText(display);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
         Button logoutButton = (Button)findViewById(R.id.Logout);
         logoutButton.setOnClickListener(new View.OnClickListener() {
@@ -155,6 +177,51 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+
+        Button acceptRequests = (Button)findViewById(R.id.acceptRequests);
+        acceptRequests.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final String friendEmailID = String.valueOf(((EditText)findViewById(R.id.searchName2)).getText());
+
+                usersRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        Log.d(mTAG, "printaa");
+                        for(DataSnapshot postSnapshot: dataSnapshot.getChildren())
+                        {
+                            Log.d(mTAG, postSnapshot.getValue(User.class).getmEmail());
+                            if(postSnapshot.getValue(User.class).getmEmail().equals(friendEmailID)){
+                                Log.d(mTAG, friendEmailID);
+                                mFriendUser = postSnapshot.getValue(User.class);
+                                mFriendUID = postSnapshot.getKey();
+
+                                mcurrentUser.addFriend(mFriendUser.getmEmail());
+                                mFriendUser.addFriend(mcurrentUser.getmEmail());
+
+                                mcurrentUser.deleteReceived(mFriendUser.getmEmail());
+                                mFriendUser.deleteSent(mcurrentUser.getmEmail());
+
+                                usersRef.child(mAuth.getCurrentUser().getUid()).setValue(mcurrentUser);
+                                usersRef.child(mFriendUID).setValue(mFriendUser);
+
+                            }
+
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                        // ...
+                    }
+                });
+
+            }
+        });
+
 
 
 
