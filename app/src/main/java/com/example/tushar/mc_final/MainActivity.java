@@ -36,6 +36,8 @@ public class MainActivity extends AppCompatActivity {
     private String mcurrentLocation = "Jaggi ki Service";
     private FirebaseAuth mAuth;
     private User mcurrentUser;
+    private User mFriendUser;
+    private String mFriendUID;
     private static String  TAG = "MCDEBUG";
     private FirebaseAuth.AuthStateListener mAuthListener;
     private DatabaseReference databaseReference,usersRef;
@@ -55,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
                 if (firebaseAuth.getCurrentUser() == null)
                 {
                     startActivity(new Intent(MainActivity.this,Login.class));
+                    Log.d(mTAG, "Old");
                 }
                 else
                 {
@@ -63,12 +66,20 @@ public class MainActivity extends AppCompatActivity {
                     final TextView user_info = (TextView)findViewById(R.id.User_Information);
                     user_info.setText(name);
 
-                    databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                    usersRef.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-                            for(DataSnapshot postSnapshot: dataSnapshot.getChildren())
-                                if(postSnapshot.getKey().equals(firebaseAuth.getCurrentUser().getUid())){
+
+                            for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                                Log.d(mTAG,postSnapshot.getKey());
+                                if (postSnapshot.getKey().equals(firebaseAuth.getCurrentUser().getUid())) {
                                     mcurrentUser = postSnapshot.getValue(User.class);
+                                }
+                            }
+                            if(mcurrentUser==null){
+                                Log.d(mTAG,"rewrite");
+                                mcurrentUser = new User(firebaseAuth.getCurrentUser().getEmail(), firebaseAuth.getCurrentUser().getDisplayName(), true, checkLocation(), new ArrayList<String>(), new ArrayList<String>(), new ArrayList<String>());
+                                usersRef.child(firebaseAuth.getCurrentUser().getUid()).setValue(mcurrentUser);
                             }
                         }
 
@@ -79,10 +90,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                     });
 
-                    if(mcurrentUser==null){
-                        mcurrentUser = new User(firebaseAuth.getCurrentUser().getEmail(), firebaseAuth.getCurrentUser().getDisplayName(), true, checkLocation(), new ArrayList<String>(), new ArrayList<String>(), new ArrayList<String>());
-                        usersRef.child(firebaseAuth.getCurrentUser().getUid()).setValue(mcurrentUser);
-                    }
+
 
 
 
@@ -101,23 +109,34 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        final EditText searchFriend = (EditText)findViewById(R.id.searchName);
+
         Button addFriend = (Button)findViewById(R.id.addFriend);
         addFriend.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
-                String friendEmailID = String.valueOf(searchFriend.getText());
+                final String friendEmailID = String.valueOf(((EditText)findViewById(R.id.searchName)).getText());
 
-                ArrayList<String> sentRequests = (ArrayList<String>) mcurrentUser.getmSent();
-                sentRequests.add(friendEmailID);
-
-                databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                usersRef.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
+                        Log.d(mTAG, "printaa");
                         for(DataSnapshot postSnapshot: dataSnapshot.getChildren())
-                            if(postSnapshot.getKey().equals(mAuth.getCurrentUser().getUid())){
-                                mcurrentUser = postSnapshot.getValue(User.class);
+                        {
+                            Log.d(mTAG, postSnapshot.getValue(User.class).getmEmail());
+                            if(postSnapshot.getValue(User.class).getmEmail().equals(friendEmailID)){
+                                Log.d(mTAG, friendEmailID);
+                                mFriendUser = postSnapshot.getValue(User.class);
+                                mFriendUID = postSnapshot.getKey();
+                                mcurrentUser.addSent(friendEmailID);
+                                mFriendUser.addReceived(mcurrentUser.getmEmail());
+                                usersRef.child(mAuth.getCurrentUser().getUid()).setValue(mcurrentUser);
+                                usersRef.child(mFriendUID).setValue(mFriendUser);
+
                             }
+
+                        }
+
                     }
 
                     @Override
@@ -126,11 +145,6 @@ public class MainActivity extends AppCompatActivity {
                         // ...
                     }
                 });
-
-                if(mcurrentUser==null){
-                    mcurrentUser = new User(mAuth.getCurrentUser().getEmail(), mAuth.getCurrentUser().getDisplayName(), true, checkLocation(), new ArrayList<String>(), new ArrayList<String>(), new ArrayList<String>());
-                    usersRef.child(mAuth.getCurrentUser().getUid()).setValue(mcurrentUser);
-                }
 
 
             }

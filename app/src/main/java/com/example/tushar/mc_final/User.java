@@ -103,4 +103,27 @@ public class User {
     public void setmUserLocation(String mUserLocation) {
         this.mUserLocation = mUserLocation;
     }
+
+    public void addSent(String argEmailID)
+    {
+        if(this.mSent==null){
+            this.mSent=new ArrayList<String>();
+        }
+        this.mSent.add(argEmailID);
+    }
+
+    public void addReceived(String argEmailID)
+    {
+        if(this.mReceived==null){
+            this.mReceived=new ArrayList<String>();
+        }
+        this.mReceived.add(argEmailID);
+    }
+
+    public void addFriend(String argEmailID)
+    {
+        this.mFriends.add(argEmailID);
+    }
+
+
 }
