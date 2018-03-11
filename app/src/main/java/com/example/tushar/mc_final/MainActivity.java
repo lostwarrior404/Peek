@@ -42,13 +42,13 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth.AuthStateListener mAuthListener;
     private DatabaseReference databaseReference,usersRef;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         databaseReference = FirebaseDatabase.getInstance().getReference();
         usersRef = databaseReference.child("users");
-
 
         mAuth = FirebaseAuth.getInstance();
         mAuthListener = new FirebaseAuth.AuthStateListener() {
@@ -57,30 +57,36 @@ public class MainActivity extends AppCompatActivity {
                 if (firebaseAuth.getCurrentUser() == null)
                 {
                     startActivity(new Intent(MainActivity.this,Login.class));
-                    Log.d(mTAG, "Old");
+                    //Log.d(mTAG, "Old");
                 }
                 else
                 {
-                    int userExistFlag = 0;
+
+
                     String name = firebaseAuth.getCurrentUser().getDisplayName() + firebaseAuth.getCurrentUser().getEmail() +firebaseAuth.getCurrentUser().getPhoneNumber()+checkLocation();
                     final TextView user_info = (TextView)findViewById(R.id.User_Information);
                     user_info.setText(name);
+
 
                     usersRef.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
 
                             for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                                Log.d(mTAG,postSnapshot.getKey());
+                                //Log.d(mTAG,postSnapshot.getKey());
                                 if (postSnapshot.getKey().equals(firebaseAuth.getCurrentUser().getUid())) {
                                     mcurrentUser = postSnapshot.getValue(User.class);
                                 }
                             }
                             if(mcurrentUser==null){
-                                Log.d(mTAG,"rewrite");
+                                //Log.d(mTAG,"rewrite");
                                 mcurrentUser = new User(firebaseAuth.getCurrentUser().getEmail(), firebaseAuth.getCurrentUser().getDisplayName(), true, checkLocation(), new ArrayList<String>(), new ArrayList<String>(), new ArrayList<String>());
                                 usersRef.child(firebaseAuth.getCurrentUser().getUid()).setValue(mcurrentUser);
                             }
+                            Intent intent1 = new Intent(MainActivity.this, MyService.class);
+                            intent1.putExtra("current_user",firebaseAuth.getCurrentUser().getUid());
+//                            Log.d(mTAG,firebaseAuth.getCurrentUser().getUid());
+                            startService(intent1);
                         }
 
                         @Override
