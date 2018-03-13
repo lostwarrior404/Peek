@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
@@ -28,7 +29,7 @@ import com.google.firebase.auth.GoogleAuthProvider;
 public class Login extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
-    private SignInButton loginButton;
+    private Button loginButton;
     private static final int RC_SIGN_IN = 1;
     private GoogleSignInClient mGoogleSignInClient;
     private GoogleApiClient mGoogleApiClient;
@@ -50,7 +51,7 @@ public class Login extends AppCompatActivity {
             }
         };
 
-        loginButton = (SignInButton) findViewById(R.id.loginButton);
+        loginButton = (Button) findViewById(R.id.loginButton);
         // Configure Google Sign In
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))

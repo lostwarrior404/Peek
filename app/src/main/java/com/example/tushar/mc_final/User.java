@@ -54,6 +54,9 @@ public class User {
     }
 
     public void setmFriends(ArrayList<String> mFriends) {
+        if(this.mFriends==null){
+            this.mFriends=new ArrayList<String>();
+        }
         this.mFriends = mFriends;
     }
 

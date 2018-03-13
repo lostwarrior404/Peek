@@ -98,6 +98,63 @@ public class MainActivity extends AppCompatActivity {
                             // ...
                         }
                     });
+                    usersRef.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            String friend_location_display="";
+                            ArrayList<String> friends= (ArrayList<String>) mcurrentUser.getmFriends();
+                            Iterable<DataSnapshot> children = dataSnapshot.getChildren();
+                            for(DataSnapshot postSnapshot:dataSnapshot.getChildren()){
+                                if(friends!=null && friends.contains(postSnapshot.getValue(User.class).getmEmail())){
+                                    User friend=postSnapshot.getValue(User.class);
+                                    friend_location_display+=friend.getmName()+":"+friend.getmUserLocation()+"\n";
+                                }
+                                TextView friend_text_box=findViewById(R.id.friendlocation);
+                                friend_text_box.setText(friend_location_display);
+                            }
+
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+                    usersRef.child(mAuth.getCurrentUser().getUid()).child("mFriends").addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            Iterable<DataSnapshot> children = dataSnapshot.getChildren();
+                            if(mcurrentUser!=null){
+                                for (DataSnapshot child : children)
+                                {
+                                 mcurrentUser.addFriend(child.getValue(String.class));
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+                    usersRef.child(mAuth.getCurrentUser().getUid()).child("mReceived").addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            Iterable<DataSnapshot> children = dataSnapshot.getChildren();
+                            String display ="";
+                            TextView request_display = findViewById(R.id.textView3);
+                            for (DataSnapshot child : children)
+                            {
+                                display+=child.getValue(String.class)+"\n";
+                            }
+                            request_display.setText(display);
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
 
 
 
@@ -107,26 +164,6 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
-        usersRef.child(mAuth.getCurrentUser().getUid()).child("mReceived").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Iterable<DataSnapshot> children = dataSnapshot.getChildren();
-                String display ="";
-                TextView request_display = findViewById(R.id.textView3);
-                for (DataSnapshot child : children)
-                {
-
-
-                    display+=child.getValue(String.class)+"\n";
-                }
-                request_display.setText(display);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
 
         Button logoutButton = (Button)findViewById(R.id.Logout);
         logoutButton.setOnClickListener(new View.OnClickListener() {
