@@ -149,7 +149,13 @@ public class User {
         this.mFriends.remove(this.mFriends.indexOf(argEmailID));
     }
 
-
-
-
+    @Override
+    public String toString() {
+        return "User{" +
+                "mEmail='" + mEmail + '\'' +
+                ", mName='" + mName + '\'' +
+                ", mPrivFlag=" + mPrivFlag +
+                ", mUserLocation='" + mUserLocation + '\'' +
+                '}';
+    }
 }
