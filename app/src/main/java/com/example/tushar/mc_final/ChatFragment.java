@@ -87,9 +87,14 @@ public class ChatFragment extends Fragment {
                 ((TextView) adapterView.getChildAt(0)).setTextColor(Color.BLACK);
                 ((TextView) adapterView.getChildAt(0)).setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
                 locationToSee = spinnerLocation.getSelectedItem().toString();
+                onStop();
+
                 messageList.destroyDrawingCache();
                 messageList.setVisibility(ListView.INVISIBLE);
+                messageList.setVisibility(ListView.VISIBLE);
+                onStart();
                 adapter.notifyDataSetChanged();
+
 
             }
 
@@ -125,12 +130,17 @@ public class ChatFragment extends Fragment {
                 TextView messageText  = (TextView) v.findViewById(R.id.message_text);
                 TextView messageUser = (TextView)v.findViewById(R.id.message_user);
                 CardView cardMessage = (CardView) v.findViewById(R.id.cardMessage);
-                //TextView messageTime = (TextView)v.findViewById(R.id.message_time);
-                Log.d("USERTAG", "onDataChange: "+messageText.getText() + messageUser.getText());
-                messageText.setText(model.getMessageText());
-                messageUser.setText(model.getMessageUser());
                 if (model.getMessageLocation().equals(locationToSee))
                 {
+                    //TextView messageTime = (TextView)v.findViewById(R.id.message_time);
+                    messageText.setText(model.getMessageText());
+                    messageUser.setText(model.getMessageUser());
+
+
+                    Log.d("USERTAG", "onDataChange: "+model.getMessageLocation() + locationToSee);
+
+
+
                     if (messageUser.getText().equals(mAuth.getCurrentUser().getDisplayName()))
                     {
                         Log.d("CHATTAG", "populateView: " + model.getMessageUser() + model.getMessageText());
@@ -151,6 +161,15 @@ public class ChatFragment extends Fragment {
                         cardMessage.setLayoutParams(layoutParams);
                     }
                 }
+
+                else
+                {
+                    messageText.setText("");
+                    messageUser.setText("");
+                    cardMessage.setVisibility(View.GONE);
+                }
+
+
 
             }
         };
