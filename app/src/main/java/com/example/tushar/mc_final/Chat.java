@@ -103,7 +103,8 @@ public class Chat extends AppCompatActivity {
     public void pushText()
     {
         ChatMessage message = new ChatMessage(input.getText().toString(),currentUser.getmUserLocation(),mAuth.getCurrentUser().getDisplayName());
-        FirebaseDatabase.getInstance().getReference("chat").push().setValue(message);
+        if (!input.getText().toString().trim().equals(""))
+            FirebaseDatabase.getInstance().getReference("chat").push().setValue(message);
         input.setText("");
     }
 }

@@ -5,4 +5,5 @@
     <color name="colorAccent">#FF4081</color>
     <color name="backgroundColor">#dbd9d9</color>
     <color name="cardBlue">#189ad3</color>
+    <color name="buttonAccent">#189ad3</color>
 </resources>
