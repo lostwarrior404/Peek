@@ -126,12 +126,21 @@ public class ChatFragment extends Fragment {
                 messageUser.setText(model.getMessageUser());
                 if (messageUser.getText().equals(mAuth.getCurrentUser().getDisplayName()))
                 {
-                    Log.d("CHATTAG", "populateView: " + model.getMessageUser());
+                    Log.d("CHATTAG", "populateView: " + model.getMessageUser() + model.getMessageText());
                     RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
                             RelativeLayout.LayoutParams.WRAP_CONTENT);
                     layoutParams.addRule(RelativeLayout.ALIGN_PARENT_END);
                     layoutParams.setMargins(0,0,20,0);
                     cardMessage.setCardBackgroundColor(Color.parseColor("#189ad3"));
+                    cardMessage.setLayoutParams(layoutParams);
+                }
+                else
+                {
+                    RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
+                            RelativeLayout.LayoutParams.WRAP_CONTENT);
+                    layoutParams.addRule(RelativeLayout.ALIGN_PARENT_START);
+                    layoutParams.setMargins(20,0,0,0);
+                    cardMessage.setCardBackgroundColor(Color.WHITE);
                     cardMessage.setLayoutParams(layoutParams);
                 }
             }
