@@ -6,22 +6,15 @@ import android.content.Intent;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.IBinder;
-import android.provider.ContactsContract;
-import android.support.annotation.NonNull;
 import android.util.Log;
-import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.opencsv.CSVReader;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -128,21 +121,22 @@ public class MyService extends Service {
     public String checkLocation() {
         String next[] = {};
         try {
+            Log.d(mTAG,"Mac:id"+getMacId());
             CSVReader reader = new CSVReader(new InputStreamReader(getResources().openRawResource(R.raw.mac_address_list)));
             for (; ; ) {
                 next = reader.readNext();
-
                 if (next != null) {
+
                     if (next[4].substring(0, 16).equals(getMacId())) {
-//                        Log.d(mTAG,next[2]);
-                        return next[2];
+                        Log.d(mTAG,"Jaggi"+next[2]);
+                        return next[1].substring(0,2)+","+next[2];
                     }
                 } else {
                     break;
                 }
             }
         } catch (IOException e) {
-            Log.d(mTAG, e.getMessage());
+            Log.d(mTAG, "Jaggi"+e.getMessage());
             e.printStackTrace();
         }
         return "-1";

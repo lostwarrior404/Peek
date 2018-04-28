@@ -44,6 +44,7 @@ public class ChatFragment extends Fragment {
     private Spinner spinnerLocation;
     private String locationToSee;
     private CardView cardView;
+    private String currentLocation;
 
     public ChatFragment() {
         // Required empty public constructor
@@ -86,6 +87,10 @@ public class ChatFragment extends Fragment {
                 ((TextView) adapterView.getChildAt(0)).setTextColor(Color.BLACK);
                 ((TextView) adapterView.getChildAt(0)).setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
                 locationToSee = spinnerLocation.getSelectedItem().toString();
+                messageList.destroyDrawingCache();
+                messageList.setVisibility(ListView.INVISIBLE);
+                adapter.notifyDataSetChanged();
+
             }
 
             @Override
@@ -124,25 +129,29 @@ public class ChatFragment extends Fragment {
                 Log.d("USERTAG", "onDataChange: "+messageText.getText() + messageUser.getText());
                 messageText.setText(model.getMessageText());
                 messageUser.setText(model.getMessageUser());
-                if (messageUser.getText().equals(mAuth.getCurrentUser().getDisplayName()))
+                if (model.getMessageLocation().equals(locationToSee))
                 {
-                    Log.d("CHATTAG", "populateView: " + model.getMessageUser() + model.getMessageText());
-                    RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
-                            RelativeLayout.LayoutParams.WRAP_CONTENT);
-                    layoutParams.addRule(RelativeLayout.ALIGN_PARENT_END);
-                    layoutParams.setMargins(0,0,20,0);
-                    cardMessage.setCardBackgroundColor(Color.parseColor("#189ad3"));
-                    cardMessage.setLayoutParams(layoutParams);
+                    if (messageUser.getText().equals(mAuth.getCurrentUser().getDisplayName()))
+                    {
+                        Log.d("CHATTAG", "populateView: " + model.getMessageUser() + model.getMessageText());
+                        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
+                                RelativeLayout.LayoutParams.WRAP_CONTENT);
+                        layoutParams.addRule(RelativeLayout.ALIGN_PARENT_END);
+                        layoutParams.setMargins(0,0,20,0);
+                        cardMessage.setCardBackgroundColor(Color.parseColor("#189ad3"));
+                        cardMessage.setLayoutParams(layoutParams);
+                    }
+                    else
+                    {
+                        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
+                                RelativeLayout.LayoutParams.WRAP_CONTENT);
+                        layoutParams.addRule(RelativeLayout.ALIGN_PARENT_START);
+                        layoutParams.setMargins(20,0,0,0);
+                        cardMessage.setCardBackgroundColor(Color.WHITE);
+                        cardMessage.setLayoutParams(layoutParams);
+                    }
                 }
-                else
-                {
-                    RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
-                            RelativeLayout.LayoutParams.WRAP_CONTENT);
-                    layoutParams.addRule(RelativeLayout.ALIGN_PARENT_START);
-                    layoutParams.setMargins(20,0,0,0);
-                    cardMessage.setCardBackgroundColor(Color.WHITE);
-                    cardMessage.setLayoutParams(layoutParams);
-                }
+
             }
         };
         messageList.setAdapter(adapter);
@@ -158,14 +167,35 @@ public class ChatFragment extends Fragment {
                     if (snapshot.getValue(User.class).getmEmail().equals(mAuth.getCurrentUser().getEmail()))
                     {
                         currentUser = snapshot.getValue(User.class);
-                        currentUser.setmUserLocation("Boys hostel 3rd floor C wing");
+                        Log.d("LOCTAG", "onDataChange: "+currentUser.getmUserLocation());
                         // set spinner location to current location
-                        String currentLocation = null;
-                        if (currentUser.getmUserLocation().equals("Boys hostel 3rd floor C wing"))
+                        currentLocation = null;
+                        if (currentUser.getmUserLocation().split(",")[0].equals("BH"))
                         {
-                            currentLocation = "Old Hostel";
+                            currentLocation = "Boys Hostel Old";
+                        }
+                        else if (currentUser.getmUserLocation().split(",")[0].equals("DB"))
+                        {
+                            currentLocation = "Student Center";
+                        }
+                        else if (currentUser.getmUserLocation().split(",")[0].equals("AC") || currentUser.getmUserLocation().split(",")[0].equals("LC") || currentUser.getmUserLocation().split(",")[0].equals("NA"))
+                        {
+                            currentLocation = "Academic Building";
+                        }
+                        else if (currentUser.getmUserLocation().split(",")[0].equals("LB") || currentUser.getmUserLocation().split(",")[0].equals("SR"))
+                        {
+                            currentLocation = "Library Building";
+                        }
+                        else if (currentUser.getmUserLocation().split(",")[0].equals("GH"))
+                        {
+                            currentLocation = "Girls Hostel";
+                        }
+                        else if (currentUser.getmUserLocation().split(",")[0].equals("RE"))
+                        {
+                            currentLocation = "Faculty Residence";
                         }
 
+                        locationToSee = currentLocation;
 
                         for (int i = 0 ; i < spinnerLocation.getCount() ; i++)
                         {
@@ -189,7 +219,7 @@ public class ChatFragment extends Fragment {
 
     public void pushText()
     {
-        ChatMessage message = new ChatMessage(input.getText().toString(),currentUser.getmUserLocation(),mAuth.getCurrentUser().getDisplayName());
+        ChatMessage message = new ChatMessage(input.getText().toString(),currentLocation,mAuth.getCurrentUser().getDisplayName());
         FirebaseDatabase.getInstance().getReference("chat").push().setValue(message);
         input.setText("");
     }

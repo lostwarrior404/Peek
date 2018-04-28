@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="location">
-        <item>Old Hostel</item>
-        <item>New Hostel</item>
+        <item>Boys Hostel Old</item>
         <item>Student Centre</item>
+        <item>Academic Building</item>
+        <item>Library Building</item>
+        <item>Girls Hostel</item>
+        <item>Faculty Residence</item>
+        <item>Outdoor</item>
     </string-array>
 </resources>
