@@ -8,8 +8,8 @@
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="title_activity_test">Test</string>
     <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_dashboard">Feed</string>
+    <string name="title_notifications">Chat</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Chat fragment</string>

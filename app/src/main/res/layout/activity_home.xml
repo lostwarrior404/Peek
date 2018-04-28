@@ -5,16 +5,21 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.tushar.mc_final.Home">
+    tools:context="com.example.tushar.mc_final.Home"
+    android:background="@color/backgroundColor">
 
 
     <FrameLayout
         android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="40dp"
+        android:paddingBottom="20dp"
         >
 
     </FrameLayout>
+
+
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/navigation"

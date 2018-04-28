@@ -23,7 +23,7 @@ public class Home extends AppCompatActivity {
                     break;
                 case R.id.navigation_dashboard:
                     //fragment2
-                    setTitle("chat");
+                    //setTitle("feed");
                     selectedFragment = new FeedFragment();
                     android.support.v4.app.FragmentManager fragmentManager2 = getSupportFragmentManager();
                     android.support.v4.app.FragmentTransaction fragmentTransaction2 = fragmentManager2.beginTransaction();
@@ -32,7 +32,7 @@ public class Home extends AppCompatActivity {
                     break;
                 case R.id.navigation_notifications:
                     //fragment3
-                    setTitle("chat");
+                    //setTitle("chat");
                     selectedFragment = new ChatFragment();
                     android.support.v4.app.FragmentManager fragmentManager3 = getSupportFragmentManager();
                     android.support.v4.app.FragmentTransaction fragmentTransaction3 = fragmentManager3.beginTransaction();

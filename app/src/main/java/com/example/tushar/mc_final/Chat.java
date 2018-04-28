@@ -68,7 +68,7 @@ public class Chat extends AppCompatActivity {
             protected void populateView(View v, ChatMessage model, int position) {
                 TextView messageText  = (TextView) v.findViewById(R.id.message_text);
                 TextView messageUser = (TextView)v.findViewById(R.id.message_user);
-                TextView messageTime = (TextView)v.findViewById(R.id.message_time);
+                //TextView messageTime = (TextView)v.findViewById(R.id.message_time);
                 Log.d("USERTAG", "onDataChange: "+messageText.toString());
                 messageText.setText(model.getMessageText());
                 messageUser.setText(model.getMessageUser());
