@@ -14,7 +14,13 @@
         <activity android:name=".MainActivity">
 
         </activity>
-        <activity android:name=".Login" />
+        <activity android:name=".Login">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
         <service
             android:name=".MyService"
@@ -23,13 +29,9 @@
 
         <activity android:name=".Chat" />
         <activity
-            android:name=".Home"
+            android:name=".HomeActivity"
             android:label="@string/title_activity_home">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
     </application>
 

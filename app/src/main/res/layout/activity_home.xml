@@ -5,12 +5,12 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.tushar.mc_final.Home"
+    tools:context="com.example.tushar.mc_final.HomeActivity"
     android:background="@color/backgroundColor">
 
 
     <FrameLayout
-        android:id="@+id/content"
+        android:id="@+id/mainframe"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="40dp"

@@ -4,10 +4,12 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
-public class Home extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity {
+    FragmentManager mFragment_manager = getSupportFragmentManager();
 
 
 
@@ -20,24 +22,20 @@ public class Home extends AppCompatActivity {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
                     //fragment1
+                    selectedFragment = new FriendFragment();
+                    mFragment_manager.beginTransaction().replace(R.id.mainframe,selectedFragment).commit();
                     break;
                 case R.id.navigation_dashboard:
                     //fragment2
                     //setTitle("feed");
                     selectedFragment = new FeedFragment();
-                    android.support.v4.app.FragmentManager fragmentManager2 = getSupportFragmentManager();
-                    android.support.v4.app.FragmentTransaction fragmentTransaction2 = fragmentManager2.beginTransaction();
-                    fragmentTransaction2.replace(R.id.content,selectedFragment);
-                    fragmentTransaction2.commit();
+                    mFragment_manager.beginTransaction().replace(R.id.mainframe,selectedFragment).commit();
                     break;
                 case R.id.navigation_notifications:
                     //fragment3
                     //setTitle("chat");
                     selectedFragment = new ChatFragment();
-                    android.support.v4.app.FragmentManager fragmentManager3 = getSupportFragmentManager();
-                    android.support.v4.app.FragmentTransaction fragmentTransaction3 = fragmentManager3.beginTransaction();
-                    fragmentTransaction3.replace(R.id.content,selectedFragment);
-                    fragmentTransaction3.commit();
+                    mFragment_manager.beginTransaction().replace(R.id.mainframe,selectedFragment).commit();
                     break;
             }
             return true;
@@ -48,8 +46,6 @@ public class Home extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
-
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     }
