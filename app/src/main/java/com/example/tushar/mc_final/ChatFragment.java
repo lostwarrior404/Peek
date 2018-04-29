@@ -1,22 +1,25 @@
 package com.example.tushar.mc_final;
 
 
+import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseListAdapter;
 import com.firebase.ui.database.FirebaseListOptions;
@@ -34,7 +37,7 @@ import com.google.firebase.database.ValueEventListener;
  */
 public class ChatFragment extends Fragment {
 
-    private FloatingActionButton fab;
+    private Button fab;
     private EditText input;
     private DatabaseReference databaseReference;
     private FirebaseAuth mAuth;
@@ -44,7 +47,7 @@ public class ChatFragment extends Fragment {
     private Spinner spinnerLocation;
     private String locationToSee;
     private CardView cardView;
-    private String currentLocation;
+    private String currentLocation="null";
 
     public ChatFragment() {
         // Required empty public constructor
@@ -72,11 +75,12 @@ public class ChatFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_chat, container, false);
-        fab = (FloatingActionButton) view.findViewById(R.id.fab);
+        fab = (Button) view.findViewById(R.id.fab);
         input = (EditText) view.findViewById(R.id.input);
         messageList = (ListView) view.findViewById(R.id.list_of_messages);
         spinnerLocation = (Spinner) view.findViewById(R.id.spinner_heading);
         cardView = (CardView) view.findViewById(R.id.cardMessage);
+
 
 
 
@@ -88,14 +92,15 @@ public class ChatFragment extends Fragment {
                 ((TextView) adapterView.getChildAt(0)).setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
                 locationToSee = spinnerLocation.getSelectedItem().toString();
                 onStop();
-
                 messageList.destroyDrawingCache();
                 messageList.setVisibility(ListView.INVISIBLE);
                 messageList.setVisibility(ListView.VISIBLE);
                 onStart();
                 adapter.notifyDataSetChanged();
-
-
+                if (currentLocation.equals(locationToSee))
+                    enableInput();
+                else
+                    disableInput();
             }
 
             @Override
@@ -117,6 +122,21 @@ public class ChatFragment extends Fragment {
             }
         });
         return view;
+    }
+
+    public void disableInput()
+    {
+        input.setEnabled(false);
+        input.setHint("Not in location");
+        fab.setEnabled(false);
+
+    }
+
+    public void enableInput()
+    {
+        input.setEnabled(true);
+        input.setHint("Type here");
+        fab.setEnabled(true);
     }
 
     public void displayChatMessages()
@@ -224,6 +244,7 @@ public class ChatFragment extends Fragment {
                                 break;
                             }
                         }
+
                         Log.d("USERTAG", "onDataChange: "+currentUser.toString());
                     }
                 }
@@ -238,9 +259,27 @@ public class ChatFragment extends Fragment {
 
     public void pushText()
     {
-        ChatMessage message = new ChatMessage(input.getText().toString(),currentLocation,mAuth.getCurrentUser().getDisplayName());
-        FirebaseDatabase.getInstance().getReference("chat").push().setValue(message);
-        input.setText("");
+        if (currentLocation.equals(locationToSee))
+        {
+            if (!input.getText().toString().trim().equals(""))
+            {
+                ChatMessage message = new ChatMessage(input.getText().toString(),currentLocation,mAuth.getCurrentUser().getDisplayName());
+                FirebaseDatabase.getInstance().getReference("chat").push().setValue(message);
+                input.setText("");
+                InputMethodManager inputMethodManager =
+                        (InputMethodManager) getActivity().getSystemService(
+                                Activity.INPUT_METHOD_SERVICE);
+                inputMethodManager.hideSoftInputFromWindow(
+                        getActivity().getCurrentFocus().getWindowToken(), 0);
+               messageList.smoothScrollToPosition(adapter.getCount());
+            }
+            else
+            {
+                Toast.makeText(getActivity(), "Please enter text", Toast.LENGTH_SHORT).show();
+            }
+
+        }
+
     }
 
 }
