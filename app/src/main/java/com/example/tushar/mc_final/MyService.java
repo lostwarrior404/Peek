@@ -85,11 +85,11 @@ public class MyService extends Service {
                     break;
                 }
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             Log.d(mTAG, "Jaggi"+e.getMessage());
             e.printStackTrace();
         }
-        return "-1";
+        return "Unknown,Unknown,Unknown";
     }
 
 
