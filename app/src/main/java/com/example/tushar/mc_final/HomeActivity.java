@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.Uri;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
@@ -98,7 +99,9 @@ public class HomeActivity extends AppCompatActivity
                                     }
                                 }
                                 if (mcurrentUser == null) {
-                                    mcurrentUser = new User(firebaseAuth.getCurrentUser().getEmail(), firebaseAuth.getCurrentUser().getDisplayName(), true, "-1", new ArrayList<String>(), new ArrayList<String>(), new ArrayList<String>());
+                                    Uri temp_uri = firebaseAuth.getCurrentUser().getPhotoUrl();
+
+                                    mcurrentUser = new User(firebaseAuth.getCurrentUser().getEmail(), firebaseAuth.getCurrentUser().getDisplayName(), true, "Unknown,Unknown,Unknown", new ArrayList<String>(), new ArrayList<String>(), new ArrayList<String>(),temp_uri.toString());
                                     usersRef.child(firebaseAuth.getCurrentUser().getUid()).setValue(mcurrentUser);
                                 }
                                 Intent intent1 = new Intent(HomeActivity.this, MyService.class);
