@@ -274,7 +274,7 @@ public class ChatFragment extends Fragment {
                         }
                         else if (currentUser.getmUserLocation().split(",")[0].equals("DB"))
                         {
-                            currentLocation = "Student Center";
+                            currentLocation = "Student Centre";
                         }
                         else if (currentUser.getmUserLocation().split(",")[0].equals("AC") || currentUser.getmUserLocation().split(",")[0].equals("LC") || currentUser.getmUserLocation().split(",")[0].equals("NA"))
                         {
