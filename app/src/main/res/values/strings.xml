@@ -14,4 +14,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Chat fragment</string>
     <string name="hello_blank_fragment2">Feed fragment</string>
+    <string name="send_friend">Send</string>
+    <string name="accept_friend">Accept</string>
+    <string name="search_friend">Search</string>
 </resources>

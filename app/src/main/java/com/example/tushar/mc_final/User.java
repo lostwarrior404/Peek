@@ -112,7 +112,8 @@ public class User {
         if(this.mSent==null){
             this.mSent=new ArrayList<String>();
         }
-        this.mSent.add(argEmailID);
+        if(!this.mSent.contains(argEmailID))
+            this.mSent.add(argEmailID);
     }
 
     public void addReceived(String argEmailID)
@@ -120,7 +121,8 @@ public class User {
         if(this.mReceived==null){
             this.mReceived=new ArrayList<String>();
         }
-        this.mReceived.add(argEmailID);
+        if(!this.mReceived.contains(argEmailID))
+            this.mReceived.add(argEmailID);
     }
 
     public void addFriend(String argEmailID)
@@ -130,7 +132,8 @@ public class User {
         if(this.mFriends==null){
             this.mFriends=new ArrayList<String>();
         }
-        this.mFriends.add(argEmailID);
+        if(!this.mFriends.contains(argEmailID))
+            this.mFriends.add(argEmailID);
     }
 
 
