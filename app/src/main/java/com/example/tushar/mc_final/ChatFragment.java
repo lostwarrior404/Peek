@@ -257,7 +257,8 @@ public class ChatFragment extends Fragment {
 
     public void getUserInfo()
     {
-        FirebaseDatabase.getInstance().getReference("users").addListenerForSingleValueEvent(new ValueEventListener() {
+
+        FirebaseDatabase.getInstance().getReference("users").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren())
@@ -267,14 +268,14 @@ public class ChatFragment extends Fragment {
                         currentUser = snapshot.getValue(User.class);
                         Log.d("LOCTAG", "onDataChange: "+currentUser.getmUserLocation());
                         // set spinner location to current location
-                        currentLocation = null;
+                        currentLocation = "null";
                         if (currentUser.getmUserLocation().split(",")[0].equals("BH"))
                         {
                             currentLocation = "Boys Hostel Old";
                         }
                         else if (currentUser.getmUserLocation().split(",")[0].equals("DB"))
                         {
-                            currentLocation = "Student Center";
+                            currentLocation = "Student Centre";
                         }
                         else if (currentUser.getmUserLocation().split(",")[0].equals("AC") || currentUser.getmUserLocation().split(",")[0].equals("LC") || currentUser.getmUserLocation().split(",")[0].equals("NA"))
                         {
@@ -292,11 +293,13 @@ public class ChatFragment extends Fragment {
                         {
                             currentLocation = "Faculty Residence";
                         }
+                        Log.d("MCD", "onDataChange: "+currentLocation+","+locationToSee);
 
                         if (currentLocation.equals(locationToSee))
                             enableInput();
                         else
                             disableInput();
+
 
                         //locationToSee = currentLocation;
 

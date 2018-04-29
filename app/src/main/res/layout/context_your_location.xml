@@ -4,17 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@color/buttonAccent"
     >
     <android.support.v7.widget.CardView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="5dp"
-
+        android:layout_margin="5dp"
         android:id="@+id/cardView">
 
         <RelativeLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="5dp">
 
@@ -26,9 +25,9 @@
                 android:layout_marginRight="20dp"
                 android:text="Your Location"
                 android:layout_centerHorizontal="true"
+                android:textSize="25sp"
                 style="@style/TextViewHeading"
-                tools:layout_editor_absoluteX="38dp"
-                tools:layout_editor_absoluteY="29dp" />
+                android:textAlignment="center"/>
 
             <TextView
                 android:id="@+id/location"
@@ -36,6 +35,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/heading"
                 android:layout_centerHorizontal="true"
+                android:layout_marginTop="5dp"
                 android:text="C21"
                 android:textColor="@color/buttonAccent"
                 android:textSize="45sp"
@@ -45,13 +45,14 @@
                 android:id="@+id/sub_location"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignEnd="@+id/heading"
                 android:layout_below="@+id/location"
                 android:layout_marginEnd="13dp"
                 android:layout_marginTop="13dp"
+                android:textSize="15sp"
                 style="@style/TextViewStyle"
                 android:layout_centerHorizontal="true"
-                android:text="Old Academic Block" />
+                android:text="Old Academic Block"
+                android:textAlignment="center"/>
 
         </RelativeLayout>
 
