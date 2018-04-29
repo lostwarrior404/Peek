@@ -40,7 +40,8 @@ public class FeedFragment extends Fragment {
     public ArrayList<Data> sort(String mCurrentLocation){
         String [] arr  = mCurrentLocation.split(",");
         String building = arr[0];
-        String floor = arr[1];//Do some preprocessing here;
+        String floor = arr[2];
+        
         ArrayList<Data> templist = new ArrayList<Data>();
         //Load All Data
         return templist;

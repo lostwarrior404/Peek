@@ -129,7 +129,15 @@ public class MyService extends Service {
 
                     if (next[4].substring(0, 16).equals(getMacId())) {
                         Log.d(mTAG,"Jaggi"+next[2]);
-                        return next[1].substring(0,2)+","+next[2];
+                        char floor = '0';
+                        for (int i = 0; i < next[1].length(); i++) {
+                            if(Character.isDigit(next[1].charAt(i))){
+                                floor = next[1].charAt(i);
+                                break;
+                            }
+
+                        }
+                        return next[1].substring(0,2)+","+next[2]+","+floor;
                     }
                 } else {
                     break;
