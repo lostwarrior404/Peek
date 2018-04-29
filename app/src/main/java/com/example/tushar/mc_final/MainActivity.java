@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull final FirebaseAuth firebaseAuth) {
-                if (firebaseAuth.getCurrentUser() == null)
+                if (firebaseAuth.getCurrentUser() == null || !firebaseAuth.getCurrentUser().getEmail().contains("iiitd.ac.in"))
                 {
                     startActivity(new Intent(MainActivity.this,Login.class));
                     //Log.d(mTAG, "Old");

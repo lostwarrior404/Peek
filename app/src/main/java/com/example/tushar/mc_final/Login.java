@@ -1,5 +1,6 @@
 package com.example.tushar.mc_final;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -44,10 +45,18 @@ public class Login extends AppCompatActivity {
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                if (firebaseAuth.getCurrentUser() != null) {
 
-                    Intent intent = new Intent(Login.this, HomeActivity.class);
-                    startActivity(intent);
+                if (firebaseAuth.getCurrentUser() != null) {
+                    if(!firebaseAuth.getCurrentUser().getEmail().contains("iiitd.ac.in")){
+                        firebaseAuth.getCurrentUser().delete();
+                        Toast.makeText(Login.this,"Only IIITD accounts allowed",Toast.LENGTH_LONG).show();
+                        signOut();
+
+                    }
+                    else{
+                        Intent intent = new Intent(Login.this, HomeActivity.class);
+                        startActivity(intent);
+                    }
                 }
             }
         };
@@ -73,8 +82,18 @@ public class Login extends AppCompatActivity {
             }
         });
     }
+    private void signOut() {
+        mGoogleSignInClient.signOut()
+                .addOnCompleteListener(this, new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+
+                    }
+                });
+    }
 
     private void signIn() {
+
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
@@ -86,13 +105,16 @@ public class Login extends AppCompatActivity {
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+
             try {
                 // Google Sign In was successful, authenticate with Firebase
                 GoogleSignInAccount account = task.getResult(ApiException.class);
                 firebaseAuthWithGoogle(account);
+
             } catch (ApiException e) {
                 // Google Sign In failed, update UI appropriately
                 Log.w(TAG, "Google sign in failed", e);
+
                 // ...
             }
         }
@@ -102,6 +124,12 @@ public class Login extends AppCompatActivity {
         Log.d(TAG, "firebaseAuthWithGoogle:" + account.getId());
 
         AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
+
+        final ProgressDialog progressDialog = new ProgressDialog(Login.this);
+        progressDialog.setTitle("Loading");
+        progressDialog.setMessage("Signing In");
+        progressDialog.show();
+
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -109,10 +137,14 @@ public class Login extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
+                            Toast.makeText(getApplication(),"Signed In",Toast.LENGTH_LONG).show();
+                            progressDialog.dismiss();
                             FirebaseUser user = mAuth.getCurrentUser();
+
 
                         } else {
                             // If sign in fails, display a message to the user.
+                            progressDialog.dismiss();
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
 
                         }
