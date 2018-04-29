@@ -3,7 +3,6 @@ package com.example.tushar.mc_final;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,7 +59,7 @@ public class FeedFragment extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 mCurrentLocation = dataSnapshot.child("mUserLocation").getValue(String.class);
-                mDataList = sort(mCurrentLocation);
+//                mDataList = sort(mCurrentLocation);
                 //Update The sort and recylcer view;
             }
 
