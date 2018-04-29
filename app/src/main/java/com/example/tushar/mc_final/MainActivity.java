@@ -103,6 +103,8 @@ public class MainActivity extends AppCompatActivity {
                             // ...
                         }
                     });
+
+                    // get friends
                     usersRef.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
@@ -125,6 +127,8 @@ public class MainActivity extends AppCompatActivity {
 
                         }
                     });
+
+                    // add new friends from mFriends
                     usersRef.child(mAuth.getCurrentUser().getUid()).child("mFriends").addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
@@ -142,6 +146,8 @@ public class MainActivity extends AppCompatActivity {
 
                         }
                     });
+
+                    // get received
                     usersRef.child(mAuth.getCurrentUser().getUid()).child("mReceived").addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
