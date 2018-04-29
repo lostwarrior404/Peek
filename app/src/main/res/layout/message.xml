@@ -26,6 +26,7 @@
                 android:id="@+id/message_user"
                 android:textStyle="normal|bold"
                 android:text="user"
+                android:textSize="15sp"
                 />
 
             <TextView
@@ -36,7 +37,7 @@
                 android:layout_marginTop="5dp"
                 android:id="@+id/message_text"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textSize="20sp"
+                style="@style/TextViewStyle"
                 android:text="message user"/>
 
         </RelativeLayout>

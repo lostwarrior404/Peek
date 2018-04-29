@@ -78,6 +78,7 @@ public class ChatFragment extends Fragment {
         input = (EditText) view.findViewById(R.id.input);
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
+
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.addItemDecoration(new DividerItemDecoration(getContext(),LinearLayoutManager.VERTICAL)
@@ -110,7 +111,6 @@ public class ChatFragment extends Fragment {
                     databaseReference.removeEventListener(childEventListener);
                 getMessages();
                 adapter = new recyler_adapter_chat(messageList);
-
             }
 
             @Override
@@ -148,6 +148,7 @@ public class ChatFragment extends Fragment {
                 }
 
                 recyclerView.setAdapter(adapter);
+                recyclerView.scrollToPosition(recyclerView.getAdapter().getItemCount()-1);
             }
 
             @Override
@@ -193,7 +194,7 @@ public class ChatFragment extends Fragment {
         @Override
         public void onBindViewHolder(ChatFragment.recyler_adapter_chat.MyViewHolder holder, final int position) {
 
-            if (messageList.get(position).getMessageUser().equals(currentUser.getmName()))
+            if (messageList.get(position).getMessageUser().equals(mAuth.getCurrentUser().getDisplayName()))
             {
                 RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
                         RelativeLayout.LayoutParams.WRAP_CONTENT);

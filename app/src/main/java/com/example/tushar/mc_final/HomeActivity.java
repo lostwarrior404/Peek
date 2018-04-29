@@ -15,7 +15,9 @@ import android.view.MenuItem;
 
 import com.google.firebase.auth.FirebaseAuth;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity
+{
+    private FirebaseAuth mAuth;
     FragmentManager mFragment_manager = getSupportFragmentManager();
 
 
@@ -53,13 +55,14 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        mAuth = FirebaseAuth.getInstance();
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         Intent intent1 = new Intent(HomeActivity.this, MyService.class);
-        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-        intent1.putExtra("current_user",firebaseAuth.getCurrentUser().getUid());
-        Log.d("MCDEBUG","jaggi"+getMacId());
-        startService(intent1);
+        intent1.putExtra("current_user",mAuth.getCurrentUser().getUid());
+        if (!mAuth.getCurrentUser().getUid().equals(null))
+            startService(intent1);
+
     }
     public String getMacId() {
         WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
