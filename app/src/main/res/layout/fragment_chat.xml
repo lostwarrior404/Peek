@@ -56,16 +56,28 @@
                 <!--/>-->
         <!--</android.support.design.widget.TextInputLayout>-->
 
-        <ListView
-            android:id="@+id/list_of_messages"
+        <!--<ListView-->
+            <!--android:id="@+id/list_of_messages"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_alignParentStart="true"-->
+            <!--android:layout_below="@+id/spinner_heading"-->
+            <!--android:divider="@android:color/transparent"-->
+            <!--android:dividerHeight="16dp"-->
+            <!--android:layout_marginBottom="50dp"-->
+            <!--android:paddingBottom="10dp"/>-->
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:scrollbars="vertical"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/spinner_heading"
-            android:divider="@android:color/transparent"
-            android:dividerHeight="16dp"
             android:layout_marginBottom="50dp"
-            android:paddingBottom="10dp"/>
+            android:paddingBottom="10dp">
+
+        </android.support.v7.widget.RecyclerView>
 
         <Spinner
             android:id="@+id/spinner_heading"
