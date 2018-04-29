@@ -93,9 +93,19 @@ public class MyService extends Service {
     }
 
 
-    public String getMacId() {
+    public boolean checkwifistate(){
         WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-        WifiInfo wifiInfo = wifiManager.getConnectionInfo();
-        return wifiInfo.getBSSID().substring(0, 16);
+        if(wifiManager.getWifiState()!=WifiManager.WIFI_STATE_ENABLED){
+            return false;
+        }
+        return true;
+    }
+    public String getMacId() {
+        if(checkwifistate()){
+            WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+            WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+            return wifiInfo.getBSSID().substring(0, 16);
+        }
+        return "00:00:00:00:00:00";
     }
 }

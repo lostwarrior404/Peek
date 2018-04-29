@@ -1,7 +1,9 @@
 package com.example.tushar.mc_final;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
@@ -31,8 +33,11 @@ public class HomeActivity extends AppCompatActivity
     private User mcurrentUser;
     private static String  TAG = "MCDEBUG";
     private FirebaseAuth.AuthStateListener mAuthListener;
+    private boolean isReceiverRegistered = false;
     private DatabaseReference databaseReference,usersRef;
     FragmentManager mFragment_manager = getSupportFragmentManager();
+
+
 
 
 
@@ -113,12 +118,7 @@ public class HomeActivity extends AppCompatActivity
             mAuth.addAuthStateListener(mAuthListener);
             }
     }
-    public String getMacId() {
-        WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-        WifiInfo wifiInfo = wifiManager.getConnectionInfo();
-        Log.d("MCDEBUG",wifiInfo.getSSID());
-        return wifiInfo.getBSSID().substring(0, 16);
-    }
+
     public boolean checkwifistate(){
         WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         if(wifiManager.getWifiState()!=WifiManager.WIFI_STATE_ENABLED){
