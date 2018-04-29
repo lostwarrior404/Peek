@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/MC.iml" filepath="$PROJECT_DIR$/MC.iml" />
       <module fileurl="file://C:\Users\Vasu Agarwal\Documents\Android\Peek\MC.iml" filepath="C:\Users\Vasu Agarwal\Documents\Android\Peek\MC.iml" />
       <module fileurl="file://C:\Users\dell\Downloads\Peek\MC.iml" filepath="C:\Users\dell\Downloads\Peek\MC.iml" />
       <module fileurl="file://$PROJECT_DIR$/Peek.iml" filepath="$PROJECT_DIR$/Peek.iml" />
