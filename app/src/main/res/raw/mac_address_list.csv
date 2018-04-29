@@ -125,10 +125,6 @@
 6,RESB11FAP1,Residence Building 11'th floor,c4:64:13:00:53:91,c4:0a:cb:2d:51:40,AIR-CAP1602I-N-K9
 7,RESB11FAP2,Residence Terrace,c4:64:13:00:55:8b,c4:0a:cb:5c:00:00,AIR-LAP1142N-N-K9
 8,RESB10FAP2,Inside 1001,18:e7:28:a8:2f:c7,2c:3e:cf:8f:48:30,AIR-CAP1602I-N-K9
-1,OUTDOOR_LH,Between Lecture hall and Library block,b0:aa:77:10:ed:a0,84:b8:02:f3:ef:a0,AIR-AP1572EAC-D-K9
-2,OUTDOOR_HS,Near badminton court pole,b0:aa:77:b9:74:b0,b0:aa:77:95:8f:80,AIR-AP1572EAC-D-K9
-1,something,New Boys Hostel 2nd Floor,6c:dd:30:41:30:85,6c:dd:30:41:30:85,yeah
-2,something,New Boys Hostel 2nd Floor 2,6c:dd:30:41:2f:e5,6c:dd:30:41:2f:e5,yeah123
 4,NACB0FAP4,ground floor lecture hall back side,2c:33:11:80:81:3e,70:db:98:07:b6:a0,AIR-AP2802I-D-K9,FGL2109A45G
 5,NACB0FAP5,ground floor lecture hall front side,2c:33:11:80:7e:16,70:db:98:07:84:20,AIR-AP2802I-D-K9,FGL2109A44U
 6,NACB0FAP6,ground floor lecture hall 2,00:38:df:20:03:18,00:38:df:20:72:c0,AIR-AP1852I-D-K9,KWC2049066D
