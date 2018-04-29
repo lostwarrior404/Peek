@@ -32,8 +32,6 @@ public class MyService extends Service {
 
     }
     public int onStartCommand (Intent intent, int flags, int startId) {
-        mCurrentUserUID = intent.getExtras().getString("current_user");
-        Log.d(mTAG,mCurrentUserUID);
         return START_STICKY;
     }
 
@@ -49,68 +47,12 @@ public class MyService extends Service {
         new Timer().scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-//                Log.d(mTAG,mCurrentUserUID);
                 String loc=checkLocation();
-                Log.d(mTAG,loc);
-                usersRef = FirebaseDatabase.getInstance().getReference().child("users");
-                usersRef.child(mCurrentUserUID).child("mUserLocation").setValue(loc);
-                Log.d(mTAG,"success");
-
-//                databaseReference = FirebaseDatabase.getInstance().getReference();
-//
-//                Log.d(mTAG,usersRef.getKey());
-//                mAuth = FirebaseAuth.getInstance();
-//                muser=databaseReference.child("users").child(mCurrentUserUID);
-//                Log.d(mTAG,muser.getKey());
-
-
-                //mAuthListener = new FirebaseAuth.AuthStateListener()
-//                {
-//                    @Override
-//                    public void onAuthStateChanged(@NonNull final FirebaseAuth firebaseAuth) {
-//
-//                            int userExistFlag = 0;
-//                            Log.d(mTAG,"hey2");
-//                            String name = firebaseAuth.getCurrentUser().getDisplayName() + firebaseAuth.getCurrentUser().getEmail() +firebaseAuth.getCurrentUser().getPhoneNumber()+checkLocation();
-//                            //final TextView user_info = (TextView)findViewById(R.id.User_Information);
-//                            //user_info.setText(name);
-//
-//                            usersRef.addListenerForSingleValueEvent(new ValueEventListener() {
-//                                @Override
-//                                public void onDataChange(DataSnapshot dataSnapshot) {
-//
-//                                    for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-//                                        //Log.d(mTAG,postSnapshot.getKey());
-//                                        if (postSnapshot.getKey().equals(firebaseAuth.getCurrentUser().getUid())) {
-//                                            mcurrentUser = postSnapshot.getValue(User.class);
-//                                        }
-//                                        if(mcurrentUser.getmUserLocation().equals(loc))
-//                                        {
-//                                        }
-//                                        else
-//                                        {
-//
-//                                            usersRef.child(firebaseAuth.getCurrentUser().getUid()).setValue(mcurrentUser);
-//                                        }
-//                                    }
-//
-//                                }
-//
-//                                @Override
-//                                public void onCancelled(DatabaseError databaseError) {
-//
-//                                    // ...
-//                                }
-//                            });
-//
-//
-//
-//
-//
-//
-//                    }
-//                };
-                Log.d(mTAG,"fgfg");
+                mAuth=mAuth.getInstance();
+                if(mAuth.getCurrentUser().getUid()!=null){
+                    usersRef = FirebaseDatabase.getInstance().getReference().child("users");
+                    usersRef.child(mAuth.getCurrentUser().getUid()).child("mUserLocation").setValue(loc);
+                }
             }
         }, 0, 1000);
 
