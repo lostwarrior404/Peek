@@ -14,7 +14,8 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:padding="5dp">
 
             <TextView
                 android:id="@+id/heading"
@@ -24,8 +25,9 @@
                 android:layout_marginRight="20dp"
                 android:text="Your Location"
                 android:layout_centerHorizontal="true"
-                android:textSize="35sp"
-                style="@style/TextViewHeading" />
+                android:textSize="25sp"
+                style="@style/TextViewHeading"
+                android:textAlignment="center"/>
 
             <TextView
                 android:id="@+id/location"
@@ -49,7 +51,8 @@
                 android:textSize="15sp"
                 style="@style/TextViewStyle"
                 android:layout_centerHorizontal="true"
-                android:text="Old Academic Block" />
+                android:text="Old Academic Block"
+                android:textAlignment="center"/>
 
         </RelativeLayout>
 
