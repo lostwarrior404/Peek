@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/buttonAccent">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dp">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingRight="10dp"
+            android:paddingLeft="10dp"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp">
+
+            <TextView
+                android:id="@+id/place_menu"
+                style="@style/TextViewHeading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignStart="@+id/list_menu"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="21dp"
+                android:text="CDX"
+                android:layout_centerHorizontal="true"
+                android:textSize="40sp" />
+
+            <TextView
+                android:id="@+id/heading_menu"
+                style="@style/TextViewHeading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignEnd="@+id/place_menu"
+                android:layout_below="@+id/place_menu"
+                android:text="MENU"
+                android:layout_centerHorizontal="true"
+                android:textColor="@color/buttonAccent"
+                android:textSize="25sp" />
+
+            <ListView
+                android:id="@+id/list_menu"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/heading_menu"
+                android:layout_marginStart="27dp"
+                android:layout_marginTop="11dp" />
+
+            <Button
+                android:id="@+id/phone_button"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_alignBottom="@+id/place_menu"
+                android:layout_alignEnd="@+id/list_menu"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/phone" />
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
+
+
+</RelativeLayout>
