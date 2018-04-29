@@ -65,7 +65,6 @@ public class HomeActivity extends AppCompatActivity {
         WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         WifiInfo wifiInfo = wifiManager.getConnectionInfo();
         Log.d("MCDEBUG",wifiInfo.getSSID());
-
         return wifiInfo.getBSSID().substring(0, 16);
     }
 
