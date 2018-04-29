@@ -15,7 +15,7 @@
         <android.support.v7.widget.CardView
             android:id="@+id/cardView"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="200dp"
             card_view:cardCornerRadius="0dp"
             card_view:cardElevation="@dimen/margin10"
             card_view:cardMaxElevation="@dimen/margin10"
@@ -33,11 +33,11 @@
 
                 <ImageView
                     android:id="@+id/placeimageView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:tint="@android:color/white"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
                     android:padding="5dp"
                     android:gravity="center"/>
+                    <!--android:tint="@android:color/white"-->
 
 
                 <TextView
