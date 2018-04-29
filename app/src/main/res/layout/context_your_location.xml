@@ -38,7 +38,7 @@
                 android:layout_marginTop="5dp"
                 android:text="C21"
                 android:textColor="@color/buttonAccent"
-                android:textSize="45sp"
+                android:textSize="50sp"
                 android:textStyle="bold" />
 
             <TextView
