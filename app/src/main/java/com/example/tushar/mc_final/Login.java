@@ -44,6 +44,7 @@ public class Login extends AppCompatActivity {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 if (firebaseAuth.getCurrentUser() != null) {
+                    Log.d("MCDEBUG","asdmkadkmaod");
                     Intent intent = new Intent(Login.this, HomeActivity.class);
                     startActivity(intent);
                 }
