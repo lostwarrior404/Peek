@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "209140387705-9362ihfr1o58s577097e4pef8hgmf25u.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.tushar.mc_final",
+            "certificate_hash": "54e6eab12a4cd9b88564cbbca394632d9cac247d"
+          }
+        },
+        {
           "client_id": "209140387705-7906sgoe3nf5qotd9e5bjbi5v6u2pbmk.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

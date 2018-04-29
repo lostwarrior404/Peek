@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginLeft="10dp">
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="10dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginBottom="5dp">
 
     <android.support.v7.widget.CardView
         android:layout_width="wrap_content"
@@ -10,7 +12,6 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:id="@+id/cardMessage"
-
         >
 
         <RelativeLayout
@@ -25,6 +26,7 @@
                 android:id="@+id/message_user"
                 android:textStyle="normal|bold"
                 android:text="user"
+                android:textSize="15sp"
                 />
 
             <TextView
@@ -35,7 +37,7 @@
                 android:layout_marginTop="5dp"
                 android:id="@+id/message_text"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textSize="20sp"
+                style="@style/TextViewStyle"
                 android:text="message user"/>
 
         </RelativeLayout>

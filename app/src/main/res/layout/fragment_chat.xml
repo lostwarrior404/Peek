@@ -9,16 +9,16 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <android.support.design.widget.FloatingActionButton
+        <Button
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:clickable="true"
             android:layout_marginBottom="5dp"
             android:layout_marginRight="5dp"
             android:id="@+id/fab"
-            android:backgroundTint="@color/backgroundColor"
+            android:backgroundTint="@color/buttonAccent"
             android:layout_alignParentBottom="true"
-            android:src="@drawable/send2"
+            android:background="@drawable/send"
             android:scaleType="fitXY"
             android:layout_alignParentEnd="true"
              />
@@ -30,13 +30,17 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true"
             android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp">
+            android:layout_marginRight="10dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp">
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:padding="5dp"
                 android:hint="Type Here"
                 android:id="@+id/input"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
                 android:background="@android:color/transparent"
                 />
         </android.support.v7.widget.CardView>
@@ -56,15 +60,28 @@
                 <!--/>-->
         <!--</android.support.design.widget.TextInputLayout>-->
 
-        <ListView
-            android:id="@+id/list_of_messages"
+        <!--<ListView-->
+            <!--android:id="@+id/list_of_messages"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_alignParentStart="true"-->
+            <!--android:layout_below="@+id/spinner_heading"-->
+            <!--android:divider="@android:color/transparent"-->
+            <!--android:dividerHeight="16dp"-->
+            <!--android:layout_marginBottom="50dp"-->
+            <!--android:paddingBottom="10dp"/>-->
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:scrollbars="vertical"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/spinner_heading"
-            android:divider="@android:color/transparent"
-            android:dividerHeight="16dp"
-            android:layout_marginBottom="50dp"/>
+            android:layout_marginBottom="50dp"
+            android:paddingBottom="10dp">
+
+        </android.support.v7.widget.RecyclerView>
 
         <Spinner
             android:id="@+id/spinner_heading"
