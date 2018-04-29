@@ -4,7 +4,9 @@
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.LinearGradient;
+import android.media.Image;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
@@ -20,6 +22,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.GridLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -77,8 +80,6 @@ public class FriendFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view =  inflater.inflate(R.layout.fragment_friend, container, false);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
-//        manager = new GridLayoutManager(getActivity().getApplicationContext(), 2, GridLayoutManager.VERTICAL, false);
-//        mRecyclerView.setLayoutManager(manager);
 
         mAcceptFriend = new ArrayList<>();
         mSearchFriend = new ArrayList<>();
@@ -101,6 +102,8 @@ public class FriendFragment extends Fragment {
                 mDatabaseReference = FirebaseDatabase.getInstance().getReference();
                 mUsersRef = mDatabaseReference.child("users");
                 getcurrentUser();
+                getCurrentReceivedRequests();
+
             }
         });
 
@@ -132,6 +135,7 @@ public class FriendFragment extends Fragment {
                 mDatabaseReference = FirebaseDatabase.getInstance().getReference();
                 mUsersRef = mDatabaseReference.child("users");
                 getcurrentUser();
+                getCurrentSentRequests();
             }
         });
 
@@ -206,8 +210,130 @@ public class FriendFragment extends Fragment {
             }
         });
 
+        mUsersRef.child(mAuth.getCurrentUser().getUid()).child("mFriends").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Iterable<DataSnapshot> children = dataSnapshot.getChildren();
+                if(mCurrentUser != null)
+                {
+                    for(DataSnapshot child : children)
+                    {
+
+                        mCurrentUser.addFriend(child.getValue(String.class));
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
     }
+
+
+    public void getCurrentReceivedRequests() {
+        mUsersRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                ArrayList<String> currentFriends = (ArrayList<String>) mCurrentUser.getmReceived();
+                ArrayList<User> templist = new ArrayList<>();
+                Iterable<DataSnapshot> children = dataSnapshot.getChildren();
+                for(DataSnapshot postsnapshot: dataSnapshot.getChildren())
+                {
+                    if(currentFriends != null && currentFriends.contains(postsnapshot.getValue(User.class).getmEmail()))
+                    {
+//                        Log.d(TAG, String.valueOf(currentFriends.size()));
+                        User friend = postsnapshot.getValue(User.class);
+                        templist.add(friend);
+                        Log.d(TAG, currentFriends.size()  + '-' +  String.valueOf(mSearchFriend.size()));
+                    }
+                }
+                adapter.setmList(templist);
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        mUsersRef.child(mAuth.getCurrentUser().getUid()).child("mReceived").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Iterable<DataSnapshot> children = dataSnapshot.getChildren();
+                if(mCurrentUser != null)
+                {
+                    for(DataSnapshot child : children)
+                    {
+
+                        mCurrentUser.addReceived(child.getValue(String.class));
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+    }
+
+    public void getCurrentSentRequests() {
+        mUsersRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                ArrayList<String> currentFriends = (ArrayList<String>) mCurrentUser.getmSent();
+                ArrayList<User> templist = new ArrayList<>();
+                Iterable<DataSnapshot> children = dataSnapshot.getChildren();
+                for(DataSnapshot postsnapshot: dataSnapshot.getChildren())
+                {
+                    if(currentFriends != null && currentFriends.contains(postsnapshot.getValue(User.class).getmEmail()))
+                    {
+//                        Log.d(TAG, String.valueOf(currentFriends.size()));
+                        User friend = postsnapshot.getValue(User.class);
+                        templist.add(friend);
+                        Log.d(TAG, currentFriends.size()  + '-' +  String.valueOf(mSearchFriend.size()));
+                    }
+                }
+                adapter.setmList(templist);
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        mUsersRef.child(mAuth.getCurrentUser().getUid()).child("mSent").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Iterable<DataSnapshot> children = dataSnapshot.getChildren();
+                if(mCurrentUser != null)
+                {
+                    for(DataSnapshot child : children)
+                    {
+
+                        mCurrentUser.addSent(child.getValue(String.class));
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+    }
+
+
 
      public String checkLocation()
      {
@@ -266,6 +392,15 @@ public class FriendFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(MyViewHolder holder, int position) {
+            if(mSelected == 1)
+                holder.actionButton.setImageResource(R.drawable.ic_done_black_36dp);
+            else if(mSelected == 2)
+            {
+//                holder.actionButton.setImageResource(R.drawable.ic_search_black_36dp);
+                holder.actionButton.setImageResource(0);
+            }
+            else if(mSelected == 3)
+                holder.actionButton.setImageResource(R.drawable.ic_add_black_36dp);
             holder.textView.setText(mList.get(position).getmName());
             holder.textView2.setText(mList.get(position).getmUserLocation());
             holder.imageView.setImageBitmap(null);
@@ -279,13 +414,14 @@ public class FriendFragment extends Fragment {
         public class MyViewHolder extends RecyclerView.ViewHolder {
 
             public ImageView imageView;
-
+            public ImageButton actionButton;
             public TextView textView;
             public TextView textView2;
             placeHolderData content;
 
             public MyViewHolder(View itemView) {
                 super(itemView);
+                actionButton = (ImageButton) itemView.findViewById(R.id.actionButton);
                 textView = (TextView) itemView.findViewById(R.id.placetextView);
                 textView2 = (TextView) itemView.findViewById(R.id.placetextView2);
                 imageView = (ImageView) itemView.findViewById(R.id.placeimageView);

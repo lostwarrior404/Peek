@@ -40,6 +40,8 @@ dependencies {
     compile 'com.opencsv:opencsv:3.9'
     compile 'com.android.support:cardview-v7:26.1.0'
     compile 'com.android.support:design:26.1.0'
+    implementation 'com.opencsv:opencsv:3.9'
+
 }
 
 
