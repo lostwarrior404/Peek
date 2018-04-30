@@ -460,11 +460,11 @@ public class FriendFragment extends Fragment {
             {
                 holder.actionButton.setBackgroundResource(R.drawable.delete);
                 holder.textView.setText(mList.get(position).getmName());
-                if(!mCurrentUser.ismPrivFlag())
+                if(mCurrentUser.ismPrivFlag())
                     holder.textView2.setText("User Location is off");
                 else
                 {
-                    if(mList.get(position).ismPrivFlag()) {
+                    if(!mList.get(position).ismPrivFlag()) {
                         String[] split_loc = mCurrentUser.getmUserLocation().split(",");
 //                        mBody.setText(split_loc[1]);
                         String[] numNames = {

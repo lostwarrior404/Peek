@@ -59,7 +59,7 @@ public class FeedFragment extends Fragment {
     private ValueEventListener mloc_event_listener;
     private GridLayoutAdapter mLayoutAdapter;
     private Button button2;
-    private Integer privflag = 0;
+    private Boolean privflag = false;
     private FirebaseAuth mAuth;
     private User u;
     private User mCurrentUser;
@@ -313,6 +313,14 @@ public class FeedFragment extends Fragment {
         mloc_event_listener = mcurrent_user_db.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                mCurrentUser = dataSnapshot.getValue(User.class);
+                if(!mCurrentUser.ismPrivFlag()){
+                    button2.setBackgroundResource(R.drawable.private_toggle);
+                    privflag = false;
+                }else {
+                    button2.setBackgroundResource(R.drawable.private_toggle_off);
+                    privflag = true;
+                }
                 mCurrentLocation = dataSnapshot.child("mUserLocation").getValue(String.class);
                 mDataList = sort(mCurrentLocation,load_data());
                 mLayoutAdapter.setmDataList(mDataList);
@@ -325,39 +333,33 @@ public class FeedFragment extends Fragment {
             }
         });
 
+
         button2 = (Button) view.findViewById(R.id.button2);
-
-
-
 
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getcurrentUser();
-//                Log.d("Come", u.toString());
                 if(mCurrentUser != null)
                 {
-
-                    if(privflag == 0)
+                    if(!privflag)
                     {
-                        // currently on, do off
-                        User u2 = new User(mAuth.getCurrentUser().getEmail(), mAuth.getCurrentUser().getDisplayName(), !mCurrentUser.ismPrivFlag(), mCurrentUser.getmUserLocation(), (ArrayList) mCurrentUser.getmFriends(), (ArrayList) mCurrentUser.getmSent(), (ArrayList) mCurrentUser.getmReceived(), mCurrentUser.getmImageUri());
-                        mUsersRef.child(mAuth.getCurrentUser().getUid()).setValue(u2);
+                        mCurrentUser.setmPrivFlag(true);
+                        mUsersRef.child(mAuth.getCurrentUser().getUid()).setValue(mCurrentUser);
                         button2.setBackgroundResource(R.drawable.private_toggle_off);
-                        privflag = 1;
+                        privflag = true;
                     }
                     else
                     {
-                        // current off, do on
-                        User u2 = new User(mAuth.getCurrentUser().getEmail(), mAuth.getCurrentUser().getDisplayName(), !mCurrentUser.ismPrivFlag(), mCurrentUser.getmUserLocation(), (ArrayList) mCurrentUser.getmFriends(), (ArrayList) mCurrentUser.getmSent(), (ArrayList) mCurrentUser.getmReceived(), mCurrentUser.getmImageUri());
-                        mUsersRef.child(mAuth.getCurrentUser().getUid()).setValue(u2);
+                        mCurrentUser.setmPrivFlag(false);
+                        mUsersRef.child(mAuth.getCurrentUser().getUid()).setValue(mCurrentUser);
                         button2.setBackgroundResource(R.drawable.private_toggle);
-                        privflag = 0;
+                        privflag = false;
                     }
                 }
 
             }
         });
+
 
 
 
@@ -367,49 +369,7 @@ public class FeedFragment extends Fragment {
     }
 
 
-    public void getcurrentUser()
-    {
-        Log.d("Come", "A");
-        mUsersRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    if (postSnapshot.getKey().equals(mAuth.getCurrentUser().getUid())) {
-                        Log.d("Come", "B");
-                        mCurrentUser = postSnapshot.getValue(User.class); // check if user exists on firebase
-                    }
-                }
-                if(mCurrentUser==null){ //if not
-                    Uri temp_uri = mAuth.getCurrentUser().getPhotoUrl();
-                    mCurrentUser = new User(mAuth.getCurrentUser().getEmail(), mAuth.getCurrentUser().getDisplayName(), true, "Unknown,Unknown,Unknown", new ArrayList<String>(), new ArrayList<String>(), new ArrayList<String>(),temp_uri.toString());
-                    mUsersRef.child(mAuth.getCurrentUser().getUid()).setValue(mCurrentUser);
-                }
-                if(mCurrentUser.ismPrivFlag())
-                {
-                    Log.d("TAG", "A");
-                    button2.setBackgroundResource(R.drawable.private_toggle);
-                    privflag = 0;
-                }
-                else
-                {
-                    Log.d("TAG", "B");
-                    button2.setBackgroundResource(R.drawable.private_toggle_off);
-                    privflag = 1;
-                }
 
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-
-
-
-
-    }
 
 
 
