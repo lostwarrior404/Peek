@@ -85,7 +85,11 @@ public class FriendFragment extends Fragment {
          getcurrentUser();
 
         Accept_friend = (Button) view.findViewById(R.id.accept_friend);
-        Accept_friend.setOnClickListener(new View.OnClickListener() {
+         Search_friend = (Button) view.findViewById(R.id.search_friend);
+         Send_friend = (Button) view.findViewById(R.id.send_friend);
+
+
+         Accept_friend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mSelected = 1;
@@ -105,8 +109,8 @@ public class FriendFragment extends Fragment {
             }
         });
 
-        Search_friend = (Button) view.findViewById(R.id.search_friend);
-        Search_friend.setOnClickListener(new View.OnClickListener() {
+
+         Search_friend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mSelected = 2;
@@ -124,8 +128,10 @@ public class FriendFragment extends Fragment {
             }
         });
 
-        Send_friend = (Button) view.findViewById(R.id.send_friend);
-        Send_friend.setOnClickListener(new View.OnClickListener() {
+         Search_friend.callOnClick();
+
+
+         Send_friend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mSelected = 3;
@@ -601,38 +607,50 @@ public class FriendFragment extends Fragment {
                 else if(mSelected == 2)
                 {
                     final int pos = getAdapterPosition();
+
                     Log.d(TAG+"AAAAA", String.valueOf(pos));
                     mUsersRef.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             String mFriendUID;
-                            User mFriendUser = mSearchFriend.get(pos);
-                            String friendEmailID = mFriendUser.getmEmail();
-                            ArrayList<String> currentFriends = (ArrayList<String>) mCurrentUser.getmFriends();
-                            ArrayList<User> templist = new ArrayList<>();
-//                            ArrayList<User> templist = new ArrayList<>();
-                            for(DataSnapshot postSnapshot: dataSnapshot.getChildren())
+                            if(mCurrentUser.getmFriends().size() > 0)
                             {
-                                if(currentFriends != null && currentFriends.contains(postSnapshot.getValue(User.class).getmEmail()))
+
+                                User mFriendUser = mSearchFriend.get(pos);
+                                String friendEmailID = mFriendUser.getmEmail();
+                                ArrayList<String> currentFriends = (ArrayList<String>) mCurrentUser.getmFriends();
+                                ArrayList<User> templist = new ArrayList<>();
+//                            ArrayList<User> templist = new ArrayList<>();
+                                for(DataSnapshot postSnapshot: dataSnapshot.getChildren())
                                 {
-                                    User friend = postSnapshot.getValue(User.class);
-                                    templist.add(friend);
-                                }
-                                if(postSnapshot.getValue(User.class).getmEmail().equals(friendEmailID)){
-                                    mFriendUser = postSnapshot.getValue(User.class);
-                                    mFriendUID = postSnapshot.getKey();
-                                    mCurrentUser.deleteFriends(friendEmailID);
-                                    mFriendUser.deleteFriends(mCurrentUser.getmEmail());
-                                    mUsersRef.child(mAuth.getCurrentUser().getUid()).setValue(mCurrentUser);
-                                    mUsersRef.child(mFriendUID).setValue(mFriendUser);
-                                    Log.d(TAG, String.valueOf(mSearchFriend.size()));
+                                    if(currentFriends != null && currentFriends.contains(postSnapshot.getValue(User.class).getmEmail()))
+                                    {
+                                        User friend = postSnapshot.getValue(User.class);
+                                        templist.add(friend);
+                                    }
+                                    if(postSnapshot.getValue(User.class).getmEmail().equals(friendEmailID)){
+                                        mFriendUser = postSnapshot.getValue(User.class);
+                                        mFriendUID = postSnapshot.getKey();
+                                        mCurrentUser.deleteFriends(friendEmailID);
+                                        mFriendUser.deleteFriends(mCurrentUser.getmEmail());
+                                        mUsersRef.child(mAuth.getCurrentUser().getUid()).setValue(mCurrentUser);
+                                        mUsersRef.child(mFriendUID).setValue(mFriendUser);
+                                        Log.d(TAG, String.valueOf(mSearchFriend.size()));
+
+                                    }
 
                                 }
-
+                                for(int i=0; i<templist.size(); i++)
+                                {
+                                    if(templist.get(i).getmEmail().equals(friendEmailID))
+                                        templist.remove(i);
+                                }
+                                adapter.setmList(templist);
+                                mRecyclerView.setAdapter(adapter);
+                                mSearchFriend = templist;
+                                adapter.notifyDataSetChanged();
+                                getCurrentFriends();
                             }
-                            adapter.setmList(templist);
-                            mSearchFriend = templist;
-                            adapter.notifyDataSetChanged();
 
 
                         }
@@ -643,6 +661,7 @@ public class FriendFragment extends Fragment {
 
                         }
                     });
+
 
                     // block
                     // remove from User1 - mFriend

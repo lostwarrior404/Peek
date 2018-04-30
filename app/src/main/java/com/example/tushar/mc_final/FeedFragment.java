@@ -1,9 +1,14 @@
 package com.example.tushar.mc_final;
 
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,10 +18,11 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -31,6 +37,9 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -44,10 +53,8 @@ public class FeedFragment extends Fragment {
     private ArrayList<Data> mDataList;
     private ValueEventListener mloc_event_listener;
     private GridLayoutAdapter mLayoutAdapter;
-    private FirebaseAuth mAuth;
     public Data parser(String id,String name,int file,int cols,String building,String floor,int layout_type,int frag_type,ArrayList<String> visiblity,Boolean hasPhone){
         String next[] = {};
-        Data data = new Data();
         ArrayList<HashMap<String,String>> m = new ArrayList<>();
         ArrayList<String> keys = new ArrayList<>();
         int count = 0;
@@ -77,16 +84,18 @@ public class FeedFragment extends Fragment {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        data.setName(name);
-        data.setBuilding(building);
-        data.setDisplay_data(m);
-        data.setFloor(floor);
-        data.setLayout_type(layout_type);
-        data.setFrag_type(frag_type);
-        data.setVisiblity(visiblity);
-        data.setKeys(keys);
-        data.setId(id);
-        data.setHasPhone(hasPhone);
+
+    Data data = new Data(m,layout_type,building,floor,name,frag_type,visiblity,keys,id,hasPhone);
+//        data.setName(name);
+//        data.setBuilding(building);
+//        data.setDisplay_data(m);
+//        data.setFloor(floor);
+//        data.setLayout_type(layout_type);
+//        data.setFrag_type(frag_type);
+//        data.setVisiblity(visiblity);
+//        data.setKeys(keys);
+//        data.setId(id);
+//        data.setHasPhone(hasPhone);
         return data;
     }
 
@@ -96,62 +105,68 @@ public class FeedFragment extends Fragment {
 
     public ArrayList<Data> load_data(){
         ArrayList<Data> templist = new ArrayList<Data>();
-        String[] visiblity =  new String[] {"BH,GH","DB","AC","LB","LC","SR","RE","NA"};
+        String[] visiblity =  new String[] {"BH","GH","DB","AC","LB","LC","SR","RE","NA","Unknown"};
         ArrayList<String> temp  = new ArrayList<>();
         temp.addAll(Arrays.asList(visiblity));
 
-        Data d = new Data();
         ArrayList<String> k = new ArrayList<>();
         k.add("Location");
         ArrayList<HashMap<String,String>> hm = new ArrayList<>();
         HashMap<String,String> t = new HashMap<>();
         t.put("Location",mCurrentLocation);
         hm.add(t);
-        d.setName("Your Location");
-        d.setBuilding("SU");
-        d.setDisplay_data(hm);
-        d.setFloor("null");
-        d.setLayout_type(5);
-        d.setFrag_type(2);
-        d.setVisiblity(temp);
-        d.setKeys(k);
-        d.setId("location");
+        Data d = new Data(hm,5,"SU","null","Your Location",2, (ArrayList<String>) temp.clone(),k,"location",Boolean.FALSE);
+
         templist.add(d);
 
-        visiblity = new String[]{"BH,GH"};
+        visiblity = new String[]{"BH"};
         temp.clear();
         temp.addAll(Arrays.asList(visiblity));
-        templist.add(parser("b_hostel","Hosteliers",R.raw.boys_hostel,4,"BH","null",1,3,temp,Boolean.FALSE));
+        Log.d("tmp",temp.toString());
+        templist.add(parser("b_hostel","Hosteliers",R.raw.boys_hostel,2,"BH","null",1,1, (ArrayList<String>) temp.clone(),Boolean.FALSE));
 
-        visiblity = new String[] {"BH,GH"};
+        visiblity = new String[] {"GH","NA"};
         temp.clear();
         temp.addAll(Arrays.asList(visiblity));
-        templist.add(parser("g_hostel","Hosteliers",R.raw.girls_hostel,4,"BH","null",1,3,temp,Boolean.FALSE));
+        Log.d("tmp",temp.toString());
+        templist.add(parser("g_hostel","Hosteliers",R.raw.girls_hostel,2,"GH","null",1,1, (ArrayList<String>) temp.clone(),Boolean.FALSE));
 
-        visiblity = new String[] {"BH,GH","DB","AC","LB","LC","SR","RE","NA","Unknown"};
+        visiblity = new String[] {"BH","GH","DB","AC","LB","LC","SR","RE","NA","Unknown"};
         temp.clear();
         temp.addAll(Arrays.asList(visiblity));
-        templist.add(parser("cdx","CDX Menu",R.raw.cdx,2,"AC","0",1,1,temp,Boolean.TRUE));
+        templist.add(parser("cdx","CDX Menu",R.raw.cdx,3,"AC","0",1,1, (ArrayList<String>) temp.clone(),Boolean.TRUE));
 
-        visiblity = new String[] {"BH,GH","DB","AC","LB","LC","SR","RE","NA","Unknown"};
+        visiblity = new String[] {"BH","GH","DB","AC","LB","LC","SR","RE","NA","Unknown"};
         temp.clear();
         temp.addAll(Arrays.asList(visiblity));
-        templist.add(parser("chai","Chai Point Menu",R.raw.chai_point,3,"NA","0",1,1,temp,Boolean.TRUE));
+        templist.add(parser("chai","Chai Point Menu",R.raw.chai_point,3,"NA","0",1,1, (ArrayList<String>) temp.clone(),Boolean.TRUE));
 
-        visiblity = new String[] {"BH,GH","DB","AC","LB","LC","SR","RE","NA","Unknown"};
+        visiblity = new String[] {"BH","GH","DB","AC","LB","LC","SR","RE","NA","Unknown"};
         temp.clear();
         temp.addAll(Arrays.asList(visiblity));
-        templist.add(parser("club","Student Clubs",R.raw.club_coordinators,4,"DB","null",1,1,temp,Boolean.FALSE));
+        templist.add(parser("club","Student Clubs",R.raw.club_coordinators,2,"DB","null",1,1, (ArrayList<String>) temp.clone(),Boolean.FALSE));
 
-        visiblity = new String[] {"BH,GH","DB","AC","LB","LC","SR","RE","NA","Unknown"};
+        visiblity = new String[] {"BH","GH","DB","AC","LB","LC","SR","RE","NA","Unknown"};
         temp.clear();
         temp.addAll(Arrays.asList(visiblity));
-        templist.add(parser("mess","Mess Menu",R.raw.mess_menu,8,"DB","2",1,1,temp,Boolean.TRUE));
+        templist.add(parser("mess","Mess Menu",R.raw.mess_menu,8,"DB","2",1,1, (ArrayList<String>) temp.clone(),Boolean.TRUE));
 
-        visiblity = new String[] {"BH,GH","DB","AC","LB","LC","SR","RE","NA","Unknown"};
+        visiblity = new String[] {"BH","GH","DB","AC","LB","LC","SR","RE","NA","Unknown"};
         temp.clear();
         temp.addAll(Arrays.asList(visiblity));
-        templist.add(parser("water","Water Cooler on this floor.",R.raw.water,1,"SU","null",1,3,temp,Boolean.FALSE));
+        Data temp_data = parser("water", "Water Cooler on this floor.", R.raw.water, 1, "SU", "null", 1, 3, (ArrayList<String>) temp.clone(), Boolean.FALSE);
+        ArrayList<HashMap<String, String>> loaded_data = temp_data.getDisplay_data();
+        ArrayList<String> loaded_keys = temp_data.getKeys();
+        for(HashMap<String,String> row:loaded_data){
+
+        }
+//        templist.add();
+        visiblity = new String[] {"BH","GH","DB","AC","LB","LC","SR","RE","NA","Unknown"};
+        temp.clear();
+        temp.addAll(Arrays.asList(visiblity));
+        templist.add(parser("fms","FMS",R.raw.fms,1,"SU","null",1,4, (ArrayList<String>) temp.clone(),Boolean.TRUE));
+
+
         return templist;
     }
     public ArrayList<Data> sort(String mCurrentLocation,ArrayList<Data> mDataList){
@@ -163,10 +178,17 @@ public class FeedFragment extends Fragment {
         if(mDataList.get(0).getBuilding().equals("SU")){
             templist.add(mDataList.get(0));
         }
+        for(int i=0;i<mDataList.size();i++){
+            if(mDataList.get(i).getBuilding().equals(building) && (mDataList.get(i).getFloor().equals(floor) || mDataList.get(i).getFloor().equals("null"))){
+                templist.add(mDataList.get(i));
+            }
+        }
 
         for(int i=0;i<mDataList.size();i++){
-            if(mDataList.get(i).getBuilding().equals(building) && !(mDataList.get(i).getFloor().equals(floor) || floor.equals("null"))){
-                templist.add(mDataList.get(i));
+            if(mDataList.get(i).getBuilding().equals(building)){
+                if(!(mDataList.get(i).getFloor().equals(floor) || mDataList.get(i).getFloor().equals("null"))) {
+                    templist.add(mDataList.get(i));
+                }
             }
         }
         for(int i=1;i<mDataList.size();i++){
@@ -175,12 +197,15 @@ public class FeedFragment extends Fragment {
             }
         }
         for(int i=0;i<mDataList.size();i++){
-            if(!mDataList.get(i).getBuilding().equals(building) && !(mDataList.get(i).getFloor().equals(floor) || floor.equals("null")) && !mDataList.get(i).getBuilding().equals("SU") ){
-                if(mDataList.get(i).getVisiblity().indexOf(arr[0])!=-1){
-                    templist.add(mDataList.get(i));
+            if(!mDataList.get(i).getBuilding().equals(building)){
+                if (!mDataList.get(i).getBuilding().equals("SU")) {
+                        if (mDataList.get(i).getVisiblity().contains(building)) {
+                            templist.add(mDataList.get(i));
+                        }
+                    }
                 }
             }
-        }
+
         return templist;
     }
 
@@ -193,20 +218,12 @@ public class FeedFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_feed, container, false);
-        mAuth = FirebaseAuth.getInstance();
         recyclerView = (RecyclerView) view.findViewById(R.id.rvMain);
         mDataList = sort("Unknown,Unknown,Unknown",load_data());
         mLayoutAdapter = new GridLayoutAdapter(mDataList);
         final StaggeredGridLayoutManager mLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setAdapter(mLayoutAdapter);
-       /* Button logoutButton = view.findViewById(R.id.logoutButton);
-        logoutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Logout();
-            }
-        });*/
 
 
         FirebaseAuth temp_auth = FirebaseAuth.getInstance();
@@ -227,19 +244,6 @@ public class FeedFragment extends Fragment {
             }
         });
         return view;
-    }
-
-    public void Logout()
-    {
-
-        Intent myService = new Intent(getActivity(),MyService.class);
-        getActivity().stopService(myService);
-        mAuth.signOut();
-
-
-        Intent i = new Intent(getActivity(),Login.class);
-        startActivity(i);
-        Toast.makeText(getActivity(), "Logged out", Toast.LENGTH_SHORT).show();
     }
 
     private class GridHolder1 extends RecyclerView.ViewHolder {
@@ -273,6 +277,7 @@ public class FeedFragment extends Fragment {
             super(itemView);
             mTitle= (TextView) itemView.findViewById(R.id.place_menu);
             mButton=(Button)itemView.findViewById(R.id.phone_button);
+
             mRecyclerView = itemView.findViewById(R.id.list_menu);
         }
         public void onBind(Data param_data){
@@ -312,6 +317,92 @@ public class FeedFragment extends Fragment {
                 mRecyclerView.setAdapter(new CustomAdapter(item_list));
                 mRecyclerView.addOnItemTouchListener(mScrollTouchListener);
             }
+            else if(param_data.getId().equals("chai")){
+                ArrayList<Menu> item_list = new ArrayList<>();
+                for (HashMap<String,String> s: temp_display){
+                    item_list.add(new Menu(s.get(temp_key.get(0)),s.get(temp_key.get(1))));
+                }
+                mRecyclerView.setLayoutManager( new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, true));
+                mRecyclerView.setAdapter(new CustomAdapter(item_list));
+                mRecyclerView.addOnItemTouchListener(mScrollTouchListener);
+            }
+            else if(param_data.getId().equals("club")){
+//                ArrayList<Menu> item_list = new ArrayList<>();
+//                Set<String> clublist = new HashSet<>();
+//                for (HashMap<String,String> s: temp_display){
+//                    clublist.add(s.get(temp_key.get(0)));
+//                }
+//                for(String s:clublist){
+//                    item_list.add(new Menu(s,""));
+//                }
+//                mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+//                CustomAdapter adapter = new CustomAdapter(item_list);
+//                mRecyclerView.setAdapter(adapter);
+//                mRecyclerView.addOnItemTouchListener(mScrollTouchListener);
+                ArrayList<Menu> item_list = new ArrayList<>();
+                for (HashMap<String,String> s: temp_display){
+                    item_list.add(new Menu(s.get(temp_key.get(0)),s.get(temp_key.get(1))));
+                }
+                mRecyclerView.setLayoutManager( new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, true));
+                mRecyclerView.setAdapter(new CustomAdapter(item_list));
+                mRecyclerView.addOnItemTouchListener(mScrollTouchListener);
+            }
+            else if(param_data.getId().equals("b_hostel")){
+                ArrayList<Menu> item_list = new ArrayList<>();
+                for (HashMap<String,String> s: temp_display){
+                    item_list.add(new Menu(s.get(temp_key.get(0)),s.get(temp_key.get(1))));
+                }
+                ArrayList<Menu> temp_list = new ArrayList<>();
+                if(mCurrentLocation!=null){
+                    String floor = mCurrentLocation.split(",")[2];
+                    for(Menu m:item_list){
+                        if(m.getCol2().split("-")[1].substring(0,1).equals(floor)){
+                            temp_list.add(m);
+                        }
+                    }
+                    for (Menu m:item_list){
+                        if(!temp_list.contains(m)){
+                            temp_list.add(m);
+                        }
+                    }
+                }
+                else {
+                    temp_list=item_list;
+                }
+                mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                CustomAdapter adapter = new CustomAdapter(temp_list);
+                mRecyclerView.setAdapter(adapter);
+                mRecyclerView.addOnItemTouchListener(mScrollTouchListener);
+
+            }
+            else if(param_data.getId().equals("g_hostel")){
+                ArrayList<Menu> item_list = new ArrayList<>();
+                for (HashMap<String,String> s: temp_display){
+                    item_list.add(new Menu(s.get(temp_key.get(0)),s.get(temp_key.get(1))));
+                }
+                ArrayList<Menu> temp_list = new ArrayList<>();
+                if(mCurrentLocation!=null){
+                    String floor = mCurrentLocation.split(",")[2];
+                    for(Menu m:item_list){
+                        if(m.getCol2().split("-")[1].substring(0,1).equals(floor)){
+                            temp_list.add(m);
+                        }
+                    }
+                    for (Menu m:item_list){
+                        if(!temp_list.contains(m)){
+                            temp_list.add(m);
+                        }
+                    }
+                }
+                else {
+                    temp_list=item_list;
+                }
+                mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                CustomAdapter adapter = new CustomAdapter(temp_list);
+                mRecyclerView.setAdapter(adapter);
+                mRecyclerView.addOnItemTouchListener(mScrollTouchListener);
+
+            }
         }
     }
     private class CustomViewHolder extends RecyclerView.ViewHolder{
@@ -328,22 +419,26 @@ public class FeedFragment extends Fragment {
         }
 
     }
+
     private class CustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         private  ArrayList<Menu> mItemList;
+        private Boolean single;
         public CustomAdapter(ArrayList<Menu> mItemList){
             this.mItemList = mItemList;
         }
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            RecyclerView.ViewHolder viewholder;
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.double_list, parent, false);
-            RecyclerView.ViewHolder viewholder = new CustomViewHolder(view);
+            viewholder = new CustomViewHolder(view);
             return viewholder;
         }
 
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-            holder = (CustomViewHolder) holder;
-            ((CustomViewHolder) holder).onDataBind(mItemList.get(position));
+            if(holder instanceof CustomViewHolder) {
+                ((CustomViewHolder) holder).onDataBind(mItemList.get(position));
+            }
         }
 
         @Override
@@ -459,8 +554,9 @@ public class FeedFragment extends Fragment {
             mDescript.setText(param_data.getName());
             ArrayList<String> temp_key = param_data.getKeys();
             ArrayList<HashMap<String,String>> temp_display = param_data.getDisplay_data();
-            if(param_data.getId().equals("b_hostel")){
-                mImage.setImageDrawable(getResources().getDrawable(R.drawable.cooler));
+            if(param_data.getId().equals("water")){
+                //add drawable
+                //add Descript text
             }
 
 

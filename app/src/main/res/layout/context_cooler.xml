@@ -33,6 +33,7 @@
                 android:textAlignment="center"
                 style="@style/TextViewHeading"
                 android:layout_gravity="center_horizontal"
+                android:textSize="20dp"
                 />
 
         </LinearLayout>
