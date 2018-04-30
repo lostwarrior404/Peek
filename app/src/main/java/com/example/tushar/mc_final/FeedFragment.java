@@ -141,7 +141,7 @@ public class FeedFragment extends Fragment {
         Log.d("tmp",temp.toString());
         templist.add(parser("b_hostel","Hosteliers",R.raw.boys_hostel,2,"BH","null",1,1, (ArrayList<String>) temp.clone(),Boolean.FALSE));
 
-        visiblity = new String[] {"GH","NA"};
+        visiblity = new String[] {"GH"};
         temp.clear();
         temp.addAll(Arrays.asList(visiblity));
         Log.d("tmp",temp.toString());
@@ -218,27 +218,27 @@ public class FeedFragment extends Fragment {
         temp.clear();
         temp.addAll(Arrays.asList(visiblity));
 
-        ArrayList<String> k1 = new ArrayList<>();
-        k1.add("Library");
-        ArrayList<HashMap<String,String>> hm1 = new ArrayList<>();
-        HashMap<String,String> t1 = new HashMap<>();
-        t1.put("Link","url");
-        hm1.add(t1);
-        Data d1 = new Data(hm1,5,"LB","1","Library",4, (ArrayList<String>) temp.clone(),k1,"library",Boolean.FALSE);
-        templist.add(d1);
+//        ArrayList<String> k1 = new ArrayList<>();
+//        k1.add("Library");
+//        ArrayList<HashMap<String,String>> hm1 = new ArrayList<>();
+//        HashMap<String,String> t1 = new HashMap<>();
+//        t1.put("Link","url");
+//        hm1.add(t1);
+//        Data d1 = new Data(hm1,5,"LB","1","Library",4, (ArrayList<String>) temp.clone(),k1,"library",Boolean.FALSE);
+//        templist.add(d1);
 
         visiblity = new String[] {"BH","GH","DB","AC","LB","LC","SR","RE","NA","Unknown"};
         temp.clear();
         temp.addAll(Arrays.asList(visiblity));
 
-        ArrayList<String> k2 = new ArrayList<>();
-        k2.add("Timetable");
-        ArrayList<HashMap<String,String>> hm2 = new ArrayList<>();
-        HashMap<String,String> t2 = new HashMap<>();
-        t2.put("Link","url");
-        hm2.add(t2);
-        Data d2 = new Data(hm2,5,"SU","null","Time Table",4, (ArrayList<String>) temp.clone(),k2,"tt",Boolean.FALSE);
-        templist.add(d2);
+//        ArrayList<String> k2 = new ArrayList<>();
+//        k2.add("Timetable");
+//        ArrayList<HashMap<String,String>> hm2 = new ArrayList<>();
+//        HashMap<String,String> t2 = new HashMap<>();
+//        t2.put("Link","url");
+//        hm2.add(t2);
+//        Data d2 = new Data(hm2,5,"SU","null","Time Table",4, (ArrayList<String>) temp.clone(),k2,"tt",Boolean.FALSE);
+//        templist.add(d2);
 
         visiblity = new String[] {"AC","LC","NA"};
         temp.clear();
@@ -554,6 +554,52 @@ public class FeedFragment extends Fragment {
 
             }
             else if(param_data.getId().equals("b_hostel")){
+                ArrayList<Menu> item_list = new ArrayList<>();
+                for (HashMap<String,String> s: temp_display){
+                    item_list.add(new Menu(s.get(temp_key.get(0)),s.get(temp_key.get(1))));
+                }
+                ArrayList<Menu> temp_list = new ArrayList<>();
+                if(mCurrentLocation!=null){
+                    String floor = mCurrentLocation.split(",")[2];
+                    for(Menu m:item_list){
+                        if(m.getCol2().split("-")[1].substring(0,1).equals(floor)){
+                            temp_list.add(m);
+                        }
+                    }
+                    for (Menu m:item_list){
+                        if(!temp_list.contains(m)){
+                            temp_list.add(m);
+                        }
+                    }
+                }
+                else {
+                    temp_list=item_list;
+                }
+                mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                CustomAdapter adapter = new CustomAdapter(temp_list);
+                mRecyclerView.setAdapter(adapter);
+                mRecyclerView.addOnItemTouchListener(mScrollTouchListener);
+
+            }
+            else if(param_data.getId().equals("acad")){
+                ArrayList<Menu> item_list = new ArrayList<>();
+                for (HashMap<String,String> s: temp_display){
+                    item_list.add(new Menu(s.get(temp_key.get(0)),s.get(temp_key.get(1))+"("+s.get(temp_key.get(2)).substring(0,2)+")"));
+                }
+                mRecyclerView.setLayoutManager( new LinearLayoutManager(getActivity()));
+                mRecyclerView.setAdapter(new CustomAdapter(item_list));
+                mRecyclerView.addOnItemTouchListener(mScrollTouchListener);
+            }
+            else if(param_data.getId().equals("shop")){
+                ArrayList<Menu> item_list = new ArrayList<>();
+                for (HashMap<String,String> s: temp_display){
+                    item_list.add(new Menu(s.get(temp_key.get(0)),s.get(temp_key.get(1))));
+                }
+                mRecyclerView.setLayoutManager( new LinearLayoutManager(getActivity()));
+                mRecyclerView.setAdapter(new CustomAdapter(item_list));
+                mRecyclerView.addOnItemTouchListener(mScrollTouchListener);
+            }
+            else if(param_data.getId().equals("profs")){
                 ArrayList<Menu> item_list = new ArrayList<>();
                 for (HashMap<String,String> s: temp_display){
                     item_list.add(new Menu(s.get(temp_key.get(0)),s.get(temp_key.get(1))));
