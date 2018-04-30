@@ -18,10 +18,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingBottom="5dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:padding="5dp"
+            android:padding="10dp"
+            android:layout_margin="10dp"
             android:layout_gravity="center">
 
             <TextView
@@ -29,11 +27,8 @@
                 style="@style/TextViewHeading"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
                 android:text="CDX"
                 android:textSize="30sp"
-                android:layout_margin="5dp"
                 android:layout_gravity="center"
                 android:textAlignment="center"/>
 
@@ -43,10 +38,7 @@
                 android:id="@+id/list_menu"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                android:padding="5dp"
-                android:layout_below="@+id/heading_menu"
-                android:layout_centerInParent="true"
-                android:layout_centerHorizontal="true"
+
                 android:layout_gravity="center"/>
 
 
