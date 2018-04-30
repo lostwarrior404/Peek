@@ -157,8 +157,15 @@ public class FeedFragment extends Fragment {
         Data temp_data = parser("water", "Water Cooler on this floor.", R.raw.water, 1, "SU", "null", 1, 3, (ArrayList<String>) temp.clone(), Boolean.FALSE);
         ArrayList<HashMap<String, String>> loaded_data = temp_data.getDisplay_data();
         ArrayList<String> loaded_keys = temp_data.getKeys();
-        for(HashMap<String,String> row:loaded_data){
-
+        if(mCurrentLocation!=null){
+            for(HashMap<String,String> row:loaded_data){
+                Log.d("water",row.get(loaded_keys.get(0)).substring(1,2)+"=="+mCurrentLocation.split(",")[0]);
+                Log.d("water",row.get(loaded_keys.get(0)).substring(1,2)+"=="+mCurrentLocation.split(",")[0]);
+                if(row.get(loaded_keys.get(0)).substring(0,2).equals(mCurrentLocation.split(",")[0]) && row.get(loaded_keys.get(0)).substring(2,3).equals(mCurrentLocation.split(",")[2])){
+                    templist.add(temp_data);
+                    break;
+                }
+            }
         }
 //        templist.add();
 
