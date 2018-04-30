@@ -602,7 +602,7 @@ public class FriendFragment extends Fragment {
                 {
                     final int pos = getAdapterPosition();
                     Log.d(TAG+"AAAAA", String.valueOf(pos));
-                    mUsersRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    mUsersRef.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             String mFriendUID;

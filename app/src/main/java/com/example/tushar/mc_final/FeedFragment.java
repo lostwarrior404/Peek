@@ -1,14 +1,9 @@
 package com.example.tushar.mc_final;
 
 
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,11 +13,10 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -37,7 +31,6 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 
 
 /**
@@ -51,6 +44,7 @@ public class FeedFragment extends Fragment {
     private ArrayList<Data> mDataList;
     private ValueEventListener mloc_event_listener;
     private GridLayoutAdapter mLayoutAdapter;
+    private FirebaseAuth mAuth;
     public Data parser(String id,String name,int file,int cols,String building,String floor,int layout_type,int frag_type,ArrayList<String> visiblity,Boolean hasPhone){
         String next[] = {};
         Data data = new Data();
@@ -199,12 +193,20 @@ public class FeedFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_feed, container, false);
+        mAuth = FirebaseAuth.getInstance();
         recyclerView = (RecyclerView) view.findViewById(R.id.rvMain);
         mDataList = sort("Unknown,Unknown,Unknown",load_data());
         mLayoutAdapter = new GridLayoutAdapter(mDataList);
         final StaggeredGridLayoutManager mLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setAdapter(mLayoutAdapter);
+       /* Button logoutButton = view.findViewById(R.id.logoutButton);
+        logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Logout();
+            }
+        });*/
 
 
         FirebaseAuth temp_auth = FirebaseAuth.getInstance();
@@ -225,6 +227,19 @@ public class FeedFragment extends Fragment {
             }
         });
         return view;
+    }
+
+    public void Logout()
+    {
+
+        Intent myService = new Intent(getActivity(),MyService.class);
+        getActivity().stopService(myService);
+        mAuth.signOut();
+
+
+        Intent i = new Intent(getActivity(),Login.class);
+        startActivity(i);
+        Toast.makeText(getActivity(), "Logged out", Toast.LENGTH_SHORT).show();
     }
 
     private class GridHolder1 extends RecyclerView.ViewHolder {

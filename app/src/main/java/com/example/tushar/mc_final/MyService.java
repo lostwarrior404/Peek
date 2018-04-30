@@ -13,7 +13,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.opencsv.CSVReader;
 
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -31,6 +30,12 @@ public class MyService extends Service {
     public MyService() {
 
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
+
     public int onStartCommand (Intent intent, int flags, int startId) {
         return START_STICKY;
     }
@@ -49,10 +54,14 @@ public class MyService extends Service {
             public void run() {
                 String loc=checkLocation();
                 mAuth=mAuth.getInstance();
-                if(mAuth.getCurrentUser().getUid()!=null){
-                    usersRef = FirebaseDatabase.getInstance().getReference().child("users");
-                    usersRef.child(mAuth.getCurrentUser().getUid()).child("mUserLocation").setValue(loc);
+                if (mAuth!=null)
+                {
+                    if(mAuth.getCurrentUser().getUid()!=null){
+                        usersRef = FirebaseDatabase.getInstance().getReference().child("users");
+                        usersRef.child(mAuth.getCurrentUser().getUid()).child("mUserLocation").setValue(loc);
+                    }
                 }
+
             }
         }, 0, 1000);
 

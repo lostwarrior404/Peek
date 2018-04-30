@@ -1,11 +1,8 @@
 package com.example.tushar.mc_final;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.net.Uri;
-import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -14,7 +11,6 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -24,8 +20,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import org.apache.commons.lang3.ObjectUtils;
 
 import java.util.ArrayList;
 
@@ -38,45 +32,52 @@ public class HomeActivity extends AppCompatActivity
     private boolean isReceiverRegistered = false;
     private DatabaseReference databaseReference,usersRef;
     FragmentManager mFragment_manager = getSupportFragmentManager();
+    private BottomNavigationView bottomNavigationView;
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener;
 
 
-
-
-
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
-
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            Fragment selectedFragment = null;
-            switch (item.getItemId()) {
-                case R.id.navigation_home:
-                    //fragment1
-                    selectedFragment = new FriendFragment();
-                    mFragment_manager.beginTransaction().replace(R.id.mainframe,selectedFragment).commit();
-                    break;
-                case R.id.navigation_dashboard:
-                    //fragment2
-                    //setTitle("feed");
-                    selectedFragment = new FeedFragment();
-                    mFragment_manager.beginTransaction().replace(R.id.mainframe,selectedFragment).commit();
-                    break;
-                case R.id.navigation_notifications:
-                    //fragment3
-                    //setTitle("chat");
-                    selectedFragment = new ChatFragment();
-                    mFragment_manager.beginTransaction().replace(R.id.mainframe,selectedFragment).commit();
-                    break;
-            }
-            return true;
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+
+        bottomNavigationView = (BottomNavigationView) findViewById(R.id.navigation);
+        bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        bottomNavigationView.setSelectedItemId(R.id.navigation_dashboard);
+        mFragment_manager.beginTransaction().replace(R.id.mainframe,new FeedFragment()).commit();
+
+          bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                Fragment selectedFragment = null;
+                switch (item.getItemId()) {
+                    case R.id.navigation_home:
+                        //fragment1
+                        selectedFragment = new FriendFragment();
+                        mFragment_manager.beginTransaction().replace(R.id.mainframe,selectedFragment).commit();
+                        break;
+                    case R.id.navigation_dashboard:
+                        //fragment2
+                        //setTitle("feed");
+                        selectedFragment = new FeedFragment();
+                        mFragment_manager.beginTransaction().replace(R.id.mainframe,selectedFragment).commit();
+                        break;
+                    case R.id.navigation_notifications:
+                        //fragment3
+                        //setTitle("chat");
+                        selectedFragment = new ChatFragment();
+                        mFragment_manager.beginTransaction().replace(R.id.mainframe,selectedFragment).commit();
+                        break;
+
+
+                }
+                return true;
+            }
+        });
+
+
 
         StrictMode.setThreadPolicy(policy);
         if(checkwifistate()==false)
