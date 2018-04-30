@@ -562,7 +562,6 @@ public class FriendFragment extends Fragment {
 //                Log.d(TAG+"AAAAA", String.valueOf(mSelected));
                 if(mSelected == 1)
                 {
-
                     final int pos = getAdapterPosition();
                     Log.d(TAG+"AAAAA", String.valueOf(pos));
                     mUsersRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -611,8 +610,16 @@ public class FriendFragment extends Fragment {
                             String mFriendUID;
                             User mFriendUser = mSearchFriend.get(pos);
                             String friendEmailID = mFriendUser.getmEmail();
+                            ArrayList<String> currentFriends = (ArrayList<String>) mCurrentUser.getmFriends();
+                            ArrayList<User> templist = new ArrayList<>();
+//                            ArrayList<User> templist = new ArrayList<>();
                             for(DataSnapshot postSnapshot: dataSnapshot.getChildren())
                             {
+                                if(currentFriends != null && currentFriends.contains(postSnapshot.getValue(User.class).getmEmail()))
+                                {
+                                    User friend = postSnapshot.getValue(User.class);
+                                    templist.add(friend);
+                                }
                                 if(postSnapshot.getValue(User.class).getmEmail().equals(friendEmailID)){
                                     mFriendUser = postSnapshot.getValue(User.class);
                                     mFriendUID = postSnapshot.getKey();
@@ -620,19 +627,18 @@ public class FriendFragment extends Fragment {
                                     mFriendUser.deleteFriends(mCurrentUser.getmEmail());
                                     mUsersRef.child(mAuth.getCurrentUser().getUid()).setValue(mCurrentUser);
                                     mUsersRef.child(mFriendUID).setValue(mFriendUser);
-
-                                    // update friendlist here
-                                    // remove friend from friendlist that has friendEmailID;
                                     Log.d(TAG, String.valueOf(mSearchFriend.size()));
-                                    adapter.notifyDataSetChanged();
-
-//                                    Log.d(TAG+"AAAAA", "A");
 
                                 }
 
                             }
+                            adapter.setmList(templist);
+                            mSearchFriend = templist;
+                            adapter.notifyDataSetChanged();
+
 
                         }
+
 
                         @Override
                         public void onCancelled(DatabaseError databaseError) {
