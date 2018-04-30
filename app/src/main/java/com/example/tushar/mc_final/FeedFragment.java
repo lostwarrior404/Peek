@@ -41,7 +41,7 @@ public class FeedFragment extends Fragment {
     private ArrayList<Data> mDataList;
     private ValueEventListener mloc_event_listener;
 
-    public Data parser(String name,int file,int cols,String building,String floor,int layout_type,int frag_type,ArrayList<String> visiblity){
+    public Data parser(String id,String name,int file,int cols,String building,String floor,int layout_type,int frag_type,ArrayList<String> visiblity){
         String next[] = {};
         Data data = new Data();
         ArrayList<HashMap<String,String>> m = new ArrayList<>();
@@ -81,6 +81,7 @@ public class FeedFragment extends Fragment {
         data.setFrag_type(frag_type);
         data.setVisiblity(visiblity);
         data.setKeys(keys);
+        data.setId(id);
         return data;
     }
 
@@ -108,42 +109,42 @@ public class FeedFragment extends Fragment {
         d.setFrag_type(2);
         d.setVisiblity(temp);
         d.setKeys(k);
-        templist.add(parser("Your Location",R.raw.boys_hostel,4,"BH","null",1,3,temp));
+        templist.add(parser("location","Your Location",R.raw.boys_hostel,4,"BH","null",1,3,temp));
 
         visiblity = new String[]{"BH,GH"};
         temp.clear();
         temp.addAll(Arrays.asList(visiblity));
-        templist.add(parser("Hosteliers",R.raw.boys_hostel,4,"BH","null",1,3,temp));
+        templist.add(parser("b_hostel","Hosteliers",R.raw.boys_hostel,4,"BH","null",1,3,temp));
 
         visiblity = new String[] {"BH,GH"};
         temp.clear();
         temp.addAll(Arrays.asList(visiblity));
-        templist.add(parser("Hosteliers",R.raw.girls_hostel,4,"BH","null",1,3,temp));
+        templist.add(parser("g_hostel","Hosteliers",R.raw.girls_hostel,4,"BH","null",1,3,temp));
 
         visiblity = new String[] {"BH,GH","DB","AC","LB","LC","SR","RE","NA"};
         temp.clear();
         temp.addAll(Arrays.asList(visiblity));
-        templist.add(parser("CDX Menu",R.raw.cdx,2,"AC","0",1,1,temp));
+        templist.add(parser("cdx","CDX Menu",R.raw.cdx,2,"AC","0",1,1,temp));
 
         visiblity = new String[] {"BH,GH","DB","AC","LB","LC","SR","RE","NA"};
         temp.clear();
         temp.addAll(Arrays.asList(visiblity));
-        templist.add(parser("Chai Point Menu",R.raw.chai_point,4,"NA","0",1,1,temp));
+        templist.add(parser("chai","Chai Point Menu",R.raw.chai_point,4,"NA","0",1,1,temp));
 
         visiblity = new String[] {"BH,GH","DB","AC","LB","LC","SR","RE","NA"};
         temp.clear();
         temp.addAll(Arrays.asList(visiblity));
-        templist.add(parser("Club Coordinators",R.raw.club_coordinators,4,"DB","null",1,1,temp));
+        templist.add(parser("club","Club Coordinators",R.raw.club_coordinators,4,"DB","null",1,1,temp));
 
         visiblity = new String[] {"BH,GH","DB","AC","LB","LC","SR","RE","NA"};
         temp.clear();
         temp.addAll(Arrays.asList(visiblity));
-        templist.add(parser("Mess Menu",R.raw.mess_menu,8,"DB","2",1,1,temp));
+        templist.add(parser("mess","Mess Menu",R.raw.mess_menu,8,"DB","2",1,1,temp));
 
         visiblity = new String[] {"BH,GH","DB","AC","LB","LC","SR","RE","NA"};
         temp.clear();
         temp.addAll(Arrays.asList(visiblity));
-        templist.add(parser("Water Cooler on this floor.",R.raw.water,8,"SU","null",1,1,temp));
+        templist.add(parser("water","Water Cooler on this floor.",R.raw.water,8,"SU","null",1,1,temp));
         return templist;
     }
     public ArrayList<Data> sort(String mCurrentLocation,ArrayList<Data> mDataList){

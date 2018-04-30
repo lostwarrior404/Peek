@@ -15,6 +15,15 @@ public class Data {
     private int frag_type;
     private ArrayList<String> visiblity;
     private ArrayList<String > keys;
+    private String id;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public void setKeys(ArrayList<String> keys) {
         this.keys = keys;
