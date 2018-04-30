@@ -3,66 +3,68 @@
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:layout_margin="2.5dp">
 
-    <LinearLayout
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-
-
-        <android.support.v7.widget.CardView
-            android:id="@+id/cardView"
+        android:layout_height="match_parent"
+        android:id="@+id/cardView"
+        android:padding="5dp">
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            card_view:cardCornerRadius="0dp"
-            card_view:cardElevation="@dimen/margin10"
-            card_view:cardMaxElevation="@dimen/margin10"
-            card_view:contentPadding="@dimen/margin10">
-
-
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <Button
+                android:id="@+id/actionButton"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_gravity="right"
+                android:background="@drawable/plus"
+                android:layout_margin="7dp"
+                />
             <LinearLayout
-                android:id="@+id/relativeLayout"
+                android:id="@+id/ll"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
                 android:orientation="vertical"
-                android:layout_gravity="center"
-                android:gravity="center">
+                android:layout_gravity="center_horizontal"
+                >
+
+            <ImageView
+                android:id="@+id/placeimageView"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginTop="1dp"
+                android:layout_gravity="center_horizontal"
+                android:padding="5dp" />
+
+            <TextView
+                android:id="@+id/placetextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                style="@style/TextViewStyle"
+                android:layout_gravity="center_horizontal"
+                android:textAlignment="center"
+                android:text="TextView1" />
+
+            <TextView
+                android:id="@+id/placetextView2"
+                style="@style/TextViewStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_gravity="center_horizontal"
+                android:textAlignment="center"
+                android:text="TextView2" />
+            </LinearLayout>
+
+        </LinearLayout>
 
 
-                <ImageView
-                    android:id="@+id/placeimageView"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:padding="5dp"
-                    android:gravity="center"/>
-                    <!--android:tint="@android:color/white"-->
 
 
-                <TextView
-                    android:id="@+id/placetextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"/>
-
-                <TextView
-                    android:id="@+id/placetextView2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"/>
-
-                <ImageButton
-                    android:id="@+id/actionButton"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_gravity="right"
-                    android:background="@null"
-                    />
-
-                   </LinearLayout>
-
-               </android.support.v7.widget.CardView>
-           </LinearLayout>
-
-       </LinearLayout>
+    </android.support.v7.widget.CardView>
+</LinearLayout>
