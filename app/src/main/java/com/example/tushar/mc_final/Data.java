@@ -18,6 +18,19 @@ public class Data {
     private String id;
     private Boolean hasPhone;
 
+    public Data(ArrayList<HashMap<String, String>> display_data, int layout_type, String building, String floor, String name, int frag_type, ArrayList<String> visiblity, ArrayList<String> keys, String id, Boolean hasPhone) {
+        this.display_data = display_data;
+        this.layout_type = layout_type;
+        Building = building;
+        Floor = floor;
+        this.name = name;
+        this.frag_type = frag_type;
+        this.visiblity = visiblity;
+        this.keys = keys;
+        this.id = id;
+        this.hasPhone = hasPhone;
+    }
+
     public void setHasPhone(Boolean hasPhone) {
         this.hasPhone = hasPhone;
     }
@@ -47,7 +60,7 @@ public class Data {
     }
 
     public ArrayList<String> getVisiblity() {
-        return visiblity;
+        return this.visiblity;
     }
 
     public void setFrag_type(int frag_type) {
