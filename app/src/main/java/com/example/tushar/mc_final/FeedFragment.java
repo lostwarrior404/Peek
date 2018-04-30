@@ -244,9 +244,21 @@ public class FeedFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-            if(getItemViewType(position)==0){
+            if(getItemViewType(position)==1){
                 holder= (GridHolder1)holder;
-
+                ((GridHolder1) holder).onBind(mDataList.get(position));
+            }
+            else if(getItemViewType(position)==2){
+                holder= (GridHolder2)holder;
+                ((GridHolder2) holder).onBind(mDataList.get(position));
+            }
+            else if(getItemViewType(position)==3){
+                holder= (GridHolder3)holder;
+                ((GridHolder3) holder).onBind(mDataList.get(position));
+            }
+            else if(getItemViewType(position)==4){
+                holder= (GridHolder4)holder;
+                ((GridHolder4) holder).onBind(mDataList.get(position));
             }
         }
         @Override
