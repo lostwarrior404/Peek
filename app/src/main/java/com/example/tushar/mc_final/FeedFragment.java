@@ -301,6 +301,7 @@ public class FeedFragment extends Fragment {
             mTitle.setText(param_data.getName());
             ArrayList<String> temp_key = param_data.getKeys();
             ArrayList<HashMap<String,String>> temp_display = param_data.getDisplay_data();
+            Log.d("CDX",param_data.getId()+":"+param_data.getHasPhone().toString());
             if(param_data.getHasPhone()){
                 final String phone = temp_display.get(0).get("phone");
                 mButton.setOnClickListener(new View.OnClickListener() {
@@ -362,6 +363,33 @@ public class FeedFragment extends Fragment {
                 }
                 mRecyclerView.setLayoutManager( new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, true));
                 mRecyclerView.setAdapter(new CustomAdapter(item_list));
+                mRecyclerView.addOnItemTouchListener(mScrollTouchListener);
+            }
+            else if(param_data.getId().equals("labs")){
+                ArrayList<Menu> item_list = new ArrayList<>();
+                for (HashMap<String,String> s: temp_display){
+                    item_list.add(new Menu(s.get(temp_key.get(0)),s.get(temp_key.get(1))+" Lab"));
+                }
+                ArrayList<Menu> temp_list = new ArrayList<>();
+                if(mCurrentLocation!=null){
+                    String building = mCurrentLocation.split(",")[0];
+                    for(Menu m:item_list){
+                        Log.d("LAB",building+":"+m.getCol1().substring(0,2));
+                        if(m.getCol1().substring(0,2).equals(building)){
+                            temp_list.add(m);
+                        }
+                    }
+                    for (Menu m:item_list){
+                        if(!temp_list.contains(m)){
+                            temp_list.add(m);
+                        }
+                    }
+                }
+                else {
+                    temp_list=item_list;
+                }
+                mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                mRecyclerView.setAdapter(new CustomAdapter(temp_list));
                 mRecyclerView.addOnItemTouchListener(mScrollTouchListener);
             }
             else if(param_data.getId().equals("b_hostel")){
