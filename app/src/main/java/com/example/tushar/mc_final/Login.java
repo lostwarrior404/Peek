@@ -44,10 +44,18 @@ public class Login extends AppCompatActivity {
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                if (firebaseAuth.getCurrentUser() != null) {
 
-                    Intent intent = new Intent(Login.this, HomeActivity.class);
-                    startActivity(intent);
+                if (firebaseAuth.getCurrentUser() != null) {
+                    if(!firebaseAuth.getCurrentUser().getEmail().contains("iiitd.ac.in")){
+                        firebaseAuth.getCurrentUser().delete();
+                        Toast.makeText(Login.this,"Only IIITD accounts allowed",Toast.LENGTH_LONG).show();
+                        signOut();
+
+                    }
+                    else{
+                        Intent intent = new Intent(Login.this, HomeActivity.class);
+                        startActivity(intent);
+                    }
                 }
             }
         };
@@ -72,6 +80,15 @@ public class Login extends AppCompatActivity {
                 signIn();
             }
         });
+    }
+    private void signOut() {
+        mGoogleSignInClient.signOut()
+                .addOnCompleteListener(this, new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+
+                    }
+                });
     }
 
     private void signIn() {
@@ -102,6 +119,7 @@ public class Login extends AppCompatActivity {
         Log.d(TAG, "firebaseAuthWithGoogle:" + account.getId());
 
         AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
+
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
