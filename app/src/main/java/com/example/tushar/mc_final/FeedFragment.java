@@ -1,7 +1,9 @@
 package com.example.tushar.mc_final;
 
 
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
@@ -42,7 +44,7 @@ public class FeedFragment extends Fragment {
     private ArrayList<Data> mDataList;
     private ValueEventListener mloc_event_listener;
 
-    public Data parser(String id,String name,int file,int cols,String building,String floor,int layout_type,int frag_type,ArrayList<String> visiblity){
+    public Data parser(String id,String name,int file,int cols,String building,String floor,int layout_type,int frag_type,ArrayList<String> visiblity,Boolean hasPhone){
         String next[] = {};
         Data data = new Data();
         ArrayList<HashMap<String,String>> m = new ArrayList<>();
@@ -83,6 +85,7 @@ public class FeedFragment extends Fragment {
         data.setVisiblity(visiblity);
         data.setKeys(keys);
         data.setId(id);
+        data.setHasPhone(hasPhone);
         return data;
     }
 
@@ -117,37 +120,37 @@ public class FeedFragment extends Fragment {
         visiblity = new String[]{"BH,GH"};
         temp.clear();
         temp.addAll(Arrays.asList(visiblity));
-        templist.add(parser("b_hostel","Hosteliers",R.raw.boys_hostel,4,"BH","null",1,3,temp));
+        templist.add(parser("b_hostel","Hosteliers",R.raw.boys_hostel,4,"BH","null",1,3,temp,Boolean.FALSE));
 
         visiblity = new String[] {"BH,GH"};
         temp.clear();
         temp.addAll(Arrays.asList(visiblity));
-        templist.add(parser("g_hostel","Hosteliers",R.raw.girls_hostel,4,"BH","null",1,3,temp));
+        templist.add(parser("g_hostel","Hosteliers",R.raw.girls_hostel,4,"BH","null",1,3,temp,Boolean.FALSE));
 
-        visiblity = new String[] {"BH,GH","DB","AC","LB","LC","SR","RE","NA"};
+        visiblity = new String[] {"BH,GH","DB","AC","LB","LC","SR","RE","NA","Unknown"};
         temp.clear();
         temp.addAll(Arrays.asList(visiblity));
-        templist.add(parser("cdx","CDX Menu",R.raw.cdx,2,"AC","0",1,1,temp));
+        templist.add(parser("cdx","CDX Menu",R.raw.cdx,2,"AC","0",1,1,temp,Boolean.TRUE));
 
-        visiblity = new String[] {"BH,GH","DB","AC","LB","LC","SR","RE","NA"};
+        visiblity = new String[] {"BH,GH","DB","AC","LB","LC","SR","RE","NA","Unknown"};
         temp.clear();
         temp.addAll(Arrays.asList(visiblity));
-        templist.add(parser("chai","Chai Point Menu",R.raw.chai_point,3,"NA","0",1,1,temp));
+        templist.add(parser("chai","Chai Point Menu",R.raw.chai_point,3,"NA","0",1,1,temp,Boolean.TRUE));
 
-        visiblity = new String[] {"BH,GH","DB","AC","LB","LC","SR","RE","NA"};
+        visiblity = new String[] {"BH,GH","DB","AC","LB","LC","SR","RE","NA","Unknown"};
         temp.clear();
         temp.addAll(Arrays.asList(visiblity));
-        templist.add(parser("club","Club Coordinators",R.raw.club_coordinators,4,"DB","null",1,1,temp));
+        templist.add(parser("club","Student Clubs",R.raw.club_coordinators,4,"DB","null",1,1,temp,Boolean.FALSE));
 
-        visiblity = new String[] {"BH,GH","DB","AC","LB","LC","SR","RE","NA"};
+        visiblity = new String[] {"BH,GH","DB","AC","LB","LC","SR","RE","NA","Unknown"};
         temp.clear();
         temp.addAll(Arrays.asList(visiblity));
-        templist.add(parser("mess","Mess Menu",R.raw.mess_menu,8,"DB","2",1,1,temp));
+        templist.add(parser("mess","Mess Menu",R.raw.mess_menu,8,"DB","2",1,1,temp,Boolean.TRUE));
 
-        visiblity = new String[] {"BH,GH","DB","AC","LB","LC","SR","RE","NA"};
+        visiblity = new String[] {"BH,GH","DB","AC","LB","LC","SR","RE","NA","Unknown"};
         temp.clear();
         temp.addAll(Arrays.asList(visiblity));
-        templist.add(parser("water","Water Cooler on this floor.",R.raw.water,1,"SU","null",1,1,temp));
+        templist.add(parser("water","Water Cooler on this floor.",R.raw.water,1,"SU","null",1,1,temp,Boolean.FALSE));
         return templist;
     }
     public ArrayList<Data> sort(String mCurrentLocation,ArrayList<Data> mDataList){
@@ -155,11 +158,11 @@ public class FeedFragment extends Fragment {
         String building = arr[0];
         String floor = arr[2];
         ArrayList<Data> templist = new ArrayList<>();
-        for(int i=0;i<mDataList.size();i++){
-            if(mDataList.get(i).getBuilding().equals(building) && (mDataList.get(i).getFloor().equals(floor) || floor.equals("null"))){
-                templist.add(mDataList.get(i));
-            }
+
+        if(mDataList.get(0).getBuilding().equals("SU")){
+            templist.add(mDataList.get(0));
         }
+
         for(int i=0;i<mDataList.size();i++){
             if(mDataList.get(i).getBuilding().equals(building) && !(mDataList.get(i).getFloor().equals(floor) || floor.equals("null"))){
                 templist.add(mDataList.get(i));
@@ -225,6 +228,28 @@ public class FeedFragment extends Fragment {
             mList = (ListView)itemView.findViewById(R.id.list_menu);
         }
         public void onBind(Data param_data){
+            mTitle.setText(param_data.getName());
+            ArrayList<String> temp_key = param_data.getKeys();
+            ArrayList<HashMap<String,String>> temp_display = param_data.getDisplay_data();
+            if(param_data.getHasPhone()){
+                final String phone = temp_display.get(0).get("phone");
+                mButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(Intent.ACTION_DIAL);
+                        intent.setData(Uri.parse("tel:" + phone));
+                        startActivity(intent);
+                    }
+                });
+            }
+            else{
+                mButton.setVisibility(View.INVISIBLE);
+            }
+            if(param_data.getId().equals("cdx")){
+                for(int i=0;i<temp_display.size();i++){
+
+                }
+            }
         }
     }
     private class GridHolder2 extends RecyclerView.ViewHolder {
@@ -286,6 +311,12 @@ public class FeedFragment extends Fragment {
             mDescript = (TextView)itemView.findViewById(R.id.coolerText);
         }
         public void onBind(Data param_data){
+            mDescript.setText(param_data.getName());
+            ArrayList<String> temp_key = param_data.getKeys();
+            ArrayList<HashMap<String,String>> temp_display = param_data.getDisplay_data();
+            if(param_data.getId().equals("b_hostel")){
+                mImage.setImageDrawable(getResources().getDrawable(R.drawable.cooler));
+            }
 
         }
     }
@@ -298,6 +329,18 @@ public class FeedFragment extends Fragment {
             mText = itemView.findViewById(R.id.callText);
         }
         public void onBind(Data param_data){
+            mText.setText(param_data.getName());
+            ArrayList<String> temp_key = param_data.getKeys();
+            ArrayList<HashMap<String,String>> temp_display = param_data.getDisplay_data();
+            final String phone = temp_display.get(0).get("phone");
+            mButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(Intent.ACTION_DIAL);
+                    intent.setData(Uri.parse("tel:" + phone));
+                    startActivity(intent);
+                }
+            });
 
         }
 
