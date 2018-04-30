@@ -5,44 +5,47 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.example.tushar.mc_final.FriendFragment">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+   <RelativeLayout
+       android:layout_width="match_parent"
+       android:layout_height="match_parent">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+       <Button
+           android:id="@+id/accept_friend"
+           android:layout_width="25dp"
+           android:layout_height="25dp"
+           android:layout_alignParentStart="true"
+           android:layout_alignParentTop="true"
+           android:layout_marginStart="34dp"
+           android:layout_marginTop="18dp"
+           android:background="@drawable/tick_black" />
 
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:id="@+id/accept_friend"
-                android:text="@string/accept_friend"/>
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:id="@+id/search_friend"
-                android:text="@string/search_friend"/>
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:id="@+id/send_friend"
-                android:text="@string/send_friend"/>
-        </LinearLayout>
+       <Button
+           android:id="@+id/search_friend"
+           android:layout_width="25dp"
+           android:layout_height="25dp"
+           android:layout_alignTop="@+id/accept_friend"
+           android:layout_centerHorizontal="true"
+           android:background="@drawable/search" />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbars="vertical"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+       <Button
+           android:id="@+id/send_friend"
+           android:layout_width="25dp"
+           android:layout_height="25dp"
+           android:layout_alignParentEnd="true"
+           android:layout_alignTop="@+id/search_friend"
+           android:layout_marginEnd="30dp"
+           android:background="@drawable/plus_black"
+            />
 
-    </LinearLayout>
+       <android.support.v7.widget.RecyclerView
+           android:layout_width="match_parent"
+           android:id="@+id/recyclerView"
+           android:layout_height="match_parent"
+           android:layout_below="@+id/accept_friend"
+           android:layout_marginTop="30dp" />
+
+
+   </RelativeLayout>
 
 
 </FrameLayout>

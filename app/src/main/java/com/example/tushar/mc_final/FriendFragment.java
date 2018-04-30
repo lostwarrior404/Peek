@@ -1,43 +1,30 @@
  package com.example.tushar.mc_final;
 
 
-import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.LinearGradient;
-import android.media.Image;
 import android.net.Uri;
-import android.net.wifi.WifiInfo;
-import android.net.wifi.WifiManager;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.GridLayout;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.opencsv.CSVReader;
 
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -63,6 +50,7 @@ public class FriendFragment extends Fragment {
     private ArrayList<User> mAcceptFriend;
     private ArrayList<User> mSearchFriend;
     private ArrayList<User> mSendFriend;
+    private Button Accept_friend,Search_friend,Send_friend;
 
     private Integer mSelected;
 
@@ -96,7 +84,7 @@ public class FriendFragment extends Fragment {
          mUsersRef = mDatabaseReference.child("users");
          getcurrentUser();
 
-        Button Accept_friend = (Button) view.findViewById(R.id.accept_friend);
+        Accept_friend = (Button) view.findViewById(R.id.accept_friend);
         Accept_friend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -109,11 +97,15 @@ public class FriendFragment extends Fragment {
                 mUsersRef = mDatabaseReference.child("users");
                 getcurrentUser();
                 getCurrentReceivedRequests();
+                Accept_friend.setBackgroundResource(R.drawable.tick);
+                Search_friend.setBackgroundResource(R.drawable.search);
+                Send_friend.setBackgroundResource(R.drawable.plus_black);
+
 
             }
         });
 
-        Button Search_friend = (Button) view.findViewById(R.id.search_friend);
+        Search_friend = (Button) view.findViewById(R.id.search_friend);
         Search_friend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -126,10 +118,13 @@ public class FriendFragment extends Fragment {
                 mUsersRef = mDatabaseReference.child("users");
                 getcurrentUser();
                 getCurrentFriends();
+                Search_friend.setBackgroundResource(R.drawable.search_blue);
+                Send_friend.setBackgroundResource(R.drawable.plus_black);
+                Accept_friend.setBackgroundResource(R.drawable.tick_black);
             }
         });
 
-        Button Send_friend = (Button) view.findViewById(R.id.send_friend);
+        Send_friend = (Button) view.findViewById(R.id.send_friend);
         Send_friend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -143,6 +138,9 @@ public class FriendFragment extends Fragment {
                 getcurrentUser();
                 getCurrentSentRequests();
                 getPossibleFriends();
+                Send_friend.setBackgroundResource(R.drawable.plus);
+                Accept_friend.setBackgroundResource(R.drawable.tick_black);
+                Search_friend.setBackgroundResource(R.drawable.search);
             }
         });
 
@@ -446,20 +444,77 @@ public class FriendFragment extends Fragment {
         public void onBindViewHolder(MyViewHolder holder, int position) {
             if(mSelected == 1)
             {
-                holder.actionButton.setImageResource(R.drawable.ic_done_black_36dp);
+                holder.actionButton.setBackgroundResource(R.drawable.tick);
                 holder.textView.setText(mList.get(position).getmName());
                 holder.textView2.setText(mList.get(position).getmEmail());
             }
             else if(mSelected == 2)
             {
-                holder.actionButton.setImageResource(R.drawable.ic_block_black_36dp);
+                holder.actionButton.setBackgroundResource(R.drawable.delete);
                 holder.textView.setText(mList.get(position).getmName());
-                holder.textView2.setText(mList.get(position).getmUserLocation());
+                if(!mCurrentUser.ismPrivFlag())
+                    holder.textView2.setText("User Location is off");
+                else
+                {
+                    if(mList.get(position).ismPrivFlag()) {
+                        String[] split_loc = mCurrentUser.getmUserLocation().split(",");
+//                        mBody.setText(split_loc[1]);
+                        String[] numNames = {
+                                "Ground",
+                                "1st",
+                                "2nd",
+                                "3rd",
+                                "4th",
+                                "5th",
+                                "6th",
+                                "7th",
+                                "8th",
+                                "9th",
+                                "10th"
+                        };
+                        String footer = new String();
+                        if(!split_loc[2].equals("Unknown")){
+                            footer=numNames[Integer.parseInt(split_loc[2])]+" Floor"+"\n";
+                        }else{
+                            footer="Unknown"+"\n";
+                        }
+
+                        if(split_loc[0].equals("BH")){
+                            footer+="Boys Hostel";
+                        }
+                        else if(split_loc[0].equals("DB")){
+                            footer+="Student Centre";
+                        }
+                        else if(split_loc[0].equals("AC")||split_loc.equals("LC")){
+                            footer+="Old Academic Building";
+                        }
+                        else if(split_loc[0].equals("LB")){
+                            footer+="Library Building";
+                        }
+                        else if(split_loc[0].equals("SR")){
+                            footer+="Service Block";
+                        }
+                        else if(split_loc[0].equals("RE")){
+                            footer+="Faculty Residence";
+                        }
+                        else if(split_loc[0].equals("GH")){
+                            footer+="Girls Hostel";
+                        }
+                        else if(split_loc[0].equals("NA")){
+                            footer+="New Academic Building";
+                        }
+//                        mFooter.setText(footer);
+                        holder.textView2.setText(split_loc[1] + "\n" + footer);
+//                        holder.textView2.setText(mList.get(position).getmUserLocation());
+                    }
+                    else
+                        holder.textView2.setText("Friend Location is off");
+                }
 
             }
             else if(mSelected == 3)
             {
-                holder.actionButton.setImageResource(R.drawable.ic_add_black_36dp);
+                holder.actionButton.setBackgroundResource(R.drawable.plus);
                 holder.textView.setText(mList.get(position).getmName());
                 holder.textView2.setText(mList.get(position).getmEmail());
             }
@@ -484,7 +539,7 @@ public class FriendFragment extends Fragment {
         public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
             public ImageView imageView;
-            public ImageButton actionButton;
+            public Button actionButton;
             public TextView textView;
             public TextView textView2;
             placeHolderData content;
@@ -492,7 +547,7 @@ public class FriendFragment extends Fragment {
             public MyViewHolder(View itemView) {
                 super(itemView);
 
-                actionButton = (ImageButton) itemView.findViewById(R.id.actionButton);
+                actionButton = (Button) itemView.findViewById(R.id.actionButton);
                 actionButton.setOnClickListener(this);
                 textView = (TextView) itemView.findViewById(R.id.placetextView);
                 textView2 = (TextView) itemView.findViewById(R.id.placetextView2);
@@ -505,7 +560,6 @@ public class FriendFragment extends Fragment {
 //                Log.d(TAG+"AAAAA", String.valueOf(mSelected));
                 if(mSelected == 1)
                 {
-
                     final int pos = getAdapterPosition();
                     Log.d(TAG+"AAAAA", String.valueOf(pos));
                     mUsersRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -554,8 +608,16 @@ public class FriendFragment extends Fragment {
                             String mFriendUID;
                             User mFriendUser = mSearchFriend.get(pos);
                             String friendEmailID = mFriendUser.getmEmail();
+                            ArrayList<String> currentFriends = (ArrayList<String>) mCurrentUser.getmFriends();
+                            ArrayList<User> templist = new ArrayList<>();
+//                            ArrayList<User> templist = new ArrayList<>();
                             for(DataSnapshot postSnapshot: dataSnapshot.getChildren())
                             {
+                                if(currentFriends != null && currentFriends.contains(postSnapshot.getValue(User.class).getmEmail()))
+                                {
+                                    User friend = postSnapshot.getValue(User.class);
+                                    templist.add(friend);
+                                }
                                 if(postSnapshot.getValue(User.class).getmEmail().equals(friendEmailID)){
                                     mFriendUser = postSnapshot.getValue(User.class);
                                     mFriendUID = postSnapshot.getKey();
@@ -563,19 +625,18 @@ public class FriendFragment extends Fragment {
                                     mFriendUser.deleteFriends(mCurrentUser.getmEmail());
                                     mUsersRef.child(mAuth.getCurrentUser().getUid()).setValue(mCurrentUser);
                                     mUsersRef.child(mFriendUID).setValue(mFriendUser);
-
-                                    // update friendlist here
-                                    // remove friend from friendlist that has friendEmailID;
                                     Log.d(TAG, String.valueOf(mSearchFriend.size()));
-                                    adapter.notifyDataSetChanged();
-
-//                                    Log.d(TAG+"AAAAA", "A");
 
                                 }
 
                             }
+                            adapter.setmList(templist);
+                            mSearchFriend = templist;
+                            adapter.notifyDataSetChanged();
+
 
                         }
+
 
                         @Override
                         public void onCancelled(DatabaseError databaseError) {
