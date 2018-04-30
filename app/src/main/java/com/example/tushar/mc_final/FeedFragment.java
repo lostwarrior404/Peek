@@ -186,8 +186,48 @@ public class FeedFragment extends Fragment {
         visiblity = new String[] {"BH","GH"};
         temp.clear();
         temp.addAll(Arrays.asList(visiblity));
-        templist.add(parser("laundry","Laundry",R.raw.laundry,1,"SU","null",1,4, (ArrayList<String>) temp.clone(),Boolean.TRUE));
+        templist.add(parser("laundry","Laundry",R.raw.laundry,1,"BH","null",1,4, (ArrayList<String>) temp.clone(),Boolean.TRUE));
 
+        visiblity = new String[] {"AC","LC","NA"};
+        temp.clear();
+        temp.addAll(Arrays.asList(visiblity));
+        templist.add(parser("profs","Professors",R.raw.prof,2,"NA","null",1,1, (ArrayList<String>) temp.clone(),Boolean.FALSE));
+
+        visiblity = new String[] {"BH","GH","DB","AC","LB","LC","SR","RE","NA","Unknown"};
+        temp.clear();
+        temp.addAll(Arrays.asList(visiblity));
+        templist.add(parser("shop","Shop",R.raw.shop,3,"DB","0",1,1, (ArrayList<String>) temp.clone(),Boolean.TRUE));
+
+        visiblity = new String[] {"BH","GH","DB","AC","LB","LC","SR","RE","NA","Unknown"};
+        temp.clear();
+        temp.addAll(Arrays.asList(visiblity));
+
+        ArrayList<String> k1 = new ArrayList<>();
+        k1.add("Library");
+        ArrayList<HashMap<String,String>> hm1 = new ArrayList<>();
+        HashMap<String,String> t1 = new HashMap<>();
+        t1.put("Link","url");
+        hm1.add(t1);
+        Data d1 = new Data(hm1,5,"LB","1","Library",4, (ArrayList<String>) temp.clone(),k1,"library",Boolean.FALSE);
+        templist.add(d1);
+
+        visiblity = new String[] {"BH","GH","DB","AC","LB","LC","SR","RE","NA","Unknown"};
+        temp.clear();
+        temp.addAll(Arrays.asList(visiblity));
+
+        ArrayList<String> k2 = new ArrayList<>();
+        k2.add("Timetable");
+        ArrayList<HashMap<String,String>> hm2 = new ArrayList<>();
+        HashMap<String,String> t2 = new HashMap<>();
+        t2.put("Link","url");
+        hm2.add(t2);
+        Data d2 = new Data(hm2,5,"SU","null","Time Table",4, (ArrayList<String>) temp.clone(),k2,"tt",Boolean.FALSE);
+        templist.add(d2);
+
+        visiblity = new String[] {"AC","LC","NA"};
+        temp.clear();
+        temp.addAll(Arrays.asList(visiblity));
+        templist.add(parser("acad","Management",R.raw.administration,3,"AC","null",1,1, (ArrayList<String>) temp.clone(),Boolean.FALSE));
 
         return templist;
     }
