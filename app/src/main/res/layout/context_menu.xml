@@ -54,7 +54,8 @@
                 android:layout_height="200dp"
                 android:layout_below="@+id/heading_menu"
                 android:layout_centerInParent="true"
-                android:layout_centerHorizontal="true" />
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"/>
 
 
 

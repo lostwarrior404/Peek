@@ -37,7 +37,9 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -297,6 +299,29 @@ public class FeedFragment extends Fragment {
                 mRecyclerView.setAdapter(new CustomAdapter(item_list));
                 mRecyclerView.addOnItemTouchListener(mScrollTouchListener);
             }
+            else if(param_data.getId().equals("chai")){
+                ArrayList<Menu> item_list = new ArrayList<>();
+                for (HashMap<String,String> s: temp_display){
+                    item_list.add(new Menu(s.get(temp_key.get(0)),s.get(temp_key.get(1))));
+                }
+                mRecyclerView.setLayoutManager( new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, true));
+                mRecyclerView.setAdapter(new CustomAdapter(item_list));
+                mRecyclerView.addOnItemTouchListener(mScrollTouchListener);
+            }
+            else if(param_data.getId().equals("club")){
+                ArrayList<Menu> item_list = new ArrayList<>();
+                Set<String> clublist = new HashSet<>();
+                for (HashMap<String,String> s: temp_display){
+                    clublist.add(s.get(temp_key.get(0)));
+                }
+                for(String s:clublist){
+                    item_list.add(new Menu(s,""));
+                }
+                mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                CustomAdapter adapter = new CustomAdapter(item_list);
+                mRecyclerView.setAdapter(adapter);
+                mRecyclerView.addOnItemTouchListener(mScrollTouchListener);
+            }
         }
     }
     private class CustomViewHolder extends RecyclerView.ViewHolder{
@@ -313,22 +338,26 @@ public class FeedFragment extends Fragment {
         }
 
     }
+
     private class CustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         private  ArrayList<Menu> mItemList;
+        private Boolean single;
         public CustomAdapter(ArrayList<Menu> mItemList){
             this.mItemList = mItemList;
         }
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            RecyclerView.ViewHolder viewholder;
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.double_list, parent, false);
-            RecyclerView.ViewHolder viewholder = new CustomViewHolder(view);
+            viewholder = new CustomViewHolder(view);
             return viewholder;
         }
 
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-            holder = (CustomViewHolder) holder;
-            ((CustomViewHolder) holder).onDataBind(mItemList.get(position));
+            if(holder instanceof CustomViewHolder) {
+                ((CustomViewHolder) holder).onDataBind(mItemList.get(position));
+            }
         }
 
         @Override
