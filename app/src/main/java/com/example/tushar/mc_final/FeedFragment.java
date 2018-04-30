@@ -278,7 +278,26 @@ public class FeedFragment extends Fragment {
                 }
                 String[] split_loc = mlocation.split(",");
                 mBody.setText(split_loc[1]);
-                String footer="Floor:"+split_loc[2]+"\n";
+                String[] numNames = {
+                        "Ground",
+                        "1st",
+                        "2nd",
+                        "3rd",
+                        "4th",
+                        "5th",
+                        "6th",
+                        "7th",
+                        "8th",
+                        "9th",
+                        "10th"
+                };
+                String footer = new String();
+                if(!split_loc[2].equals("Unknown")){
+                     footer=numNames[Integer.parseInt(split_loc[2])]+" Floor"+"\n";
+                }else{
+                    footer="Unknown"+"\n";
+                }
+
                 if(split_loc[0].equals("BH")){
                     footer+="Boys Hostel";
                 }
