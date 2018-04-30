@@ -7,6 +7,7 @@ import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -131,7 +132,7 @@ public class FeedFragment extends Fragment {
         visiblity = new String[] {"BH,GH","DB","AC","LB","LC","SR","RE","NA"};
         temp.clear();
         temp.addAll(Arrays.asList(visiblity));
-        templist.add(parser("chai","Chai Point Menu",R.raw.chai_point,4,"NA","0",1,1,temp));
+        templist.add(parser("chai","Chai Point Menu",R.raw.chai_point,3,"NA","0",1,1,temp));
 
         visiblity = new String[] {"BH,GH","DB","AC","LB","LC","SR","RE","NA"};
         temp.clear();
@@ -146,7 +147,7 @@ public class FeedFragment extends Fragment {
         visiblity = new String[] {"BH,GH","DB","AC","LB","LC","SR","RE","NA"};
         temp.clear();
         temp.addAll(Arrays.asList(visiblity));
-        templist.add(parser("water","Water Cooler on this floor.",R.raw.water,8,"SU","null",1,1,temp));
+        templist.add(parser("water","Water Cooler on this floor.",R.raw.water,1,"SU","null",1,1,temp));
         return templist;
     }
     public ArrayList<Data> sort(String mCurrentLocation,ArrayList<Data> mDataList){
@@ -246,6 +247,32 @@ public class FeedFragment extends Fragment {
                 String mlocation = data.get(temp_key.get(0));
                 String[] split_loc = mlocation.split(",");
                 mBody.setText(split_loc[1]);
+                String footer="Floor:"+split_loc[2]+"\n";
+                if(split_loc[0].equals("BH")){
+                    footer+="Boys Hostel";
+                }
+                else if(split_loc[0].equals("DB")){
+                    footer+="Student Centre";
+                }
+                else if(split_loc[0].equals("AC")||split_loc.equals("LC")){
+                    footer+="Old Academic Building";
+                }
+                else if(split_loc[0].equals("LB")){
+                    footer+="Library Building";
+                }
+                else if(split_loc[0].equals("SR")){
+                    footer+="Service Block";
+                }
+                else if(split_loc[0].equals("RE")){
+                    footer+="Faculty Residence";
+                }
+                else if(split_loc[0].equals("GH")){
+                    footer+="Girls Hostel";
+                }
+                else if(split_loc[0].equals("NA")){
+                    footer+="New Academic Building";
+                }
+                mFooter.setText(footer);
             }
 
         }
@@ -276,7 +303,6 @@ public class FeedFragment extends Fragment {
 
     }
     private class GridLayoutAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-        private int[] test = new int[] {0,1,1,0,1};
         private ArrayList<Data> mDataList;
         public GridLayoutAdapter(ArrayList<Data> mDataList) {
             this.mDataList=mDataList;
@@ -284,6 +310,7 @@ public class FeedFragment extends Fragment {
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             RecyclerView.ViewHolder viewHolder=null;
+            Log.d("FRAG",""+viewType);
             if(viewType==1){
                 View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.context_menu, parent, false);
                 viewHolder = new GridHolder1(view);
@@ -331,7 +358,7 @@ public class FeedFragment extends Fragment {
 
         @Override
         public int getItemCount() {
-            return 5;
+            return mDataList.size();
         }
     }
 
