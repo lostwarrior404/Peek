@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -80,6 +81,8 @@ public class FriendFragment extends Fragment {
         allPeople = new ArrayList<>();
         allPeopleUser = new ArrayList<>();
         // get arraylists here
+
+
 
          mDatabaseReference = FirebaseDatabase.getInstance().getReference();
          mUsersRef = mDatabaseReference.child("users");
@@ -150,9 +153,6 @@ public class FriendFragment extends Fragment {
                 Search_friend.setBackgroundResource(R.drawable.search);
             }
         });
-
-
-
 
 
 
