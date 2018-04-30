@@ -16,6 +16,15 @@ public class Data {
     private ArrayList<String> visiblity;
     private ArrayList<String > keys;
     private String id;
+    private Boolean hasPhone;
+
+    public void setHasPhone(Boolean hasPhone) {
+        this.hasPhone = hasPhone;
+    }
+
+    public Boolean getHasPhone() {
+        return hasPhone;
+    }
 
     public String getId() {
         return id;
