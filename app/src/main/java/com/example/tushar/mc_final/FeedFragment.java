@@ -150,12 +150,12 @@ public class FeedFragment extends Fragment {
         visiblity = new String[] {"BH","GH","DB","AC","LB","LC","SR","RE","NA","Unknown"};
         temp.clear();
         temp.addAll(Arrays.asList(visiblity));
-        templist.add(parser("cdx","CDX Menu",R.raw.cdx,3,"AC","0",1,1, (ArrayList<String>) temp.clone(),Boolean.TRUE));
+        templist.add(parser("cdx","CDX",R.raw.cdx,3,"AC","0",1,1, (ArrayList<String>) temp.clone(),Boolean.TRUE));
 
         visiblity = new String[] {"BH","GH","DB","AC","LB","LC","SR","RE","NA","Unknown"};
         temp.clear();
         temp.addAll(Arrays.asList(visiblity));
-        templist.add(parser("chai","Chai Point Menu",R.raw.chai_point,3,"NA","0",1,1, (ArrayList<String>) temp.clone(),Boolean.TRUE));
+        templist.add(parser("chai","Chai Point",R.raw.chai_point,3,"NA","0",1,1, (ArrayList<String>) temp.clone(),Boolean.TRUE));
 
         visiblity = new String[] {"BH","GH","DB","AC","LB","LC","SR","RE","NA","Unknown"};
         temp.clear();
@@ -436,15 +436,6 @@ public class FeedFragment extends Fragment {
                 mRecyclerView.setAdapter(new CustomAdapter(item_list));
                 mRecyclerView.addOnItemTouchListener(mScrollTouchListener);
 
-            }
-            else if(param_data.getId().equals("chai")){
-                ArrayList<Menu> item_list = new ArrayList<>();
-                for (HashMap<String,String> s: temp_display){
-                    item_list.add(new Menu(s.get(temp_key.get(0)),s.get(temp_key.get(1))));
-                }
-                mRecyclerView.setLayoutManager( new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, true));
-                mRecyclerView.setAdapter(new CustomAdapter(item_list));
-                mRecyclerView.addOnItemTouchListener(mScrollTouchListener);
             }
             else if(param_data.getId().equals("chai")){
                 ArrayList<Menu> item_list = new ArrayList<>();

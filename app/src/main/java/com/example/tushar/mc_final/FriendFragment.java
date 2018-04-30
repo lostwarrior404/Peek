@@ -85,9 +85,12 @@ public class FriendFragment extends Fragment {
          mUsersRef = mDatabaseReference.child("users");
          getcurrentUser();
 
-        Accept_friend = (Button) view.findViewById(R.id.accept_friend);
+         Accept_friend = (Button) view.findViewById(R.id.accept_friend);
          Search_friend = (Button) view.findViewById(R.id.search_friend);
          Send_friend = (Button) view.findViewById(R.id.send_friend);
+         TextView tv1 = (TextView) view.findViewById(R.id.textView) ;
+         TextView tv2 = (TextView) view.findViewById(R.id.textView2) ;
+         TextView tv3 = (TextView) view.findViewById(R.id.textView3) ;
 
 
          Accept_friend.setOnClickListener(new View.OnClickListener() {
@@ -109,6 +112,25 @@ public class FriendFragment extends Fragment {
 
             }
         });
+         tv1.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View view) {
+                 mSelected = 1;
+                 manager = new GridLayoutManager(getActivity().getApplicationContext(), 3, GridLayoutManager.VERTICAL, false);
+                 mRecyclerView.setLayoutManager(manager);
+                 adapter = new recycler_adapter(mAcceptFriend);
+                 mRecyclerView.setAdapter(adapter);
+                 mDatabaseReference = FirebaseDatabase.getInstance().getReference();
+                 mUsersRef = mDatabaseReference.child("users");
+                 getcurrentUser();
+                 getCurrentReceivedRequests();
+                 Accept_friend.setBackgroundResource(R.drawable.tick);
+                 Search_friend.setBackgroundResource(R.drawable.search);
+                 Send_friend.setBackgroundResource(R.drawable.plus_black);
+
+
+             }
+         });
 
 
          Search_friend.setOnClickListener(new View.OnClickListener() {
@@ -128,6 +150,24 @@ public class FriendFragment extends Fragment {
                 Accept_friend.setBackgroundResource(R.drawable.tick_black);
             }
         });
+
+         tv2.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View view) {
+                 mSelected = 2;
+                 manager = new GridLayoutManager(getActivity().getApplicationContext(), 3, GridLayoutManager.VERTICAL, false);
+                 mRecyclerView.setLayoutManager(manager);
+                 adapter = new recycler_adapter(mSearchFriend);
+                 mRecyclerView.setAdapter(adapter);
+                 mDatabaseReference = FirebaseDatabase.getInstance().getReference();
+                 mUsersRef = mDatabaseReference.child("users");
+                 getcurrentUser();
+                 getCurrentFriends();
+                 Search_friend.setBackgroundResource(R.drawable.search_blue);
+                 Send_friend.setBackgroundResource(R.drawable.plus_black);
+                 Accept_friend.setBackgroundResource(R.drawable.tick_black);
+             }
+         });
 
          Search_friend.callOnClick();
 
@@ -150,6 +190,25 @@ public class FriendFragment extends Fragment {
                 Search_friend.setBackgroundResource(R.drawable.search);
             }
         });
+
+         tv3.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View view) {
+                 mSelected = 3;
+                 manager = new GridLayoutManager(getActivity().getApplicationContext(), 3, GridLayoutManager.VERTICAL, false);
+                 mRecyclerView.setLayoutManager(manager);
+                 adapter = new recycler_adapter(allPeopleUser);
+                 mRecyclerView.setAdapter(adapter);
+                 mDatabaseReference = FirebaseDatabase.getInstance().getReference();
+                 mUsersRef = mDatabaseReference.child("users");
+                 getcurrentUser();
+                 getCurrentSentRequests();
+                 getPossibleFriends();
+                 Send_friend.setBackgroundResource(R.drawable.plus);
+                 Accept_friend.setBackgroundResource(R.drawable.tick_black);
+                 Search_friend.setBackgroundResource(R.drawable.search);
+             }
+         });
 
 
 
