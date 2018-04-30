@@ -304,14 +304,22 @@ public class ChatFragment extends Fragment {
                         }
                         Log.d("MCD", "onDataChange: "+currentLocation+","+locationToSee);
 
-                        if (currentLocation.equals(locationToSee))
-                        {
-                            enableInput();
-                        }
-                        else
+                        if (currentUser.ismPrivFlag())
                         {
                             disableInput();
                         }
+                        else
+                        {
+                            if (currentLocation.equals(locationToSee))
+                            {
+                                enableInput();
+                            }
+                            else
+                            {
+                                disableInput();
+                            }
+                        }
+
 
                         if (isStart==true)
                         {
