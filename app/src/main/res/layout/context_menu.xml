@@ -38,13 +38,7 @@
                 android:layout_gravity="center"
                 android:textAlignment="center"/>
 
-            <Button
-                android:id="@+id/phone_button"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:background="@drawable/phone"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"/>
+
 </RelativeLayout>
 
 
