@@ -415,7 +415,9 @@ public class FeedFragment extends Fragment {
             ArrayList<String> temp_key = param_data.getKeys();
             ArrayList<HashMap<String,String>> temp_display = param_data.getDisplay_data();
             Log.d("CDX",param_data.getId()+":"+param_data.getHasPhone().toString());
+            Log.d("phone",param_data.getHasPhone()+param_data.getId());
             if(param_data.getHasPhone()){
+                mButton.setVisibility(View.VISIBLE);
                 final String phone = temp_display.get(0).get("phone");
                 mButton.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -426,15 +428,15 @@ public class FeedFragment extends Fragment {
                     }
                 });
             }
-            else{
-                mButton.setVisibility(View.INVISIBLE);
-            }
+//            else{
+//                mButton.setVisibility(View.INVISIBLE);
+//            }
             if(param_data.getId().equals("cdx")){
                 ArrayList<Menu> item_list = new ArrayList<>();
                 for (HashMap<String,String> s: temp_display){
                     item_list.add(new Menu(s.get(temp_key.get(0)),s.get(temp_key.get(1))));
                 }
-                mRecyclerView.setLayoutManager( new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, true));
+                mRecyclerView.setLayoutManager( new LinearLayoutManager(getActivity()));
                 mRecyclerView.setAdapter(new CustomAdapter(item_list));
                 mRecyclerView.addOnItemTouchListener(mScrollTouchListener);
 
@@ -449,23 +451,11 @@ public class FeedFragment extends Fragment {
                 mRecyclerView.addOnItemTouchListener(mScrollTouchListener);
             }
             else if(param_data.getId().equals("club")){
-//                ArrayList<Menu> item_list = new ArrayList<>();
-//                Set<String> clublist = new HashSet<>();
-//                for (HashMap<String,String> s: temp_display){
-//                    clublist.add(s.get(temp_key.get(0)));
-//                }
-//                for(String s:clublist){
-//                    item_list.add(new Menu(s,""));
-//                }
-//                mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-//                CustomAdapter adapter = new CustomAdapter(item_list);
-//                mRecyclerView.setAdapter(adapter);
-//                mRecyclerView.addOnItemTouchListener(mScrollTouchListener);
                 ArrayList<Menu> item_list = new ArrayList<>();
                 for (HashMap<String,String> s: temp_display){
                     item_list.add(new Menu(s.get(temp_key.get(0)),s.get(temp_key.get(1))));
                 }
-                mRecyclerView.setLayoutManager( new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, true));
+                mRecyclerView.setLayoutManager( new LinearLayoutManager(getActivity()));
                 mRecyclerView.setAdapter(new CustomAdapter(item_list));
                 mRecyclerView.addOnItemTouchListener(mScrollTouchListener);
             }

@@ -37,7 +37,9 @@
                 android:text="Accept"
                 android:layout_gravity="center"
                 android:textAlignment="center"
-                style="@style/TextViewStyle"
+                style="@style/TextViewStyle2"
+                android:visibility="invisible"
+
                 />
         </LinearLayout>
        <LinearLayout
@@ -62,7 +64,9 @@
                android:text="Find"
                android:layout_gravity="center"
                android:textAlignment="center"
-               style="@style/TextViewStyle"
+               style="@style/TextViewStyle2"
+               android:visibility="invisible"
+
                />
        </LinearLayout>
        <LinearLayout
@@ -88,7 +92,8 @@
                android:text="Invite"
                android:layout_gravity="center"
                android:textAlignment="center"
-               style="@style/TextViewStyle"
+               style="@style/TextViewStyle2"
+               android:visibility="invisible"
                />
        </LinearLayout>
 

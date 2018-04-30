@@ -53,7 +53,9 @@ public class FriendFragment extends Fragment {
     private ArrayList<User> mSearchFriend;
     private ArrayList<User> mSendFriend;
     private Button Accept_friend,Search_friend,Send_friend;
-
+    private TextView tv1;
+     private TextView tv2;
+     private TextView tv3;
     private Integer mSelected;
 
     public FriendFragment() {
@@ -91,15 +93,18 @@ public class FriendFragment extends Fragment {
          Accept_friend = (Button) view.findViewById(R.id.accept_friend);
          Search_friend = (Button) view.findViewById(R.id.search_friend);
          Send_friend = (Button) view.findViewById(R.id.send_friend);
-         TextView tv1 = (TextView) view.findViewById(R.id.textView) ;
-         TextView tv2 = (TextView) view.findViewById(R.id.textView2) ;
-         TextView tv3 = (TextView) view.findViewById(R.id.textView3) ;
+         tv1 = (TextView) view.findViewById(R.id.textView) ;
+         tv2 = (TextView) view.findViewById(R.id.textView2) ;
+         tv3 = (TextView) view.findViewById(R.id.textView3) ;
 
 
          Accept_friend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mSelected = 1;
+                tv2.setVisibility(View.INVISIBLE);
+                tv1.setVisibility(View.VISIBLE);
+                tv3.setVisibility(View.INVISIBLE);
                 manager = new GridLayoutManager(getActivity().getApplicationContext(), 3, GridLayoutManager.VERTICAL, false);
                 mRecyclerView.setLayoutManager(manager);
                 adapter = new recycler_adapter(mAcceptFriend);
@@ -119,6 +124,9 @@ public class FriendFragment extends Fragment {
              @Override
              public void onClick(View view) {
                  mSelected = 1;
+                 tv2.setVisibility(View.INVISIBLE);
+                 tv1.setVisibility(View.VISIBLE);
+                 tv3.setVisibility(View.INVISIBLE);
                  manager = new GridLayoutManager(getActivity().getApplicationContext(), 3, GridLayoutManager.VERTICAL, false);
                  mRecyclerView.setLayoutManager(manager);
                  adapter = new recycler_adapter(mAcceptFriend);
@@ -140,6 +148,9 @@ public class FriendFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 mSelected = 2;
+                tv1.setVisibility(View.INVISIBLE);
+                tv2.setVisibility(View.VISIBLE);
+                tv3.setVisibility(View.INVISIBLE);
                 manager = new GridLayoutManager(getActivity().getApplicationContext(), 3, GridLayoutManager.VERTICAL, false);
                 mRecyclerView.setLayoutManager(manager);
                 adapter = new recycler_adapter(mSearchFriend);
@@ -158,6 +169,9 @@ public class FriendFragment extends Fragment {
              @Override
              public void onClick(View view) {
                  mSelected = 2;
+                 tv1.setVisibility(View.INVISIBLE);
+                 tv2.setVisibility(View.VISIBLE);
+                 tv3.setVisibility(View.INVISIBLE);
                  manager = new GridLayoutManager(getActivity().getApplicationContext(), 3, GridLayoutManager.VERTICAL, false);
                  mRecyclerView.setLayoutManager(manager);
                  adapter = new recycler_adapter(mSearchFriend);
@@ -179,6 +193,9 @@ public class FriendFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 mSelected = 3;
+                tv1.setVisibility(View.INVISIBLE);
+                tv3.setVisibility(View.VISIBLE);
+                tv2.setVisibility(View.INVISIBLE);
                 manager = new GridLayoutManager(getActivity().getApplicationContext(), 3, GridLayoutManager.VERTICAL, false);
                 mRecyclerView.setLayoutManager(manager);
                 adapter = new recycler_adapter(allPeopleUser);
@@ -198,6 +215,9 @@ public class FriendFragment extends Fragment {
              @Override
              public void onClick(View view) {
                  mSelected = 3;
+                 tv1.setVisibility(View.INVISIBLE);
+                 tv3.setVisibility(View.VISIBLE);
+                 tv2.setVisibility(View.INVISIBLE);
                  manager = new GridLayoutManager(getActivity().getApplicationContext(), 3, GridLayoutManager.VERTICAL, false);
                  mRecyclerView.setLayoutManager(manager);
                  adapter = new recycler_adapter(allPeopleUser);
@@ -674,44 +694,47 @@ public class FriendFragment extends Fragment {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             String mFriendUID;
-                            if(mCurrentUser.getmFriends().size() > 0)
-                            {
+                            if(mCurrentUser.getmFriends()!=null){
+                                if(mCurrentUser.getmFriends().size() > 0)
+                                {
 
-                                User mFriendUser = mSearchFriend.get(pos);
-                                String friendEmailID = mFriendUser.getmEmail();
-                                ArrayList<String> currentFriends = (ArrayList<String>) mCurrentUser.getmFriends();
-                                ArrayList<User> templist = new ArrayList<>();
+                                    User mFriendUser = mSearchFriend.get(pos);
+                                    String friendEmailID = mFriendUser.getmEmail();
+                                    ArrayList<String> currentFriends = (ArrayList<String>) mCurrentUser.getmFriends();
+                                    ArrayList<User> templist = new ArrayList<>();
 //                            ArrayList<User> templist = new ArrayList<>();
-                                for(DataSnapshot postSnapshot: dataSnapshot.getChildren())
-                                {
-                                    if(currentFriends != null && currentFriends.contains(postSnapshot.getValue(User.class).getmEmail()))
+                                    for(DataSnapshot postSnapshot: dataSnapshot.getChildren())
                                     {
-                                        User friend = postSnapshot.getValue(User.class);
-                                        templist.add(friend);
-                                    }
-                                    if(postSnapshot.getValue(User.class).getmEmail().equals(friendEmailID)){
-                                        mFriendUser = postSnapshot.getValue(User.class);
-                                        mFriendUID = postSnapshot.getKey();
-                                        mCurrentUser.deleteFriends(friendEmailID);
-                                        mFriendUser.deleteFriends(mCurrentUser.getmEmail());
-                                        mUsersRef.child(mAuth.getCurrentUser().getUid()).setValue(mCurrentUser);
-                                        mUsersRef.child(mFriendUID).setValue(mFriendUser);
-                                        Log.d(TAG, String.valueOf(mSearchFriend.size()));
+                                        if(currentFriends != null && currentFriends.contains(postSnapshot.getValue(User.class).getmEmail()))
+                                        {
+                                            User friend = postSnapshot.getValue(User.class);
+                                            templist.add(friend);
+                                        }
+                                        if(postSnapshot.getValue(User.class).getmEmail().equals(friendEmailID)){
+                                            mFriendUser = postSnapshot.getValue(User.class);
+                                            mFriendUID = postSnapshot.getKey();
+                                            mCurrentUser.deleteFriends(friendEmailID);
+                                            mFriendUser.deleteFriends(mCurrentUser.getmEmail());
+                                            mUsersRef.child(mAuth.getCurrentUser().getUid()).setValue(mCurrentUser);
+                                            mUsersRef.child(mFriendUID).setValue(mFriendUser);
+                                            Log.d(TAG, String.valueOf(mSearchFriend.size()));
+
+                                        }
 
                                     }
-
+                                    for(int i=0; i<templist.size(); i++)
+                                    {
+                                        if(templist.get(i).getmEmail().equals(friendEmailID))
+                                            templist.remove(i);
+                                    }
+                                    adapter.setmList(templist);
+                                    mRecyclerView.setAdapter(adapter);
+                                    mSearchFriend = templist;
+                                    adapter.notifyDataSetChanged();
+                                    getCurrentFriends();
                                 }
-                                for(int i=0; i<templist.size(); i++)
-                                {
-                                    if(templist.get(i).getmEmail().equals(friendEmailID))
-                                        templist.remove(i);
-                                }
-                                adapter.setmList(templist);
-                                mRecyclerView.setAdapter(adapter);
-                                mSearchFriend = templist;
-                                adapter.notifyDataSetChanged();
-                                getCurrentFriends();
                             }
+
 
                             Toast.makeText(getActivity(), "Friend Removed", Toast.LENGTH_SHORT).show();
                         }

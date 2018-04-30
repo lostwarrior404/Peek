@@ -9,15 +9,15 @@
         android:layout_alignParentLeft="true"
         android:maxWidth="100dp"
         android:textAlignment="viewStart"
-        android:text="Asadsasdasdasdasd"
+        android:text="x"
         />
     <TextView
         android:id="@+id/item2"
-        android:maxWidth="100dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:text="ASasdasdasdasdasd"
+        android:maxWidth="100dp"
+        android:text="y"
         android:textAlignment="viewEnd"
         android:layout_toRightOf="@+id/item1"
         />

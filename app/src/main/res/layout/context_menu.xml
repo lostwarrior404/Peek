@@ -37,6 +37,7 @@
                 android:id="@+id/list_menu"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
+                android:layout_margin="3dp"
                 android:layout_gravity="center_vertical"/>
 
 
@@ -47,6 +48,7 @@
                 android:background="@drawable/phone"
                 android:layout_margin="3dp"
                 android:layout_gravity="right"
+                android:visibility="invisible"
                 />
 
 

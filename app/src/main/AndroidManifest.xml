@@ -19,7 +19,8 @@
         <activity android:name=".MainActivity">
 
         </activity>
-        <activity android:name=".Login">
+        <activity android:name=".Login"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -32,10 +33,12 @@
             android:enabled="true"
             android:exported="true" />
 
-        <activity android:name=".Chat" />
+        <activity android:name=".Chat"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".HomeActivity"
-            android:label="@string/title_activity_home">
+            android:label="@string/title_activity_home"
+            android:screenOrientation="portrait">
 
         </activity>
     </application>
