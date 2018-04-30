@@ -7,10 +7,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
+        android:maxWidth="50dp"
         android:text="item1"
         />
     <TextView
         android:id="@+id/item2"
+        android:maxWidth="50dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
