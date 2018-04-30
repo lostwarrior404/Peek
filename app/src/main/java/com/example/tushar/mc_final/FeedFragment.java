@@ -314,17 +314,19 @@ public class FeedFragment extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 mCurrentUser = dataSnapshot.getValue(User.class);
-                if(!mCurrentUser.ismPrivFlag()){
-                    button2.setBackgroundResource(R.drawable.private_toggle);
-                    privflag = false;
-                }else {
-                    button2.setBackgroundResource(R.drawable.private_toggle_off);
-                    privflag = true;
+                if(mCurrentUser!=null){
+                    if(!mCurrentUser.ismPrivFlag()){
+                        button2.setBackgroundResource(R.drawable.private_toggle);
+                        privflag = false;
+                    }else {
+                        button2.setBackgroundResource(R.drawable.private_toggle_off);
+                        privflag = true;
+                    }
+                    mCurrentLocation = dataSnapshot.child("mUserLocation").getValue(String.class);
+                    mDataList = sort(mCurrentLocation,load_data());
+                    mLayoutAdapter.setmDataList(mDataList);
+                    mLayoutAdapter.notifyDataSetChanged();
                 }
-                mCurrentLocation = dataSnapshot.child("mUserLocation").getValue(String.class);
-                mDataList = sort(mCurrentLocation,load_data());
-                mLayoutAdapter.setmDataList(mDataList);
-                mLayoutAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -442,16 +444,7 @@ public class FeedFragment extends Fragment {
                 for (HashMap<String,String> s: temp_display){
                     item_list.add(new Menu(s.get(temp_key.get(0)),s.get(temp_key.get(1))));
                 }
-                mRecyclerView.setLayoutManager( new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, true));
-                mRecyclerView.setAdapter(new CustomAdapter(item_list));
-                mRecyclerView.addOnItemTouchListener(mScrollTouchListener);
-            }
-            else if(param_data.getId().equals("chai")){
-                ArrayList<Menu> item_list = new ArrayList<>();
-                for (HashMap<String,String> s: temp_display){
-                    item_list.add(new Menu(s.get(temp_key.get(0)),s.get(temp_key.get(1))));
-                }
-                mRecyclerView.setLayoutManager( new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, true));
+                mRecyclerView.setLayoutManager( new LinearLayoutManager(getActivity()));
                 mRecyclerView.setAdapter(new CustomAdapter(item_list));
                 mRecyclerView.addOnItemTouchListener(mScrollTouchListener);
             }

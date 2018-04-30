@@ -6,8 +6,7 @@
         android:id="@+id/item1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:maxWidth="100dp"
+        android:maxWidth="75dp"
         android:textAlignment="viewStart"
         android:text="Asadsasdasdasdasd"
         />
@@ -18,8 +17,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:text="ASasdasdasdasdasd"
+        android:layout_toRightOf="@+id/item1"
         android:textAlignment="viewEnd"
-        android:layout_alignRight="@id/item1"/>
+        />
 
     <View
         android:layout_width="match_parent"

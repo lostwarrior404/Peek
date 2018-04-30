@@ -465,7 +465,7 @@ public class FriendFragment extends Fragment {
                 else
                 {
                     if(!mList.get(position).ismPrivFlag()) {
-                        String[] split_loc = mCurrentUser.getmUserLocation().split(",");
+                        String[] split_loc = mList.get(position).getmUserLocation().split(",");
 //                        mBody.setText(split_loc[1]);
                         String[] numNames = {
                                 "Ground",
