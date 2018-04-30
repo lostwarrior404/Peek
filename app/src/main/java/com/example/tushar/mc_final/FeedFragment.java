@@ -258,7 +258,6 @@ public class FeedFragment extends Fragment {
         final StaggeredGridLayoutManager mLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setAdapter(mLayoutAdapter);
-
         mAuth = FirebaseAuth.getInstance();
         mDatabaseReference = FirebaseDatabase.getInstance().getReference();
         mUsersRef = mDatabaseReference.child("users");
@@ -283,6 +282,10 @@ public class FeedFragment extends Fragment {
         });
 
         button2 = (Button) view.findViewById(R.id.button2);
+        if(privflag == 0)
+            button2.setBackgroundResource(R.drawable.private_toggle_off);
+        else
+            button2.setBackgroundResource(R.drawable.private_toggle);
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
