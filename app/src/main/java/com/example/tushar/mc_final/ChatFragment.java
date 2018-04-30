@@ -238,12 +238,12 @@ public class ChatFragment extends Fragment {
             TextView messageUser;
             CardView cardMessage;
 
+
             public MyViewHolder(View itemView) {
                 super(itemView);
                 messageText  = (TextView) itemView.findViewById(R.id.message_text);
                 messageUser = (TextView) itemView.findViewById(R.id.message_user);
                 cardMessage = (CardView) itemView.findViewById(R.id.cardMessage);
-
             }
         }
     }
