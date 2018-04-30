@@ -136,12 +136,13 @@ public class FriendFragment extends Fragment {
                 mSelected = 3;
                 manager = new GridLayoutManager(getActivity().getApplicationContext(), 3, GridLayoutManager.VERTICAL, false);
                 mRecyclerView.setLayoutManager(manager);
-                adapter = new recycler_adapter(mSendFriend);
+                adapter = new recycler_adapter(allPeopleUser);
                 mRecyclerView.setAdapter(adapter);
                 mDatabaseReference = FirebaseDatabase.getInstance().getReference();
                 mUsersRef = mDatabaseReference.child("users");
                 getcurrentUser();
                 getCurrentSentRequests();
+                getPossibleFriends();
             }
         });
 
@@ -288,7 +289,60 @@ public class FriendFragment extends Fragment {
 
     }
 
-    public void getCurrentSentRequests() {
+
+     public void getCurrentSentRequests() {
+         mUsersRef.addValueEventListener(new ValueEventListener() {
+             @Override
+             public void onDataChange(DataSnapshot dataSnapshot) {
+                 ArrayList<String> currentFriends = (ArrayList<String>) mCurrentUser.getmSent();
+                 ArrayList<User> templist = new ArrayList<>();
+                 Iterable<DataSnapshot> children = dataSnapshot.getChildren();
+                 for(DataSnapshot postsnapshot: dataSnapshot.getChildren())
+                 {
+                     if(currentFriends != null && currentFriends.contains(postsnapshot.getValue(User.class).getmEmail()))
+                     {
+                         User friend = postsnapshot.getValue(User.class);
+                         templist.add(friend);
+                     }
+                 }
+//                 adapter.setmList(templist);
+                 mSendFriend = templist;
+//                 adapter.notifyDataSetChanged();
+             }
+
+             @Override
+             public void onCancelled(DatabaseError databaseError) {
+
+             }
+         });
+
+         mUsersRef.child(mAuth.getCurrentUser().getUid()).child("mReceived").addValueEventListener(new ValueEventListener() {
+             @Override
+             public void onDataChange(DataSnapshot dataSnapshot) {
+                 Iterable<DataSnapshot> children = dataSnapshot.getChildren();
+                 if(mCurrentUser != null)
+                 {
+                     for(DataSnapshot child : children)
+                     {
+
+                         mCurrentUser.addReceived(child.getValue(String.class));
+                     }
+                 }
+             }
+
+             @Override
+             public void onCancelled(DatabaseError databaseError) {
+
+             }
+         });
+
+
+     }
+
+
+
+
+     public void getPossibleFriends() {
         mUsersRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -303,7 +357,8 @@ public class FriendFragment extends Fragment {
                 }
 
                 ArrayList<String> temp2 = (ArrayList<String>) mCurrentUser.getmFriends();
-                ArrayList<String> temp3 = (ArrayList<String>) mCurrentUser.getmReceived();
+                ArrayList<String> temp3 = (ArrayList<String>) mCurrentUser.getmSent();
+                ArrayList<String> temp4 = (ArrayList<String>) mCurrentUser.getmReceived();
                 if(temp2!=null)
                 {
                     for(int i=0; i<temp2.size(); i++)
@@ -313,7 +368,11 @@ public class FriendFragment extends Fragment {
                 {
                     for(int i=0; i<temp3.size(); i++)
                         allPeople.remove(temp3.get(i));
-
+                }
+                if(temp4!=null)
+                {
+                    for(int i=0; i<temp4.size(); i++)
+                        allPeople.remove(temp4.get(i));
                 }
                 allPeople.remove(mCurrentUser.getmEmail());
 
@@ -361,40 +420,6 @@ public class FriendFragment extends Fragment {
 
 
     }
-
-
-
-     public String checkLocation()
-     {
-         String next[]={};
-         try
-         {
-             CSVReader reader = new CSVReader(new InputStreamReader(getResources().openRawResource(R.raw.mac_address_list)));
-             for(;;)
-             {
-                 next = reader.readNext();
-
-                 if (next!=null)
-                 {
-                     if(next[4].substring(0,16).equals(getMacId())){
-                         return next[2];
-                     }
-                 }
-                 else
-                 {
-                     break;
-                 }
-             }
-         } catch (IOException e){
-         }
-         return "-1";
-     }
-
-     public String getMacId() {
-         WifiManager wifiManager = (WifiManager) getActivity().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-         WifiInfo wifiInfo = wifiManager.getConnectionInfo();
-         return  wifiInfo.getBSSID().substring(0,16);
-     }
 
 
 
@@ -538,6 +563,12 @@ public class FriendFragment extends Fragment {
                                     mFriendUser.deleteFriends(mCurrentUser.getmEmail());
                                     mUsersRef.child(mAuth.getCurrentUser().getUid()).setValue(mCurrentUser);
                                     mUsersRef.child(mFriendUID).setValue(mFriendUser);
+
+                                    // update friendlist here
+                                    // remove friend from friendlist that has friendEmailID;
+                                    Log.d(TAG, String.valueOf(mSearchFriend.size()));
+                                    adapter.notifyDataSetChanged();
+
 //                                    Log.d(TAG+"AAAAA", "A");
 
                                 }
@@ -574,6 +605,8 @@ public class FriendFragment extends Fragment {
                                     mFriendUID = postSnapshot.getKey();
                                     mCurrentUser.addSent(friendEmailID);
                                     mFriendUser.addReceived(mCurrentUser.getmEmail());
+                                    allPeopleUser.remove(mFriendUser);
+                                    adapter.notifyDataSetChanged();
                                     mUsersRef.child(mAuth.getCurrentUser().getUid()).setValue(mCurrentUser);
                                     mUsersRef.child(mFriendUID).setValue(mFriendUser);
 //                                    Log.d(TAG+"AAAAA", "A");
@@ -591,6 +624,7 @@ public class FriendFragment extends Fragment {
                     });
 
                     // add new unknown friend
+                    // remove from User1 - allPeopleUser
                     // add to User1 - mSent
                     // add to User2 - mReceived
                 }
