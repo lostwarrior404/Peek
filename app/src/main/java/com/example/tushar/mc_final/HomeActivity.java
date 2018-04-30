@@ -91,7 +91,7 @@ public class HomeActivity extends AppCompatActivity
                 @Override
                 public void onAuthStateChanged(@NonNull final FirebaseAuth firebaseAuth) {
                     if (firebaseAuth.getCurrentUser() == null || !firebaseAuth.getCurrentUser().getEmail().contains("iiitd.ac.in")) {
-                        startActivity(new Intent(HomeActivity.this, Login.class));
+//                        startActivity(new Intent(HomeActivity.this, Login.class));
                     } else {
                         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
                         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -106,7 +106,7 @@ public class HomeActivity extends AppCompatActivity
                                 if (mcurrentUser == null) {
                                     Uri temp_uri = firebaseAuth.getCurrentUser().getPhotoUrl();
 
-                                    mcurrentUser = new User(firebaseAuth.getCurrentUser().getEmail(), firebaseAuth.getCurrentUser().getDisplayName(), true, "Unknown,Unknown,Unknown", new ArrayList<String>(), new ArrayList<String>(), new ArrayList<String>(),temp_uri.toString());
+                                    mcurrentUser = new User(firebaseAuth.getCurrentUser().getEmail(), firebaseAuth.getCurrentUser().getDisplayName(), false, "Unknown,Unknown,Unknown", new ArrayList<String>(), new ArrayList<String>(), new ArrayList<String>(),temp_uri.toString());
                                     usersRef.child(firebaseAuth.getCurrentUser().getUid()).setValue(mcurrentUser);
                                 }
                                 Intent intent1 = new Intent(HomeActivity.this, MyService.class);

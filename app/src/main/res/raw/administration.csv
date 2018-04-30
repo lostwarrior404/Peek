@@ -1,13 +1,13 @@
 Designation,Room_Number,Location
 DOAA,B-206,AC2
 DOSA,A-508,NA5
-HOD-CSE,A-503,NA5
-HOD-ECE,A-607,NA6
-HOD-CSD,A-408,NA4
-HOD-CTSS,B-206,NA2
-GM(Facilities),A-202,AC2
-GM(Placement),A-203,AC2
-GM(Projects),SB,NA0
-JM(Academics),B-207,AC2
-M(Academics),B-202,AC2
-DM(Student Affairs),A-207,AC2
+HOD CSE,A-503,NA5
+HOD ECE,A-607,NA6
+HOD CSD,A-408,NA4
+HOD CTSS,B-206,NA2
+GM (Facilities),A-202,AC2
+GM (Placement),A-203,AC2
+GM (Projects),SB,NA0
+JM (Academics),B-207,AC2
+Manager (Academics),B-202,AC2
+DM (Student Affairs),A-207,AC2
