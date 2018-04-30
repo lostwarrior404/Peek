@@ -123,13 +123,13 @@ public class FeedFragment extends Fragment {
         temp.clear();
         temp.addAll(Arrays.asList(visiblity));
         Log.d("tmp",temp.toString());
-        templist.add(parser("b_hostel","Hosteliers",R.raw.boys_hostel,4,"BH","null",1,1, (ArrayList<String>) temp.clone(),Boolean.FALSE));
+        templist.add(parser("b_hostel","Hosteliers",R.raw.boys_hostel,2,"BH","null",1,1, (ArrayList<String>) temp.clone(),Boolean.FALSE));
 
         visiblity = new String[] {"GH","NA"};
         temp.clear();
         temp.addAll(Arrays.asList(visiblity));
         Log.d("tmp",temp.toString());
-        templist.add(parser("g_hostel","Hosteliers",R.raw.girls_hostel,4,"GH","null",1,1, (ArrayList<String>) temp.clone(),Boolean.FALSE));
+        templist.add(parser("g_hostel","Hosteliers",R.raw.girls_hostel,2,"GH","null",1,1, (ArrayList<String>) temp.clone(),Boolean.FALSE));
 
         visiblity = new String[] {"BH","GH","DB","AC","LB","LC","SR","RE","NA","Unknown"};
         temp.clear();
@@ -144,7 +144,7 @@ public class FeedFragment extends Fragment {
         visiblity = new String[] {"BH","GH","DB","AC","LB","LC","SR","RE","NA","Unknown"};
         temp.clear();
         temp.addAll(Arrays.asList(visiblity));
-        templist.add(parser("club","Student Clubs",R.raw.club_coordinators,4,"DB","null",1,1, (ArrayList<String>) temp.clone(),Boolean.FALSE));
+        templist.add(parser("club","Student Clubs",R.raw.club_coordinators,2,"DB","null",1,1, (ArrayList<String>) temp.clone(),Boolean.FALSE));
 
         visiblity = new String[] {"BH","GH","DB","AC","LB","LC","SR","RE","NA","Unknown"};
         temp.clear();
@@ -322,23 +322,30 @@ public class FeedFragment extends Fragment {
                 mRecyclerView.addOnItemTouchListener(mScrollTouchListener);
             }
             else if(param_data.getId().equals("club")){
+//                ArrayList<Menu> item_list = new ArrayList<>();
+//                Set<String> clublist = new HashSet<>();
+//                for (HashMap<String,String> s: temp_display){
+//                    clublist.add(s.get(temp_key.get(0)));
+//                }
+//                for(String s:clublist){
+//                    item_list.add(new Menu(s,""));
+//                }
+//                mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+//                CustomAdapter adapter = new CustomAdapter(item_list);
+//                mRecyclerView.setAdapter(adapter);
+//                mRecyclerView.addOnItemTouchListener(mScrollTouchListener);
                 ArrayList<Menu> item_list = new ArrayList<>();
-                Set<String> clublist = new HashSet<>();
                 for (HashMap<String,String> s: temp_display){
-                    clublist.add(s.get(temp_key.get(0)));
+                    item_list.add(new Menu(s.get(temp_key.get(0)),s.get(temp_key.get(1))));
                 }
-                for(String s:clublist){
-                    item_list.add(new Menu(s,""));
-                }
-                mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-                CustomAdapter adapter = new CustomAdapter(item_list);
-                mRecyclerView.setAdapter(adapter);
+                mRecyclerView.setLayoutManager( new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, true));
+                mRecyclerView.setAdapter(new CustomAdapter(item_list));
                 mRecyclerView.addOnItemTouchListener(mScrollTouchListener);
             }
             else if(param_data.getId().equals("b_hostel")){
                 ArrayList<Menu> item_list = new ArrayList<>();
                 for (HashMap<String,String> s: temp_display){
-                    item_list.add(new Menu(s.get(temp_key.get(1)),s.get(temp_key.get(3))));
+                    item_list.add(new Menu(s.get(temp_key.get(0)),s.get(temp_key.get(1))));
                 }
                 ArrayList<Menu> temp_list = new ArrayList<>();
                 if(mCurrentLocation!=null){
@@ -366,7 +373,7 @@ public class FeedFragment extends Fragment {
             else if(param_data.getId().equals("g_hostel")){
                 ArrayList<Menu> item_list = new ArrayList<>();
                 for (HashMap<String,String> s: temp_display){
-                    item_list.add(new Menu(s.get(temp_key.get(1)),s.get(temp_key.get(3))));
+                    item_list.add(new Menu(s.get(temp_key.get(0)),s.get(temp_key.get(1))));
                 }
                 ArrayList<Menu> temp_list = new ArrayList<>();
                 if(mCurrentLocation!=null){
