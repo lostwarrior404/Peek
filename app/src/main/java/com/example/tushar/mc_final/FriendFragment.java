@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -453,6 +454,7 @@ public class FriendFragment extends Fragment {
                 holder.actionButton.setBackgroundResource(R.drawable.tick);
                 holder.textView.setText(mList.get(position).getmName());
                 holder.textView2.setText(mList.get(position).getmEmail());
+
             }
             else if(mSelected == 2)
             {
@@ -586,7 +588,7 @@ public class FriendFragment extends Fragment {
                                     mUsersRef.child(mAuth.getCurrentUser().getUid()).setValue(mCurrentUser);
                                     mUsersRef.child(mFriendUID).setValue(mFriendUser);
 //                                    Log.d(TAG+"AAAAA", "A");
-
+                                    Toast.makeText(getActivity(), "Request Accepted", Toast.LENGTH_SHORT).show();
                                 }
 
                             }
@@ -652,7 +654,7 @@ public class FriendFragment extends Fragment {
                                 getCurrentFriends();
                             }
 
-
+                            Toast.makeText(getActivity(), "Friend Removed", Toast.LENGTH_SHORT).show();
                         }
 
 
@@ -695,6 +697,7 @@ public class FriendFragment extends Fragment {
 
                             }
 
+                            Toast.makeText(getActivity(), "Request Sent", Toast.LENGTH_SHORT).show();
                         }
 
                         @Override
