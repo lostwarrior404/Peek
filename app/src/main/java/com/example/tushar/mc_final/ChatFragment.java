@@ -56,6 +56,8 @@ public class ChatFragment extends Fragment {
     private recyler_adapter_chat adapter;
     private FirebaseDatabase firebaseDatabase;
     private ChildEventListener childEventListener;
+    private ValueEventListener valueEventListener;
+    private boolean isStart = false;
 
     public ChatFragment() {
         // Required empty public constructor
@@ -118,8 +120,7 @@ public class ChatFragment extends Fragment {
                 locationToSee = "Boys Hostel Old";
             }
         });
-
-
+        isStart = true;
         mAuth = FirebaseAuth.getInstance();
         //getUserInfo();
         //getMessages();
@@ -130,6 +131,13 @@ public class ChatFragment extends Fragment {
             }
         });
         return view;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        databaseReference.removeEventListener(valueEventListener);
+        databaseReference.removeEventListener(childEventListener);
     }
 
     public void getMessages()
@@ -258,7 +266,8 @@ public class ChatFragment extends Fragment {
     public void getUserInfo()
     {
 
-        FirebaseDatabase.getInstance().getReference("users").addValueEventListener(new ValueEventListener() {
+        //    childEventListener = databaseReference.addChildEventListener(new ChildEventListener()
+        valueEventListener = FirebaseDatabase.getInstance().getReference("users").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren())
@@ -296,9 +305,28 @@ public class ChatFragment extends Fragment {
                         Log.d("MCD", "onDataChange: "+currentLocation+","+locationToSee);
 
                         if (currentLocation.equals(locationToSee))
+                        {
                             enableInput();
+                        }
                         else
+                        {
                             disableInput();
+                        }
+
+                        if (isStart==true)
+                        {
+                            for (int j=0 ; j < spinnerLocation.getCount() ; j++)
+                            {
+                                if (spinnerLocation.getItemAtPosition(j).equals(currentLocation))
+                                {
+                                    spinnerLocation.setSelection(j);
+                                    break;
+                                }
+
+                            }
+                            isStart = false;
+                        }
+
 
 
                         //locationToSee = currentLocation;
@@ -307,6 +335,7 @@ public class ChatFragment extends Fragment {
                         Log.d("USERTAG", "onDataChange: "+currentUser.toString());
                     }
                 }
+
             }
 
             @Override
@@ -314,6 +343,21 @@ public class ChatFragment extends Fragment {
 
             }
         });
+
+    }
+
+    public void setSpinner()
+    {
+
+        for (int j = 0 ; j < spinnerLocation.getCount() ; j++)
+        {
+            if (spinnerLocation.getItemAtPosition(j).equals(currentLocation))
+            {
+                spinnerLocation.setSelection(j);
+                break;
+            }
+
+        }
     }
 
     public void pushText()

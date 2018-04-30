@@ -3,13 +3,16 @@ package com.example.tushar.mc_final;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -36,6 +39,7 @@ public class FeedFragment extends Fragment {
     private DatabaseReference mcurrent_user_db;
     private String mCurrentLocation;
     private ArrayList<Data> mDataList;
+    private ValueEventListener mloc_event_listener;
 
     public Data parser(String name,int file,int cols,String building,String floor,int layout_type,int frag_type,ArrayList<String> visiblity){
         String next[] = {};
@@ -171,6 +175,13 @@ public class FeedFragment extends Fragment {
         }
         return templist;
     }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mcurrent_user_db.removeEventListener(mloc_event_listener);
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_feed, container, false);
@@ -180,12 +191,12 @@ public class FeedFragment extends Fragment {
         FirebaseAuth temp_auth = FirebaseAuth.getInstance();
         String current_user_uid = temp_auth.getCurrentUser().getUid();
         mcurrent_user_db = FirebaseDatabase.getInstance().getReference().child("users").child(current_user_uid);
-        mcurrent_user_db.addValueEventListener(new ValueEventListener() {
+        mloc_event_listener = mcurrent_user_db.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 mCurrentLocation = dataSnapshot.child("mUserLocation").getValue(String.class);
                 mDataList = sort(mCurrentLocation,load_data());
-                recyclerView.setAdapter(new GridLayoutAdapter());
+                recyclerView.setAdapter(new GridLayoutAdapter(mDataList));
 
             }
 
@@ -196,40 +207,114 @@ public class FeedFragment extends Fragment {
         });
         return view;
     }
-    private class GridHolder extends RecyclerView.ViewHolder {
 
+    private class GridHolder1 extends RecyclerView.ViewHolder {
 
-        public GridHolder(View itemView) {
+        private final TextView mTitle;
+        private final Button mButton;
+        private final ListView mList;
+
+        public GridHolder1(View itemView) {
             super(itemView);
+            mTitle= (TextView) itemView.findViewById(R.id.place_menu);
+            mButton=(Button)itemView.findViewById(R.id.phone_button);
+            mList = (ListView)itemView.findViewById(R.id.list_menu);
+        }
+        public void onBind(Data param_data){
         }
     }
-    private class GridLayoutAdapter extends RecyclerView.Adapter<GridHolder> {
+    private class GridHolder2 extends RecyclerView.ViewHolder {
+
+        private final TextView mTitle;
+        private final TextView mBody;
+        private final TextView mFooter;
+        public GridHolder2(View itemView) {
+            super(itemView);
+            mTitle = (TextView) itemView.findViewById(R.id.heading);
+            mBody = (TextView) itemView.findViewById(R.id.location);
+            mFooter = (TextView) itemView.findViewById(R.id.sub_location);
+        }
+        public void onBind(Data param_data){
+
+        }
+    }
+    private class GridHolder3 extends RecyclerView.ViewHolder {
+        private final ImageView mImage;
+        private final TextView mDescript;
+        public GridHolder3(View itemView) {
+            super(itemView);
+            mImage = (ImageView)itemView.findViewById(R.id.coolerImg);
+            mDescript = (TextView)itemView.findViewById(R.id.coolerText);
+        }
+        public void onBind(Data param_data){
+
+        }
+    }
+    private class GridHolder4 extends RecyclerView.ViewHolder {
+        private final Button mButton;
+        private final TextView mText;
+        public GridHolder4(View itemView) {
+            super(itemView);
+            mButton=itemView.findViewById(R.id.callButton);
+            mText = itemView.findViewById(R.id.callText);
+        }
+        public void onBind(Data param_data){
+
+        }
+
+    }
+    private class GridLayoutAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         private int[] test = new int[] {0,1,1,0,1};
-        public GridLayoutAdapter() {
+        private ArrayList<Data> mDataList;
+        public GridLayoutAdapter(ArrayList<Data> mDataList) {
+            this.mDataList=mDataList;
         }
         @Override
-        public GridHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            GridHolder viewHolder;
-            if(viewType==0){
-
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            RecyclerView.ViewHolder viewHolder=null;
+            if(viewType==1){
                 View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.context_menu, parent, false);
-                viewHolder = new GridHolder(view);
+                viewHolder = new GridHolder1(view);
             }
-            else{
+            else if(viewType==2){
                 View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.context_your_location, parent, false);
-                viewHolder = new GridHolder(view);
+                viewHolder = new GridHolder2(view);
 
+            }
+            else if(viewType==3){
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.context_cooler, parent, false);
+                viewHolder = new GridHolder3(view);
+
+            }
+            else if(viewType==4){
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.context_contact, parent, false);
+                viewHolder = new GridHolder4(view);
             }
             return viewHolder;
         }
 
         @Override
-        public void onBindViewHolder(GridHolder holder, int position) {
-
+        public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+            if(getItemViewType(position)==1){
+                holder= (GridHolder1)holder;
+                ((GridHolder1) holder).onBind(mDataList.get(position));
+            }
+            else if(getItemViewType(position)==2){
+                holder= (GridHolder2)holder;
+                ((GridHolder2) holder).onBind(mDataList.get(position));
+            }
+            else if(getItemViewType(position)==3){
+                holder= (GridHolder3)holder;
+                ((GridHolder3) holder).onBind(mDataList.get(position));
+            }
+            else if(getItemViewType(position)==4){
+                holder= (GridHolder4)holder;
+                ((GridHolder4) holder).onBind(mDataList.get(position));
+            }
         }
         @Override
         public int getItemViewType(int position){
-            return test[position];
+            return mDataList.get(position).getLayout_type();
         }
 
         @Override
