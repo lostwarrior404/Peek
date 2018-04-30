@@ -168,6 +168,11 @@ public class FeedFragment extends Fragment {
             }
         }
 //        templist.add();
+        visiblity = new String[] {"BH","GH","DB","AC","LB","LC","SR","RE","NA","Unknown"};
+        temp.clear();
+        temp.addAll(Arrays.asList(visiblity));
+        templist.add(parser("fms","FMS",R.raw.fms,1,"SU","null",1,4, (ArrayList<String>) temp.clone(),Boolean.TRUE));
+
 
         return templist;
     }
