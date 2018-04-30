@@ -104,6 +104,7 @@ public class FeedFragment extends Fragment {
         ArrayList<HashMap<String,String>> hm = new ArrayList<>();
         HashMap<String,String> t = new HashMap<>();
         t.put("Location",mCurrentLocation);
+        hm.add(t);
         d.setName("Your Location");
         d.setBuilding("SU");
         d.setDisplay_data(hm);
@@ -262,6 +263,15 @@ public class FeedFragment extends Fragment {
             mFooter = (TextView) itemView.findViewById(R.id.sub_location);
         }
         public void onBind(Data param_data){
+            ArrayList<String> temp_key = param_data.getKeys();
+            ArrayList<HashMap<String, String>> temp_display = param_data.getDisplay_data();
+            mTitle.setText(param_data.getName());
+            if(param_data.getId().equals("location")){
+                HashMap<String, String> data = temp_display.get(0);
+                String mlocation = data.get(temp_key.get(0));
+                String[] split_loc = mlocation.split(",");
+                mBody.setText(split_loc[1]);
+            }
 
         }
     }
@@ -359,7 +369,7 @@ public class FeedFragment extends Fragment {
         }
         @Override
         public int getItemViewType(int position){
-            return mDataList.get(position).getLayout_type();
+            return mDataList.get(position).getFrag_type();
         }
 
         @Override
