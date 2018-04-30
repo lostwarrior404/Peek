@@ -1,14 +1,9 @@
 package com.example.tushar.mc_final;
 
 
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,10 +13,8 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -37,9 +30,6 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 
 
@@ -55,7 +45,7 @@ public class FeedFragment extends Fragment {
     private ValueEventListener mloc_event_listener;
     private GridLayoutAdapter mLayoutAdapter;
     private Button button2;
-    private Integer privflag = 0;
+    private Integer privflag;
     private FirebaseAuth mAuth;
     private User u;
     private User mCurrentUser;
@@ -261,7 +251,7 @@ public class FeedFragment extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         mDatabaseReference = FirebaseDatabase.getInstance().getReference();
         mUsersRef = mDatabaseReference.child("users");
-
+        
 
         final FirebaseAuth temp_auth = FirebaseAuth.getInstance();
         String current_user_uid = temp_auth.getCurrentUser().getUid();
