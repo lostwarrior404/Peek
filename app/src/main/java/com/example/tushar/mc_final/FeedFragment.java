@@ -1,18 +1,24 @@
 package com.example.tushar.mc_final;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -31,6 +37,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 
 /**
@@ -198,6 +205,8 @@ public class FeedFragment extends Fragment {
         final StaggeredGridLayoutManager mLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setAdapter(mLayoutAdapter);
+
+
         FirebaseAuth temp_auth = FirebaseAuth.getInstance();
         String current_user_uid = temp_auth.getCurrentUser().getUid();
         mcurrent_user_db = FirebaseDatabase.getInstance().getReference().child("users").child(current_user_uid);
@@ -222,13 +231,34 @@ public class FeedFragment extends Fragment {
 
         private final TextView mTitle;
         private final Button mButton;
-        private final ListView mList;
+        private final RecyclerView mRecyclerView;
+        private final RecyclerView.OnItemTouchListener mScrollTouchListener = new RecyclerView.OnItemTouchListener() {
+            @Override
+            public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+                int action = e.getAction();
+                switch (action) {
+                    case MotionEvent.ACTION_MOVE:
+                        rv.getParent().requestDisallowInterceptTouchEvent(true);
+                        break;
+                }
+                return false;
+            }
 
+            @Override
+            public void onTouchEvent(RecyclerView rv, MotionEvent e) {
+
+            }
+
+            @Override
+            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
+            }
+        };
         public GridHolder1(View itemView) {
             super(itemView);
             mTitle= (TextView) itemView.findViewById(R.id.place_menu);
             mButton=(Button)itemView.findViewById(R.id.phone_button);
-            mList = (ListView)itemView.findViewById(R.id.list_menu);
+            mRecyclerView = itemView.findViewById(R.id.list_menu);
         }
         public void onBind(Data param_data){
             mTitle.setText(param_data.getName());
@@ -249,10 +279,85 @@ public class FeedFragment extends Fragment {
                 mButton.setVisibility(View.INVISIBLE);
             }
             if(param_data.getId().equals("cdx")){
-                for(int i=0;i<temp_display.size();i++){
-
+                ArrayList<Menu> item_list = new ArrayList<>();
+                for (HashMap<String,String> s: temp_display){
+                    item_list.add(new Menu(s.get(temp_key.get(0)),s.get(temp_key.get(1))));
                 }
+                mRecyclerView.setLayoutManager( new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, true));
+                mRecyclerView.setAdapter(new CustomAdapter(item_list));
+                mRecyclerView.addOnItemTouchListener(mScrollTouchListener);
+
             }
+            else if(param_data.getId().equals("chai")){
+                ArrayList<Menu> item_list = new ArrayList<>();
+                for (HashMap<String,String> s: temp_display){
+                    item_list.add(new Menu(s.get(temp_key.get(0)),s.get(temp_key.get(1))));
+                }
+                mRecyclerView.setLayoutManager( new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, true));
+                mRecyclerView.setAdapter(new CustomAdapter(item_list));
+                mRecyclerView.addOnItemTouchListener(mScrollTouchListener);
+            }
+        }
+    }
+    private class CustomViewHolder extends RecyclerView.ViewHolder{
+        private TextView mitem1;
+        private TextView mitem2;
+        public CustomViewHolder(View itemView) {
+            super(itemView);
+            mitem1 = itemView.findViewById(R.id.item1);
+            mitem2 = itemView.findViewById(R.id.item2);
+        }
+        public void onDataBind(Menu smenu){
+            mitem1.setText(smenu.getCol1());
+            mitem2.setText(smenu.getCol2());
+        }
+
+    }
+    private class CustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
+        private  ArrayList<Menu> mItemList;
+        public CustomAdapter(ArrayList<Menu> mItemList){
+            this.mItemList = mItemList;
+        }
+        @Override
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.double_list, parent, false);
+            RecyclerView.ViewHolder viewholder = new CustomViewHolder(view);
+            return viewholder;
+        }
+
+        @Override
+        public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+            holder = (CustomViewHolder) holder;
+            ((CustomViewHolder) holder).onDataBind(mItemList.get(position));
+        }
+
+        @Override
+        public int getItemCount() {
+            return mItemList.size();
+        }
+    }
+    private class Menu{
+        public String getCol1() {
+            return col1;
+        }
+
+        public void setCol1(String col1) {
+            this.col1 = col1;
+        }
+
+        public String getCol2() {
+            return col2;
+        }
+
+        public void setCol2(String col2) {
+            this.col2 = col2;
+        }
+
+        private String col1;
+        private String col2;
+        public Menu(String col1,String col2){
+            this.col1=col1;
+            this.col2=col2;
         }
     }
     private class GridHolder2 extends RecyclerView.ViewHolder {
@@ -278,7 +383,26 @@ public class FeedFragment extends Fragment {
                 }
                 String[] split_loc = mlocation.split(",");
                 mBody.setText(split_loc[1]);
-                String footer="Floor:"+split_loc[2]+"\n";
+                String[] numNames = {
+                        "Ground",
+                        "1st",
+                        "2nd",
+                        "3rd",
+                        "4th",
+                        "5th",
+                        "6th",
+                        "7th",
+                        "8th",
+                        "9th",
+                        "10th"
+                };
+                String footer = new String();
+                if(!split_loc[2].equals("Unknown")){
+                     footer=numNames[Integer.parseInt(split_loc[2])]+" Floor"+"\n";
+                }else{
+                    footer="Unknown"+"\n";
+                }
+
                 if(split_loc[0].equals("BH")){
                     footer+="Boys Hostel";
                 }
@@ -323,6 +447,7 @@ public class FeedFragment extends Fragment {
             if(param_data.getId().equals("b_hostel")){
                 mImage.setImageDrawable(getResources().getDrawable(R.drawable.cooler));
             }
+
 
         }
     }

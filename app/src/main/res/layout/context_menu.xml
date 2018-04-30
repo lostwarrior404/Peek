@@ -29,12 +29,23 @@
                 style="@style/TextViewHeading"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
                 android:text="CDX"
                 android:textSize="30sp"
                 android:layout_gravity="center"
                 android:textAlignment="center"/>
 
-            <ListView
+            <Button
+                android:id="@+id/phone_button"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/phone"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"/>
+        </RelativeLayout>
+
+
+            <android.support.v7.widget.RecyclerView
                 android:id="@+id/list_menu"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
