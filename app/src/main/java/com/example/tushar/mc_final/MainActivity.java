@@ -2,6 +2,7 @@ package com.example.tushar.mc_final;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
@@ -59,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull final FirebaseAuth firebaseAuth) {
-                if (firebaseAuth.getCurrentUser() == null)
+                if (firebaseAuth.getCurrentUser() == null || !firebaseAuth.getCurrentUser().getEmail().contains("iiitd.ac.in"))
                 {
                     startActivity(new Intent(MainActivity.this,Login.class));
                     //Log.d(mTAG, "Old");
@@ -85,7 +86,8 @@ public class MainActivity extends AppCompatActivity {
                             }
                             if(mcurrentUser==null){
                                 //Log.d(mTAG,"rewrite");
-                                mcurrentUser = new User(firebaseAuth.getCurrentUser().getEmail(), firebaseAuth.getCurrentUser().getDisplayName(), true, checkLocation(), new ArrayList<String>(), new ArrayList<String>(), new ArrayList<String>());
+                                Uri temp_uri = firebaseAuth.getCurrentUser().getPhotoUrl();
+                                mcurrentUser = new User(firebaseAuth.getCurrentUser().getEmail(), firebaseAuth.getCurrentUser().getDisplayName(), true, checkLocation(), new ArrayList<String>(), new ArrayList<String>(), new ArrayList<String>(),temp_uri.toString());
                                 usersRef.child(firebaseAuth.getCurrentUser().getUid()).setValue(mcurrentUser);
                             }
                             Intent intent1 = new Intent(MainActivity.this, MyService.class);

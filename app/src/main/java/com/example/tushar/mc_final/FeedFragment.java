@@ -36,6 +36,7 @@ public class FeedFragment extends Fragment {
     private DatabaseReference mcurrent_user_db;
     private String mCurrentLocation;
     private ArrayList<Data> mDataList;
+    private ValueEventListener mloc_event_listener;
 
     public Data parser(String name,int file,int cols,String building,String floor,int layout_type,int frag_type,ArrayList<String> visiblity){
         String next[] = {};
@@ -120,6 +121,13 @@ public class FeedFragment extends Fragment {
         }
         return templist;
     }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mcurrent_user_db.removeEventListener(mloc_event_listener);
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_feed, container, false);
@@ -129,7 +137,7 @@ public class FeedFragment extends Fragment {
         FirebaseAuth temp_auth = FirebaseAuth.getInstance();
         String current_user_uid = temp_auth.getCurrentUser().getUid();
         mcurrent_user_db = FirebaseDatabase.getInstance().getReference().child("users").child(current_user_uid);
-        mcurrent_user_db.addValueEventListener(new ValueEventListener() {
+        mloc_event_listener = mcurrent_user_db.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 mCurrentLocation = dataSnapshot.child("mUserLocation").getValue(String.class);

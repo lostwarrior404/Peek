@@ -1,5 +1,7 @@
 package com.example.tushar.mc_final;
 
+import android.net.Uri;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,13 +18,14 @@ public class User {
     private ArrayList<String> mFriends;
     private ArrayList<String> mSent;
     private ArrayList<String> mReceived;
+    private String mImageUri;
 
     public User()
     {
 
     }
 
-    public User( String argEmail, String argName, boolean argPrivFlag, String argUserLocation, ArrayList<String> argFriends, ArrayList<String> argSent, ArrayList<String> argReceived)
+    public User( String argEmail, String argName, boolean argPrivFlag, String argUserLocation, ArrayList<String> argFriends, ArrayList<String> argSent, ArrayList<String> argReceived,String mImageUri)
     {
         this.mEmail = argEmail;
         this.mName = argName;
@@ -31,22 +34,8 @@ public class User {
         this.mFriends = argFriends;
         this.mSent = argSent;
         this.mReceived = argReceived;
+        this.mImageUri=mImageUri;
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     public List<String> getmFriends() {
@@ -58,6 +47,14 @@ public class User {
             this.mFriends=new ArrayList<String>();
         }
         this.mFriends = mFriends;
+    }
+
+    public String  getmImageUri() {
+        return mImageUri;
+    }
+
+    public void setmImageUri(String mImageUri) {
+        this.mImageUri = mImageUri;
     }
 
     public List<String> getmSent() {

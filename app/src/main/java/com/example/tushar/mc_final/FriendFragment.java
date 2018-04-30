@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.LinearGradient;
 import android.media.Image;
+import android.net.Uri;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
@@ -167,8 +168,9 @@ public class FriendFragment extends Fragment {
                     }
                 }
                 if(mCurrentUser==null){ //if not
-                    mCurrentUser = new User(mAuth.getCurrentUser().getEmail(), mAuth.getCurrentUser().getDisplayName(), true, checkLocation(), new ArrayList<String>(), new ArrayList<String>(), new ArrayList<String>());
-                    mUsersRef.child(mAuth.getCurrentUser().getUid()).setValue(mCurrentUser); // make new user and add
+                    Uri temp_uri = mAuth.getCurrentUser().getPhotoUrl();
+                    mCurrentUser = new User(mAuth.getCurrentUser().getEmail(), mAuth.getCurrentUser().getDisplayName(), true, "Unknown,Unknown,Unknown", new ArrayList<String>(), new ArrayList<String>(), new ArrayList<String>(),temp_uri.toString());
+                    mUsersRef.child(mAuth.getCurrentUser().getUid()).setValue(mCurrentUser);
                 }
 
             }
