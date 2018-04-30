@@ -7,15 +7,23 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:maxWidth="50dp"
-        android:text="item1"
+        android:maxWidth="100dp"
+        android:textAlignment="viewStart"
+        android:text="Asadsasdasdasdasd"
         />
     <TextView
         android:id="@+id/item2"
-        android:maxWidth="50dp"
+        android:maxWidth="100dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:text="item2"
+        android:text="ASasdasdasdasdasd"
+        android:textAlignment="viewEnd"
         android:layout_alignRight="@id/item1"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        android:alpha="0.5"/>
 </RelativeLayout>
