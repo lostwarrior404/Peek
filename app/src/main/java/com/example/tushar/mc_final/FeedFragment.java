@@ -46,6 +46,7 @@ import java.util.List;
 import java.util.Set;
 
 
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -57,6 +58,14 @@ public class FeedFragment extends Fragment {
     private ArrayList<Data> mDataList;
     private ValueEventListener mloc_event_listener;
     private GridLayoutAdapter mLayoutAdapter;
+    private Button button2;
+    private Integer privflag = 0;
+    private FirebaseAuth mAuth;
+    private User u;
+    private User mCurrentUser;
+    private DatabaseReference mDatabaseReference;
+    private DatabaseReference mUsersRef;
+
     public Data parser(String id,String name,int file,int cols,String building,String floor,int layout_type,int frag_type,ArrayList<String> visiblity,Boolean hasPhone){
         String next[] = {};
         ArrayList<HashMap<String,String>> m = new ArrayList<>();
@@ -106,6 +115,9 @@ public class FeedFragment extends Fragment {
     public FeedFragment() {
         // Required empty public constructor
     }
+
+
+
 
     public ArrayList<Data> load_data(){
         ArrayList<Data> templist = new ArrayList<Data>();
@@ -250,9 +262,12 @@ public class FeedFragment extends Fragment {
         final StaggeredGridLayoutManager mLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setAdapter(mLayoutAdapter);
+        mAuth = FirebaseAuth.getInstance();
+        mDatabaseReference = FirebaseDatabase.getInstance().getReference();
+        mUsersRef = mDatabaseReference.child("users");
 
 
-        FirebaseAuth temp_auth = FirebaseAuth.getInstance();
+        final FirebaseAuth temp_auth = FirebaseAuth.getInstance();
         String current_user_uid = temp_auth.getCurrentUser().getUid();
         mcurrent_user_db = FirebaseDatabase.getInstance().getReference().child("users").child(current_user_uid);
         mloc_event_listener = mcurrent_user_db.addValueEventListener(new ValueEventListener() {
@@ -269,8 +284,80 @@ public class FeedFragment extends Fragment {
 
             }
         });
+
+        button2 = (Button) view.findViewById(R.id.button2);
+        if(privflag == 0)
+            button2.setBackgroundResource(R.drawable.private_toggle_off);
+        else
+            button2.setBackgroundResource(R.drawable.private_toggle);
+        button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getcurrentUser();
+
+//                Log.d("Come", u.toString());
+                if(mCurrentUser != null)
+                {
+
+                    if(privflag == 0)
+                    {
+                        // currently on, do off
+                        User u2 = new User(mAuth.getCurrentUser().getEmail(), mAuth.getCurrentUser().getDisplayName(), !mCurrentUser.ismPrivFlag(), mCurrentUser.getmUserLocation(), (ArrayList) mCurrentUser.getmFriends(), (ArrayList) mCurrentUser.getmSent(), (ArrayList) mCurrentUser.getmReceived(), mCurrentUser.getmImageUri());
+                        mUsersRef.child(mAuth.getCurrentUser().getUid()).setValue(u2);
+                        button2.setBackgroundResource(R.drawable.private_toggle_off);
+                        privflag = 1;
+                    }
+                    else
+                    {
+                        // current off, do on
+                        User u2 = new User(mAuth.getCurrentUser().getEmail(), mAuth.getCurrentUser().getDisplayName(), !mCurrentUser.ismPrivFlag(), mCurrentUser.getmUserLocation(), (ArrayList) mCurrentUser.getmFriends(), (ArrayList) mCurrentUser.getmSent(), (ArrayList) mCurrentUser.getmReceived(), mCurrentUser.getmImageUri());
+                        mUsersRef.child(mAuth.getCurrentUser().getUid()).setValue(u2);
+                        button2.setBackgroundResource(R.drawable.private_toggle);
+                        privflag = 0;
+                    }
+                }
+
+            }
+        });
+
+
+
+
+
         return view;
     }
+
+
+    public void getcurrentUser()
+    {
+        Log.d("Come", "A");
+        mUsersRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    if (postSnapshot.getKey().equals(mAuth.getCurrentUser().getUid())) {
+                        Log.d("Come", "B");
+                        mCurrentUser = postSnapshot.getValue(User.class); // check if user exists on firebase
+                    }
+                }
+                if(mCurrentUser==null){ //if not
+                    Uri temp_uri = mAuth.getCurrentUser().getPhotoUrl();
+                    mCurrentUser = new User(mAuth.getCurrentUser().getEmail(), mAuth.getCurrentUser().getDisplayName(), true, "Unknown,Unknown,Unknown", new ArrayList<String>(), new ArrayList<String>(), new ArrayList<String>(),temp_uri.toString());
+                    mUsersRef.child(mAuth.getCurrentUser().getUid()).setValue(mCurrentUser);
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
+
+
 
     private class GridHolder1 extends RecyclerView.ViewHolder {
 
