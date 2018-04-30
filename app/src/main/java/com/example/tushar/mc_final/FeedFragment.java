@@ -5,14 +5,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -36,6 +39,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -396,6 +400,31 @@ public class FeedFragment extends Fragment {
                 mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
                 mRecyclerView.setAdapter(new CustomAdapter(temp_list));
                 mRecyclerView.addOnItemTouchListener(mScrollTouchListener);
+            }
+            else if(param_data.getId().equals("mess")){
+                int sel;
+                String arr[] = {"Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday"};
+                Calendar calendar = Calendar.getInstance();
+                int day = calendar.get(Calendar.DAY_OF_WEEK);
+                if(day==Calendar.SUNDAY){
+                    sel=7;
+                }else {
+                    sel=day-1;
+                }
+
+                ArrayList<Menu> item_list = new ArrayList<>();
+                for (HashMap<String,String> s: temp_display){
+                    String [] temp_arr = s.get(temp_key.get(sel)).split(";");
+                    String toput = TextUtils.join(" ",temp_arr);
+                    item_list.add(new Menu(s.get(temp_key.get(0)),toput));
+                }
+
+                mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                CustomAdapter adapter = new CustomAdapter(item_list);
+                mRecyclerView.setAdapter(adapter);
+                mRecyclerView.addOnItemTouchListener(mScrollTouchListener);
+
+
             }
             else if(param_data.getId().equals("b_hostel")){
                 ArrayList<Menu> item_list = new ArrayList<>();
