@@ -130,7 +130,7 @@ public class FeedFragment extends Fragment {
         visiblity = new String[] {"BH,GH","DB","AC","LB","LC","SR","RE","NA","Unknown"};
         temp.clear();
         temp.addAll(Arrays.asList(visiblity));
-        templist.add(parser("cdx","CDX Menu",R.raw.cdx,2,"AC","0",1,1,temp,Boolean.TRUE));
+        templist.add(parser("cdx","CDX Menu",R.raw.cdx,3,"AC","0",1,1,temp,Boolean.TRUE));
 
         visiblity = new String[] {"BH,GH","DB","AC","LB","LC","SR","RE","NA","Unknown"};
         temp.clear();
@@ -150,7 +150,7 @@ public class FeedFragment extends Fragment {
         visiblity = new String[] {"BH,GH","DB","AC","LB","LC","SR","RE","NA","Unknown"};
         temp.clear();
         temp.addAll(Arrays.asList(visiblity));
-        templist.add(parser("water","Water Cooler on this floor.",R.raw.water,1,"SU","null",1,1,temp,Boolean.FALSE));
+        templist.add(parser("water","Water Cooler on this floor.",R.raw.water,1,"SU","null",1,3,temp,Boolean.FALSE));
         return templist;
     }
     public ArrayList<Data> sort(String mCurrentLocation,ArrayList<Data> mDataList){
