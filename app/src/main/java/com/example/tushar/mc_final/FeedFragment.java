@@ -258,6 +258,7 @@ public class FeedFragment extends Fragment {
             super(itemView);
             mTitle= (TextView) itemView.findViewById(R.id.place_menu);
             mButton=(Button)itemView.findViewById(R.id.phone_button);
+
             mRecyclerView = itemView.findViewById(R.id.list_menu);
         }
         public void onBind(Data param_data){

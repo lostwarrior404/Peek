@@ -1,11 +1,300 @@
-S.No,Students Name,Roll No,Room No
-1,Saurabh Kumar,2015089,A-001
-2,Rishabh Garg ,2015076,A-001
-3,Pranav Nambiar,2015063,A-002
-4,Katari Saketh Ram,2015045,A-003
-5,Kushaagra Arora,2015049,A-004
-6,Shayam Aggarwal ,2015099,A-004
-7,Nishant Sinha,2015345,A-008
-8,Ekansh,2015231,A-101
-9,Mayank Kumar,2015123,A-201
-10,Siddhart Chandra,2015122,A-301
+Student_Name,Room_No
+SAURABH KUMAR,A-001
+RISHABH GARG,A-001
+PRANAV NAMBIAR,A-002
+KATARI SAKETH RAM,A-003
+KUSHAGRA ARORA,A-004
+Shyam Agarwal,A-004
+Nishant Sinha,A-005
+EKANSH,A-006
+MAYANK KUMAR,A-007
+SIDDHARTH CHANDRA,A-007
+MAYANK BHORIA,A-008
+NAVEEN ATTRI,A-009
+Rishabh Khatri,A-009
+Simranjeet Singh,A-010
+Abhishek Mittal,A-010
+Sameer Kumar,A-010
+Nikhil Singhal,A-010
+Shubham Maheshwari,C-004
+Raghav Sehgal,C-005
+Abhishek Baliyan,C-006
+Sanket Jain,C-007
+Ayan Kapoor,C-009
+HIMANSHU,C-011
+Parikshit Diwan,C-012
+Sheel Gautam,C-014
+Anupam Mondal,C-016
+Vishisht Khilariwal,C-017
+Chakit Arora,C-018
+Namrata Deka,A-101
+Richa rashmi,A-102
+NEHA RANI,A-102
+Anjali Ujjainia,A-103
+Sphoorti,A-104
+Dicksha chohan,A-104
+GARIMA CHHIKARA,A-105
+Jyoti Shukla,A-105
+Vidisha verma,A-106
+Mallika Agarwal,A-107
+Stuti Goel,A-107
+Aakriti Tayal,A-108
+Anchita Goel,A-108
+Vijayita Gumber,A-109
+ASHIKA GUPTA,A-109
+NAVYA VATS,A-110
+VIPRA SHUKLA,A-111
+SURBHI MAHESHWARI,A-111
+Ankita Agarwal,A-112
+Arpan Jati,B-102
+Venkatesh Rao,B-104
+Haroon Rashid,B-106
+Dinesh Rano,B-107
+Tarun Kumar Bansal,B-108
+Hemanta  Mondal,B-109
+Sambhav Satija,B-110
+Jinkeon kang,B-111
+Sandeep Dogra,B-112
+Shivam Rustogi,C-101
+Ishant shanu,C-102
+Naman Goyal,C-105
+Dhananjay kim,C-106
+Siddharth Arya,C-107
+Kunwar Tarun,C-108
+Utkarsh Singh,C-109
+Vivek Negi,C-112
+Shiju,C-114
+Chaudhary Singh,C-115
+Parag Aggarwal,C-116
+Rahul Bajpai,C-117
+Ambuj Mehrish,C-118
+Anam Bhatia,C-119
+Vatsal Singhal,C-120
+Lakshit Tyagi,C-122
+Gautam Gupta,C-123
+Alind Khare,C-124
+KARISHMA TIRTHANI,A-201
+ARASHDEEP KAUR,A-201
+Taneea Agrawaal,A-202
+Aarushi Aarushi,A-203
+Ankita Verma,A-203
+Satyender,A-204
+Paras Jain,A-204
+Akshay Sethi,A-205
+Ravi Sharma,A-205
+Abhishek Chauhan,A-206
+Sumeet Kumar,A-206
+Saurabh Kapur,A-207
+Abhinav Jadon,A-207
+Milind,A-208
+PIYUSH CHOUDHARY,A-209
+Dheeraj,A-209
+Mansi Verma,A-210
+Meetika Anand,A-212
+S Meenakshi,A-212
+Diljyot Jaura,B-201
+Ajitanshu Singh,B-202
+Aneesh Kumar,B-203
+Anil Gundu,B-204
+Abhishek Kumar,B-205
+Akshit Jain,B-206
+Manoj Gulati,B-208
+Kapil Khatri,B-209
+Tarun Malhotra,B-210
+Naman Gupta,B-211
+Rohit Keshari,C-201
+Aneesh Dogra,C-202
+Vishal Midha,C-203
+Sabbella Reddy,C-206
+Prasoon,C-208
+Wazir Singh,C-209
+Tarun Verma,C-210
+Atul Jain,C-211
+Akash Jain,C-212
+Shubham Sinha,C-215
+Nischay Malhan,C-216
+Mohit Wadhwa,C-218
+Robin Ratre,C-219
+Masroor Mattu,C-220
+Gurshabad,C-221
+Prikankshit Mor,C-224
+Parth tiwari,A-301
+GAURAV GEHLOT,A-301
+Raghav Jain,A-302
+SHUBHANKAR R. BUTTA,A-302
+Tanmay Goyal,A-303
+Mridul Gupta,A-303
+PARITOSH ASWINKUMAR JIVANI,A-304
+MOHAMMED KASHIF,A-304
+SHIVAM KALLA,A-306
+Vivek tyagi,A-306
+SUMIT,A-307
+SHARMA DARSHAN ASHOKKUMAR,A-307
+SAGAR VERMA,A-308
+PRINCE PATEL,A-308
+Ajay Balasubramanian,A-309
+Ashutosh Batabyal,A-309
+Aravinda Kumaran,A-310
+Subramanyam Dantu,A-310
+Akash Nagrath,A-311
+Suril Shailesh Mehta,A-311
+TUSHAR KATARIA,A-312
+Ashutosh Kumar,A-312
+Arman Bansal,B-301
+Chayan Pathak,B-302
+Shashank Gautam,B-304
+Manav Batra,B-305
+Talha Ahmad,B-307
+Pulkit Arora,B-308
+Manish Kumar,B-309
+Anmol Aggarwal,B-310
+Shivendra Vikram Srinet,B-311
+sushil Bharti,B-312
+Bavneet singh,C-301
+Ankush Jolly,C-302
+pulkit kumar gupta,C-303
+Siddhant Verma,C-304
+Abhishek Mohabe,C-305
+Hardik Choudhary,C-306
+Aditya Kumar,C-308
+Chaitanya Kumar,C-310
+Mohd Zaid Aslam,C-312
+Amandeep Singh,C-315
+Rishabh Kaushal,C-316
+Archit Taneja,C-317
+Shantanu Goel,C-318
+Piyush Kumar,C-319
+Shrey Shashank,C-320
+Srajan Bhatnagar,C-321
+Pradyumn Nand,C-322
+Sanchit Gupta,C-323
+AMAN AGGARWAL,A-401
+VARNIT JAIN,A-401
+PARIKSHIT KUMAR PRUTHI,A-402
+DEEPANSHU DABAS,A-402
+SHIVEN MIAN,A-403
+Manik Arora,A-403
+Mohammad Azhar Tak,A-404
+VASU AGARWAL,A-405
+JAI LATHURA,A-405
+SANIDHYA SINGAL,A-406
+Pulkit Goel,A-406
+AMIT JAGGI,A-407
+LUV SHARMA,A-407
+SHUBHAM KUMAR,A-408
+PALAKSH PATHAK,A-409
+NIKHIL HASSIJA,A-409
+Sarthak Jindal,A-410
+Anirudh singh,A-410
+POOJAN KUMAR BHARATBHAI OZA,A-411
+Naveen Kumar Patidar,A-412
+Ricktam Kundu,B-401
+Harsh Manocha,B-402
+Amitesh,B-403
+Gullal Singh Cheema,B-404
+Anindya Srivastava,B-405
+RAJDEEP MUKHERJEE,B-406
+DEEPAYAN BANERJEE,B-407
+Nitin Varun,B-409
+Amit Mohindru,B-410
+Raghav Kishore,B-411
+Akshay Agarwal,B-412
+Soumyadeep Ghosh,C-401
+SHRESTHA BANSAL,C-402
+Ankur Singh,C-403
+MADHUR RAWAT,C-404
+Aditay Tripathi,C-405
+Prateek Jain,C-406
+AKSHAYA BHARDWAJ,C-407
+SAGAR KHATRI,C-409
+DEEPAK KUMAR SOOD,C-410
+ANKUSH SINGH,C-411
+MOHAMMAD SHAKIR,C-412
+Ritvik Agarwal,C-413
+RAJENDRA PRASAD NAYAK,C -414
+GYAN DEEP,C-415
+SAHIL GUPTA,C-416
+VISHAV VIKASH,C-417
+ANDREW GIGIE,C-418
+Harbeer Singh,C-420
+HIMANSHU AGARWAL,C-421
+PRATEEK SINGH,C-423
+Keshav Bhojak,C-424
+LOVELEEN GIRDHAR,A-501
+Praveen Jhanwar,A-502
+Siddharth Singh,A-502
+Abhishek Kumar,A-503
+Varun Jain,A-503
+Agam Bajaj,A-504
+Harshit Verma,A-504
+Anurag Chowdhury,A-505
+Vincent B Mathews,A-505
+Vibhutesh Kumar Singh,A-507
+Manish Kumar,A-507
+RAJAT KUMAR TRIPATHY,A-508
+ASHISH KUMAR GARG,A-508
+Raghav Chauhan,A-509
+Ishan Pandita,A-509
+Rohan Juneja,A-510
+Rohan Tiwari,A-510
+Sahil Ruhela,A-511
+Kunal Sharma,A-511
+AASHISH GROVER,A-512
+YATHARTH,A-512
+Aashay Mittal,C-501
+Ujjwal Kanodia,C-503
+Aankeet Swain,C-504
+Purusharth Dwivedi,C-505
+Sangeeth K,C-506
+Shubham Srivastava,C-508
+Ayush Agarwal,C-509
+Rahul Sharma,C-510
+Deepak Das,C-513
+Amod Agarwal,C-514
+Ajit Pratap Singh,C-515
+Ashish Bandil,C-516
+Abhishek Mitra,C-517
+Hitanshu Rakesh tiwari,C-518
+Vasu Dev Chatterjee,C-520
+Sirinam Sampath,C-521
+Munawar Hasan,C-523
+Dhruva Sahrawat,A-601
+MAYANK MOHINDRA,A-602
+Ashutosh Gupta,A-602
+Gaurav Yadav,A-603
+Yashdeep Singh,A-603
+Kunal Lal,A-604
+Abhishek Chaudhary,A-605
+Amogh Vithalkar,A-606
+Prankul Singh,A-606
+Kartik Maji,A-607
+Gaurav Bansal,A-608
+Sumit Keswani,A-608
+Vikas Godara,A-609
+Rahul Manchanda,A-609
+Vasu Verma,A-610
+Akash Singh,A-610
+Kunal Choudhary,A-611
+Akshat Sharda,A-611
+M Nikhil Prasanna,A-612
+Geetank Singh,A-612
+Ojasvi Randhawa,C-602
+Siddhant Verma,C-603
+Lohitaksh Parmar,C-604
+Akshay Jain,C-605
+Nishant Yadav,C-606
+Ashutosh Gupta,C-607
+Prashant Saini,C-608
+Satyam Kumar,C-609
+VIKAS KIMAR,C-610
+Rishi Mohan,C-612
+Siddhant Sharma,C-613
+Prashant singh Bharti,C-614
+Arjun Verma,C-616
+Tushar Gupta,C-617
+Avadh Yadav,C-619
+Udayan Tandon,C-620
+Vijay Sharma,C-621
+Bhrigu Gupta,C-622
+Vishal Kumar,C-623
+Hirdayan Narula,C-624
