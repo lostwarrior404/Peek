@@ -43,7 +43,7 @@ public class FeedFragment extends Fragment {
     private String mCurrentLocation;
     private ArrayList<Data> mDataList;
     private ValueEventListener mloc_event_listener;
-
+    private GridLayoutAdapter mLayoutAdapter;
     public Data parser(String id,String name,int file,int cols,String building,String floor,int layout_type,int frag_type,ArrayList<String> visiblity,Boolean hasPhone){
         String next[] = {};
         Data data = new Data();
@@ -193,8 +193,11 @@ public class FeedFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_feed, container, false);
         recyclerView = (RecyclerView) view.findViewById(R.id.rvMain);
-        StaggeredGridLayoutManager mLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        mDataList = sort("Unknown,Unknown,Unknown",load_data());
+        mLayoutAdapter = new GridLayoutAdapter(mDataList);
+        final StaggeredGridLayoutManager mLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.setAdapter(mLayoutAdapter);
         FirebaseAuth temp_auth = FirebaseAuth.getInstance();
         String current_user_uid = temp_auth.getCurrentUser().getUid();
         mcurrent_user_db = FirebaseDatabase.getInstance().getReference().child("users").child(current_user_uid);
@@ -203,8 +206,8 @@ public class FeedFragment extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 mCurrentLocation = dataSnapshot.child("mUserLocation").getValue(String.class);
                 mDataList = sort(mCurrentLocation,load_data());
-                recyclerView.setAdapter(new GridLayoutAdapter(mDataList));
-
+                mLayoutAdapter.setmDataList(mDataList);
+                mLayoutAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -270,6 +273,9 @@ public class FeedFragment extends Fragment {
             if(param_data.getId().equals("location")){
                 HashMap<String, String> data = temp_display.get(0);
                 String mlocation = data.get(temp_key.get(0));
+                if(mlocation==null){
+                    mlocation="Unknown,Unknown,Unknown";
+                }
                 String[] split_loc = mlocation.split(",");
                 mBody.setText(split_loc[1]);
                 String footer="Floor:"+split_loc[2]+"\n";
@@ -402,6 +408,9 @@ public class FeedFragment extends Fragment {
         @Override
         public int getItemCount() {
             return mDataList.size();
+        }
+        public void setmDataList(ArrayList<Data> mDataList){
+            this.mDataList=mDataList;
         }
     }
 
