@@ -282,15 +282,14 @@ public class FeedFragment extends Fragment {
         });
 
         button2 = (Button) view.findViewById(R.id.button2);
-        if(privflag == 0)
-            button2.setBackgroundResource(R.drawable.private_toggle_off);
-        else
-            button2.setBackgroundResource(R.drawable.private_toggle);
+
+
+
+
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 getcurrentUser();
-
 //                Log.d("Come", u.toString());
                 if(mCurrentUser != null)
                 {
@@ -341,6 +340,18 @@ public class FeedFragment extends Fragment {
                     mCurrentUser = new User(mAuth.getCurrentUser().getEmail(), mAuth.getCurrentUser().getDisplayName(), true, "Unknown,Unknown,Unknown", new ArrayList<String>(), new ArrayList<String>(), new ArrayList<String>(),temp_uri.toString());
                     mUsersRef.child(mAuth.getCurrentUser().getUid()).setValue(mCurrentUser);
                 }
+                if(mCurrentUser.ismPrivFlag())
+                {
+                    Log.d("TAG", "A");
+                    button2.setBackgroundResource(R.drawable.private_toggle);
+                    privflag = 0;
+                }
+                else
+                {
+                    Log.d("TAG", "B");
+                    button2.setBackgroundResource(R.drawable.private_toggle_off);
+                    privflag = 1;
+                }
 
             }
 
@@ -349,6 +360,10 @@ public class FeedFragment extends Fragment {
 
             }
         });
+
+
+
+
 
     }
 
