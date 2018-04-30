@@ -454,7 +454,64 @@ public class FriendFragment extends Fragment {
             {
                 holder.actionButton.setImageResource(R.drawable.ic_block_black_36dp);
                 holder.textView.setText(mList.get(position).getmName());
-                holder.textView2.setText(mList.get(position).getmUserLocation());
+                if(!mCurrentUser.ismPrivFlag())
+                    holder.textView2.setText("User Location is off");
+                else
+                {
+                    if(mList.get(position).ismPrivFlag()) {
+                        String[] split_loc = mCurrentUser.getmUserLocation().split(",");
+//                        mBody.setText(split_loc[1]);
+                        String[] numNames = {
+                                "Ground",
+                                "1st",
+                                "2nd",
+                                "3rd",
+                                "4th",
+                                "5th",
+                                "6th",
+                                "7th",
+                                "8th",
+                                "9th",
+                                "10th"
+                        };
+                        String footer = new String();
+                        if(!split_loc[2].equals("Unknown")){
+                            footer=numNames[Integer.parseInt(split_loc[2])]+" Floor"+"\n";
+                        }else{
+                            footer="Unknown"+"\n";
+                        }
+
+                        if(split_loc[0].equals("BH")){
+                            footer+="Boys Hostel";
+                        }
+                        else if(split_loc[0].equals("DB")){
+                            footer+="Student Centre";
+                        }
+                        else if(split_loc[0].equals("AC")||split_loc.equals("LC")){
+                            footer+="Old Academic Building";
+                        }
+                        else if(split_loc[0].equals("LB")){
+                            footer+="Library Building";
+                        }
+                        else if(split_loc[0].equals("SR")){
+                            footer+="Service Block";
+                        }
+                        else if(split_loc[0].equals("RE")){
+                            footer+="Faculty Residence";
+                        }
+                        else if(split_loc[0].equals("GH")){
+                            footer+="Girls Hostel";
+                        }
+                        else if(split_loc[0].equals("NA")){
+                            footer+="New Academic Building";
+                        }
+//                        mFooter.setText(footer);
+                        holder.textView2.setText(split_loc[1] + "\n" + footer);
+//                        holder.textView2.setText(mList.get(position).getmUserLocation());
+                    }
+                    else
+                        holder.textView2.setText("Friend Location is off");
+                }
 
             }
             else if(mSelected == 3)
